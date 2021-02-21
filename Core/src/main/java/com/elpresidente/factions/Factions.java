@@ -25,11 +25,11 @@ public class Factions {
         faction.addSatisfaction( -price/10);
     }
 
-    private Faction getFaction(String name){
+    private Faction getFaction(String key){
         Faction faction = null;
 
         for (Faction fac: factions) {
-            if(fac.getName().equals(name)){
+            if(fac.getKey().equals(key)){
                 faction = fac;
             }
         }
@@ -46,10 +46,17 @@ public class Factions {
 
     }
 
+    public void addSatisfactionToFaction(String factionName, int delta){
+        Faction faction = getFaction(factionName);
+        if(faction == null)  return;
+
+        faction.addSatisfaction(delta);
+    }
+
     public void addPopulation(int numberOfPeople){
         int n = numberOfPeople >= 0 ? 1 : -1;
         for (int i = 0; i <  Math.abs(numberOfPeople); i++) {
-            factions.get((int) (Math.random() * factions.size()) ).addPartisanNumber(n);
+            factions.get( (int) (Math.random() * factions.size()) ).addPartisanNumber(n);
         }
     }
 
@@ -59,9 +66,13 @@ public class Factions {
                 .reduce(0, Integer::sum) / (float)getTotalNumberOfPartisan();
     }
 
-    private Integer getTotalNumberOfPartisan(){
+    public Integer getTotalNumberOfPartisan(){
         return factions.stream()
                 .map(Faction::getPartisanNumber)
                 .reduce(0, Integer::sum);
+    }
+
+    public List<Faction> getFactions() {
+        return factions;
     }
 }

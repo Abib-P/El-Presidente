@@ -3,6 +3,7 @@ package com.elpresidente.faction;
 public class Faction {
 
     public static final int CorruptionPriceByPartisan = 15;
+    public static final int SatisfactionLostByPartisan = -2;
 
     private final String key;
     private final String name;
@@ -30,11 +31,13 @@ public class Faction {
 
     public void addPartisanNumber(Integer partisanNumber) {
         this.partisanNumber += partisanNumber;
+        if( partisanNumber < 0)
+            this.addSatisfaction( SatisfactionLostByPartisan);
     }
 
     public void addSatisfaction(Integer satisfaction) {
-        if(this.satisfaction > 0)
-            this.satisfaction += satisfaction;
+        if(this.satisfaction <= 0) return;
+        this.satisfaction += satisfaction;
     }
 
     public Integer getPartisanNumber() {
