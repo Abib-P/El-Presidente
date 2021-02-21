@@ -1,11 +1,22 @@
 package com.elpresidente.repository.json;
 
-import junit.framework.TestCase;
+import com.elpresidente.repository.Repository;
 import org.junit.Test;
 
-public class JsonRepositoryTest extends TestCase {
-    @Test
-    void petit_test(){
+import static org.assertj.core.api.Assertions.assertThat;
 
+public class JsonRepositoryTest  {
+    @Test
+    public void petit_test(){
+        Repository repository = new JsonRepository("src/test/resources/attackOnTitans.json");
+
+        assertThat(repository.getAllFactions().get(2).getName()).isEqualTo("dd");
+    }
+
+    @Test
+    public void petit_test2(){
+        Repository repository = new JsonRepository("src/test/resources/attackOnTitans.json");
+
+        assertThat(repository.getAllFactions().get(2).getName()).isEqualTo("dd");
     }
 }
