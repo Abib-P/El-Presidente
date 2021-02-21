@@ -1,6 +1,9 @@
 package com.elpresidente.faction;
 
 public class Faction {
+
+    public static final int CorruptionPriceByPartisan = 15;
+
     private final String key;
     private final String name;
     private Integer partisanNumber;
@@ -19,6 +22,10 @@ public class Faction {
 
     public String getName() {
         return name;
+    }
+
+    public int getCorruptionPrice(){
+        return partisanNumber * Faction.CorruptionPriceByPartisan;
     }
 
     public void addPartisanNumber(Integer partisanNumber) {

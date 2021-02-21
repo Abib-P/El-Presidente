@@ -1,6 +1,5 @@
 package com.elpresidente.repository.json;
 
-import com.elpresidente.event.Choice;
 import com.elpresidente.event.Event;
 import com.elpresidente.faction.Faction;
 import com.elpresidente.repository.Repository;
@@ -14,7 +13,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 

@@ -11,6 +11,33 @@ public class Factions {
         this.factions = factions;
     }
 
+    public void corrupt(String factionName){
+        Faction faction = getFaction(factionName);
+        int price;
+        if(faction == null) return;
+
+        price = faction.getCorruptionPrice();
+        faction.addSatisfaction(10);
+
+        faction = getFaction("Loyalistes");
+        if(faction == null) return;
+
+        faction.addSatisfaction( -price/10);
+    }
+
+    private Faction getFaction(String name){
+        Faction faction = null;
+
+        for (Faction fac: factions) {
+            if(fac.getName().equals(name)){
+                faction = fac;
+            }
+        }
+
+        return faction;
+    }
+
+
     public void populate(){
         float grow = (float) Math.random() *10 +1;
         int numberOfNewPopulation = (int) (getTotalNumberOfPartisan() * grow);
