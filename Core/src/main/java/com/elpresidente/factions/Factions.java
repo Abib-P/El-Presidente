@@ -56,7 +56,7 @@ public class Factions {
     public void addPopulation(int numberOfPeople){
         int n = numberOfPeople >= 0 ? 1 : -1;
         for (int i = 0; i <  Math.abs(numberOfPeople); i++) {
-            factions.get((int) (Math.random() * factions.size()) ).addPartisanNumber(n);
+            factions.get( (int) (Math.random() * factions.size()) ).addPartisanNumber(n);
         }
     }
 
@@ -66,7 +66,7 @@ public class Factions {
                 .reduce(0, Integer::sum) / (float)getTotalNumberOfPartisan();
     }
 
-    private Integer getTotalNumberOfPartisan(){
+    public Integer getTotalNumberOfPartisan(){
         return factions.stream()
                 .map(Faction::getPartisanNumber)
                 .reduce(0, Integer::sum);

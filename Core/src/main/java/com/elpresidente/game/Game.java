@@ -13,6 +13,12 @@ import com.elpresidente.rules.Sandbox;
 import java.util.*;
 
 public class Game {
+
+    public static final int IndustryRevenue = 10;
+    public static final int AgricultureRevenue = 40;
+    public static final int PartisanFoodConsumption = 4;
+    public static final int FoodUnitPrice = 8;
+
     private final Input input;
     private final Output output;
     private final Repository repository;
@@ -20,7 +26,7 @@ public class Game {
 
     private Factions factionManager;
     private int minGlobalSatisfaction = 10;
-    private float money = 200;
+    private int money = 200, food = 200;
     private int industries, agriculture;
 
     public Game(Input input, Output output, Repository repository){
@@ -49,8 +55,6 @@ public class Game {
         factions.add( new Faction("nationalistes", 50, 6));
         factions.add( new Faction("loyalistes", 100, 6));*/
 
-
-
         while( !loose){
 
             for (int i = 0; i < Saisons.values().length; i++) {
@@ -67,6 +71,16 @@ public class Game {
     }
 
     private void endOfYear(){
+        int necessaryFood = factionManager.getTotalNumberOfPartisan() * Game.PartisanFoodConsumption;
+
+        money += Game.IndustryRevenue * industries;
+        food += Game.AgricultureRevenue * agriculture;
+
+        if(food < necessaryFood){
+            factionManager.addPopulation( (int)((necessaryFood - food) / (float) Game.PartisanFoodConsumption +0.5) );
+        }else{
+            factionManager.populate();
+        }
         
     }
 
