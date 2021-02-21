@@ -11,10 +11,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.util.stream.Collectors.toList;
 
@@ -26,7 +23,6 @@ public class JsonRepository implements Repository {
         try {
             FileReader reader = new FileReader(filePath);
             jsonFile = (JSONObject) jsonParser.parse(reader);
-            System.out.println(jsonFile);
         } catch (ParseException | IOException e) {
             e.printStackTrace();
         }
@@ -82,11 +78,35 @@ public class JsonRepository implements Repository {
                 .map(effect -> Integer.valueOf(((JSONObject) effect).get("partisans").toString()))
                 .reduce(0, (a, b) -> (Integer)a + (Integer) b);
 
-        Map<String,Integer> actionOnFaction =
+        Map<String, Integer> actionOnFaction = new HashMap<>();
 
-        System.out.print("\n" + partisanNumber);
-        //Choice result = new Choice(choice.get("choice").toString(),,,partisanNumber);
-        //add related event
-        return null;
+        ((JSONArray) choice.get("effects")).stream()
+                .filter(effect -> ((JSONObject) effect).containsKey("actionOnFaction"))
+                .map(effect -> ((JSONObject) effect).get("actionOnFaction"))
+                .forEach(action -> {
+                    for (Object o : ((JSONObject) action).keySet()) {
+                        String key = (String) o;
+                        actionOnFaction.put(key, Integer.valueOf(((JSONObject) action).get(key).toString()));
+                    }
+                });
+
+        Map<String, Integer> actionOnFactor = new HashMap<>();
+
+        ((JSONArray) choice.get("effects")).stream()
+                .filter(effect -> ((JSONObject) effect).containsKey("actionOnFactor"))
+                .map(effect -> ((JSONObject) effect).get("actionOnFactor"))
+                .forEach(action -> {
+                    for (Object o : ((JSONObject) action).keySet()) {
+                        String key = (String) o;
+                        actionOnFactor.put(key, Integer.valueOf(((JSONObject) action).get(key).toString()));
+                    }
+                });
+
+        Choice result = new Choice(choice.get("choice").toString(),actionOnFaction,actionOnFactor,partisanNumber);
+        if( choice.get("relatedEvents") != null) {
+            JSONArray events = (JSONArray) choice.get("relatedEvents");
+            result.setRelatedEvent((List<Event>) events.stream().map(event -> parseEvent((JSONObject) event)).collect(toList()));
+        }
+        return result;
     }
 }
