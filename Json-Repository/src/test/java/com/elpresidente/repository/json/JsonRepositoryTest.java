@@ -17,6 +17,6 @@ public class JsonRepositoryTest  {
     public void petit_test2(){
         Repository repository = new JsonRepository("src/test/resources/attackOnTitans.json");
 
-        assertThat(repository.getAllFactions().get(2).getName()).isEqualTo("dd");
+        assertThat(repository.getAllEvent()).isEqualTo("dd");
     }
 }

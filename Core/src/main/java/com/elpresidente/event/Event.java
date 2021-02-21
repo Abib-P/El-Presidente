@@ -20,10 +20,6 @@ public class Event {
         return choices;
     }
 
-    public void addChoice(Choice choice){
-        choices.add(choice);
-    }
-
     public void setChoices(List<Choice> choices){
         this.choices = choices;
     }

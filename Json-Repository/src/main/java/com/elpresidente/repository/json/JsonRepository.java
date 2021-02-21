@@ -1,5 +1,6 @@
 package com.elpresidente.repository.json;
 
+import com.elpresidente.event.Choice;
 import com.elpresidente.event.Event;
 import com.elpresidente.faction.Faction;
 import com.elpresidente.repository.Repository;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.stream.Collectors.toList;
 
@@ -64,7 +66,27 @@ public class JsonRepository implements Repository {
 
     private Event parseEvent(JSONObject event){
         Event result = new Event(event.get("name").toString());
-        //List<Choice> choices = ((JSONArray) event.get("choices")).stream().map(choice -> new Choice())
+        List<Choice> choices = (List<Choice>) ((JSONArray) event.get("choices")).stream()
+                .map(choice -> parseChoice((JSONObject) choice))
+                .collect(toList());
+
+        result.setChoices(choices);
+
+        return result;
+    }
+
+    private Choice parseChoice(JSONObject choice){
+
+        Integer partisanNumber = (Integer) ((JSONArray) choice.get("effects")).stream()
+                .filter(effect -> ((JSONObject) effect).containsKey("partisans"))
+                .map(effect -> Integer.valueOf(((JSONObject) effect).get("partisans").toString()))
+                .reduce(0, (a, b) -> (Integer)a + (Integer) b);
+
+        Map<String,Integer> actionOnFaction =
+
+        System.out.print("\n" + partisanNumber);
+        //Choice result = new Choice(choice.get("choice").toString(),,,partisanNumber);
+        //add related event
         return null;
     }
 }
