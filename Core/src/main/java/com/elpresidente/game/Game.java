@@ -8,6 +8,7 @@ import com.elpresidente.input.Input;
 import com.elpresidente.output.Output;
 import com.elpresidente.repository.Repository;
 import com.elpresidente.rules.Rules;
+import com.elpresidente.rules.Sandbox;
 
 import java.util.*;
 
@@ -15,8 +16,7 @@ public class Game {
     final Input input;
     final Output output;
     final Repository repository;
-    Rules rules;
-
+    Rules rules = new Sandbox();
 
     Factions factionManager;
     int minGlobalSatisfaction = 10;
@@ -35,7 +35,7 @@ public class Game {
 
     public void playGame(){
         boolean loose = false;
-        String[] saisons = {"printemps", "été", "automne", "hiver"};
+        Saisons[] saisons = Saisons.values();
 
         ArrayList<Faction> factions = new ArrayList<Faction>();
         /*factions.add( new Faction("Capitalistes", 50, 6));
@@ -61,6 +61,20 @@ public class Game {
             }
 
             loose = hasLoose();
+        }
+    }
+
+    private void addAgriculture(int amount){
+        this.agriculture += amount;
+        if( this.agriculture + this.industries > 100){
+            this.industries -= this.agriculture + this.industries - 100;
+        }
+    }
+
+    private void addIndustries(int amount){
+        this.industries += amount;
+        if( this.agriculture + this.industries > 100){
+            this.agriculture -= this.agriculture + this.industries - 100;
         }
     }
 
