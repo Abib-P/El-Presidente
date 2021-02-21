@@ -16,6 +16,10 @@ public class Choice {
         this.partisanGained = partisanGained;
     }
 
+    public void setRelatedEvent(Event relatedEvent){
+        this.relatedEvent = relatedEvent;
+    }
+
     public String getName() {
         return name;
     }
