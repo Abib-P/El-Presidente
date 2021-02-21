@@ -7,14 +7,14 @@ import java.util.List;
 public class Factions {
     List<Faction> factions;
 
-    public Factions(){
-
+    public Factions(List<Faction> factions){
+        this.factions = factions;
     }
 
-    public Integer getSatisfaction(){
-        return factions.stream()
+    public Float getGlobalSatisfaction(){
+        return  factions.stream()
                 .map(faction -> faction.getSatisfaction()*faction.getPartisanNumber())
-                .reduce(0, Integer::sum) / getTotalNumberOfPartisan();
+                .reduce(0, Integer::sum) / (float)getTotalNumberOfPartisan();
     }
 
     private Integer getTotalNumberOfPartisan(){

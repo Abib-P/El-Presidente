@@ -21,6 +21,15 @@ public class Faction {
         return name;
     }
 
+    public void addPartisanNumber(Integer partisanNumber) {
+        this.partisanNumber += partisanNumber;
+    }
+
+    public void addSatisfaction(Integer satisfaction) {
+        if(this.satisfaction > 0)
+            this.satisfaction += satisfaction;
+    }
+
     public Integer getPartisanNumber() {
         return partisanNumber;
     }

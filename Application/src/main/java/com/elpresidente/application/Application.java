@@ -17,5 +17,7 @@ public class Application {
         Game game = new Game(input,output,repository);
 
         game.start();
+
+        game.playGame();
     }
 }

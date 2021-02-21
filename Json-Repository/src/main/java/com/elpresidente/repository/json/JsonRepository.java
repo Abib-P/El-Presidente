@@ -67,7 +67,7 @@ public class JsonRepository implements Repository {
 
     private Event parseEvent(JSONObject event){
         Event result = new Event(event.get("name").toString());
-        List<Choice> choices = ((JSONArray) event.get("choices")).stream().map(choice -> new Choice())
-        return ;
+        //List<Choice> choices = ((JSONArray) event.get("choices")).stream().map(choice -> new Choice())
+        return null;
     }
 }
