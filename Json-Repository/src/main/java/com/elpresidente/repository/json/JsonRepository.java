@@ -1,8 +1,10 @@
 package com.elpresidente.repository.json;
 
+import com.elpresidente.event.Choice;
 import com.elpresidente.event.Event;
 import com.elpresidente.faction.Faction;
 import com.elpresidente.repository.Repository;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -12,6 +14,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 public class JsonRepository implements Repository {
     JSONObject jsonFile;
@@ -53,6 +58,16 @@ public class JsonRepository implements Repository {
 
     @Override
     public List<Event> getAllEvent() {
-        return null;
+
+        JSONArray events = (JSONArray) jsonFile.get("events");
+        List<Event> result = (List<Event>) events.stream().map(event -> parseEvent((JSONObject) event)).collect(toList());
+
+        return result;
+    }
+
+    private Event parseEvent(JSONObject event){
+        Event result = new Event(event.get("name").toString());
+        List<Choice> choices = ((JSONArray) event.get("choices")).stream().map(choice -> new Choice())
+        return ;
     }
 }
