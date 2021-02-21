@@ -33,7 +33,6 @@ public class Faction {
         this.partisanNumber += partisanNumber;
         if( partisanNumber < 0)
             this.addSatisfaction( SatisfactionLostByPartisan);
-
     }
 
     public void addSatisfaction(Integer satisfaction) {

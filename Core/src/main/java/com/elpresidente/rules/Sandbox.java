@@ -10,10 +10,6 @@ public class Sandbox implements Rules{
 
     public Sandbox(List<Event> events) {
         this.events = events;
-        System.out.println("test");
-        for (Event event: events) {
-            System.out.println(event.getName());
-        }
     }
 
     @Override

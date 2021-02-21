@@ -37,16 +37,28 @@ public class Game {
 
     public void start(){
         //ask for rules the player want use and difficulty
+      /*  HashMap<String, Integer> map = new HashMap<String, Integer>();
+        map.put("COMMUNISTS", 5);
+
+        Choice choice1 = new Choice("choice1", map, null, 0);
+        ArrayList<Event> events = new ArrayList<>();
+        Event event1 = new Event("event1");
+        event1.addChoice( choice1);
+        events.add(event1);
+        */
         factionManager = new Factions(repository.getAllFactions());
+
+
         rules = new Sandbox( repository.getAllEvent());
+        //rules = new Sandbox( events);
     }
 
     public void playGame(){
         boolean loose = false;
         Saisons[] saisons = Saisons.values();
 
-        ArrayList<Faction> factions = new ArrayList<Faction>();
-        /*factions.add( new Faction("Capitalistes", 50, 6));
+        /*ArrayList<Faction> factions = new ArrayList<Faction>();
+        factions.add( new Faction("Capitalistes", 50, 6));
         factions.add( new Faction("communistes", 50, 6));
         factions.add( new Faction("libéraux", 50, 6));
         factions.add( new Faction("religieux", 50, 6));
@@ -59,7 +71,9 @@ public class Game {
 
             for (int i = 0; i < Saisons.values().length; i++) {
                 Event event = rules.getEvent();
-                output.displayString("saison: " + saisons[i]);
+                output.displayString("||| "+ saisons[i]+" |||");
+                output.displayGameInfo(this);
+
                 Choice choice = input.getChoice(event);
                 applyChoice(choice);
             }
@@ -101,14 +115,36 @@ public class Game {
     private void applyChoice(Choice choice){
         factionManager.addPopulation(choice.getPartisanGained());
 
-        for (Map.Entry<String, Integer> entry: choice.getActionOnFaction().entrySet() ) {
-            factionManager.addSatisfactionToFaction(entry.getKey(), entry.getValue());
-        }
+        if(choice.getActionOnFaction() != null)
+            for (Map.Entry<String, Integer> entry: choice.getActionOnFaction().entrySet() ) {
+                factionManager.addSatisfactionToFaction(entry.getKey(), entry.getValue());
+            }
 
-        for (Map.Entry<String, Integer> entry: choice.getActionOnFactor().entrySet() ) {
-            factionManager.addSatisfactionToFaction(entry.getKey(), entry.getValue());
-        }
+        if(choice.getActionOnFactor() != null)
+            for (Map.Entry<String, Integer> entry: choice.getActionOnFactor().entrySet() ) {
+                factionManager.addSatisfactionToFaction(entry.getKey(), entry.getValue());
+            }
         
+    }
+
+    public Factions getFactionManager() {
+        return factionManager;
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public int getFood() {
+        return food;
+    }
+
+    public int getIndustries() {
+        return industries;
+    }
+
+    public int getAgriculture() {
+        return agriculture;
     }
 
     private boolean hasLoose(){

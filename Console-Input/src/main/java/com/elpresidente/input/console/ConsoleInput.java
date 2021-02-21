@@ -12,13 +12,14 @@ public class ConsoleInput implements Input {
     public Choice getChoice(Event event) {
         Scanner scanner = new Scanner(System.in);
         int index = -1;
-        System.out.println(event.getName());
+        System.out.println("event: "+event.getName());
 
-        for (Choice choice: event.getChoices() ) {
-            System.out.println(choice.getName());
+        for (int i = 0; i < event.getChoices().size(); i++) {
+            System.out.println("    "+i+". "+ event.getChoices().get(i).getName());
         }
 
         do{
+            System.out.print("choix: ");
             index = scanner.nextInt();
             if( index < 0 || index >= event.getChoices().size()  ){
                 System.out.println("Option invalid");

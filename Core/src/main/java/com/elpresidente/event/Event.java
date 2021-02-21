@@ -1,5 +1,6 @@
 package com.elpresidente.event;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Event {
@@ -8,6 +9,7 @@ public class Event {
 
     public Event(String name){
         this.name = name;
+        this.choices = new ArrayList<>();
     }
 
     public String getName() {

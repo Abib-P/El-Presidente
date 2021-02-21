@@ -71,4 +71,8 @@ public class Factions {
                 .map(Faction::getPartisanNumber)
                 .reduce(0, Integer::sum);
     }
+
+    public List<Faction> getFactions() {
+        return factions;
+    }
 }

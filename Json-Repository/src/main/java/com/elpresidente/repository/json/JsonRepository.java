@@ -24,7 +24,7 @@ public class JsonRepository implements Repository {
         try {
             FileReader reader = new FileReader(filePath);
             jsonFile = (JSONObject) jsonParser.parse(reader);
-            System.out.print(jsonFile);
+            System.out.println(jsonFile);
         } catch (ParseException | IOException e) {
             e.printStackTrace();
         }
