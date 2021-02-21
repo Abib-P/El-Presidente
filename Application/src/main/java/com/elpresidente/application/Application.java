@@ -12,7 +12,7 @@ public class Application {
     public static void main(String[] args) {
         Input input = new ConsoleInput();
         Output output = new ConsoleOutput();
-        Repository repository = new JsonRepository("file/path");
+        Repository repository = new JsonRepository("Json-Repository/src/test/resources/attackOnTitans.json");
 
         Game game = new Game(input,output,repository);
 

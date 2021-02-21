@@ -13,13 +13,13 @@ import java.io.IOException;
 import java.util.List;
 
 public class JsonRepository implements Repository {
-    JSONArray jsonFile;
+    JSONObject jsonFile;
 
     public JsonRepository(String filePath){
         JSONParser jsonParser = new JSONParser();
         try {
             FileReader reader = new FileReader(filePath);
-            jsonFile = (JSONArray) jsonParser.parse(reader);
+            jsonFile = (JSONObject) jsonParser.parse(reader);
             System.out.print(jsonFile);
         } catch (ParseException | IOException e) {
             e.printStackTrace();
