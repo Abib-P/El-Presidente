@@ -25,11 +25,11 @@ public class Factions {
         faction.addSatisfaction( -price/10);
     }
 
-    private Faction getFaction(String name){
+    private Faction getFaction(String key){
         Faction faction = null;
 
         for (Faction fac: factions) {
-            if(fac.getName().equals(name)){
+            if(fac.getKey().equals(key)){
                 faction = fac;
             }
         }
@@ -44,6 +44,13 @@ public class Factions {
 
         addPopulation(numberOfNewPopulation);
 
+    }
+
+    public void addSatisfactionToFaction(String factionName, int delta){
+        Faction faction = getFaction(factionName);
+        if(faction == null)  return;
+
+        faction.addSatisfaction(delta);
     }
 
     public void addPopulation(int numberOfPeople){

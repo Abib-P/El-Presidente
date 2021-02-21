@@ -58,9 +58,8 @@ public class JsonRepository implements Repository {
     public List<Event> getAllEvent() {
 
         JSONArray events = (JSONArray) jsonFile.get("events");
-        List<Event> result = (List<Event>) events.stream().map(event -> parseEvent((JSONObject) event)).collect(toList());
 
-        return result;
+        return (List<Event>) events.stream().map(event -> parseEvent((JSONObject) event)).collect(toList());
     }
 
     private Event parseEvent(JSONObject event){

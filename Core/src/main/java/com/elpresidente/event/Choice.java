@@ -15,4 +15,20 @@ public class Choice {
         this.actionOnFactor = actionOnFactor;
         this.partisanGained = partisanGained;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public Integer getPartisanGained() {
+        return partisanGained;
+    }
+
+    public Map<String, Integer> getActionOnFaction() {
+        return actionOnFaction;
+    }
+
+    public Map<String, Integer> getActionOnFactor() {
+        return actionOnFactor;
+    }
 }
