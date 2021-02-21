@@ -47,8 +47,6 @@ public class Game {
         factions.add( new Faction("nationalistes", 50, 6));
         factions.add( new Faction("loyalistes", 100, 6));*/
 
-
-
         factionManager = new Factions(factions);
 
         while( !loose){
@@ -60,8 +58,14 @@ public class Game {
                 applyChoice(choice);
             }
 
+            endOfYear();
+
             loose = hasLoose();
         }
+    }
+
+    private void endOfYear(){
+
     }
 
     private void addAgriculture(int amount){
