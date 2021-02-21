@@ -8,4 +8,5 @@ import java.util.List;
 public interface Repository {
     List<Factions> getAllFactions();
     List<Event> getAllEvent();
+
 }

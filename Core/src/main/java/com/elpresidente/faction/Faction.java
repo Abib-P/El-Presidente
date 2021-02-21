@@ -11,5 +11,11 @@ public class Faction {
         this.satisfaction = satisfaction;
     }
 
+    public Integer getPartisanNumber() {
+        return partisanNumber;
+    }
 
+    public Integer getSatisfaction() {
+        return satisfaction;
+    }
 }
