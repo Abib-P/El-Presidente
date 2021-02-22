@@ -30,14 +30,23 @@ public class Faction {
     }
 
     public void addPartisanNumber(Integer partisanNumber) {
+        if( this.partisanNumber - partisanNumber < 0){
+            partisanNumber +=  this.partisanNumber;
+        }
+
         this.partisanNumber += partisanNumber;
         if( partisanNumber < 0)
-            this.addSatisfaction( SatisfactionLostByPartisan);
+            this.addSatisfaction( SatisfactionLostByPartisan * partisanNumber);
     }
 
     public void addSatisfaction(Integer satisfaction) {
-        if(this.satisfaction <= 0) return;
         this.satisfaction += satisfaction;
+
+        if(this.satisfaction <= 0 ){
+            this.satisfaction = 0;
+        }else if (this.satisfaction >= 100){
+            this.satisfaction = 100;
+        }
     }
 
     public Integer getPartisanNumber() {
