@@ -2,6 +2,9 @@ package com.elpresidente.input.console;
 
 import com.elpresidente.event.Choice;
 import com.elpresidente.event.Event;
+import com.elpresidente.faction.Faction;
+import com.elpresidente.factions.Factions;
+import com.elpresidente.game.Game;
 import com.elpresidente.input.Input;
 
 import java.util.Scanner;
@@ -27,5 +30,32 @@ public class ConsoleInput implements Input {
         }while(index < 0 || index >= event.getChoices().size() );
 
         return event.getChoices().get(index);
+    }
+
+    public Faction selectFaction(Factions factions){
+        Faction faction = null;
+        int index = -1;
+        Scanner scanner = new Scanner(System.in);
+
+        do{
+            index = scanner.nextInt(factions.getFactions().size()+1); // +1 because we are 1 based -> the 0 is for not corrupt
+        }while(index < 0);
+
+        if (index > 0) { // 0 is the option to not corrupt
+            faction = factions.getFactions().get(index - 1);
+        }
+
+        return faction;
+    }
+
+
+    public int getMarketAmount(int treasury){
+        int amount = 0;
+        Scanner scanner = new Scanner( System.in);
+        do {
+            amount = scanner.nextInt(treasury / Game.FoodUnitPrice + 1);
+        }while( amount < 0);
+
+        return  amount;
     }
 }

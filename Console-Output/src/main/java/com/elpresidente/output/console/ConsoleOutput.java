@@ -21,4 +21,18 @@ public class ConsoleOutput implements Output {
         System.out.println("money: "+game.getMoney()+"\nfood: "+ game.getFood()+"\nIndustry: "+game.getIndustries()+"% Agriculture: "+game.getAgriculture()+"%");
         displayFactionsInfo(game.getFactionManager());
     }
+
+    public void displayFactions(Factions factions){
+        Faction faction;
+        System.out.println(" 0 do not corrupt");
+        for (int i = 0; i < factions.getFactions().size(); i++) {
+            faction = factions.getFactions().get(i);
+            System.out.println(" "+(i+1)+". "+ faction.getName()+" "+faction.getSatisfaction()+"% ("+faction.getPartisanNumber()+")");
+        }
+    }
+
+    public void displayMarket(int food, int necessaryFood){
+        System.out.println("Food: "+ food+" / "+ necessaryFood+
+                           "\namount: ");
+    }
 }

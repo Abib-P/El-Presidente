@@ -25,9 +25,8 @@ public class Game {
     private Rules rules;
 
     private Factions factionManager;
-    private int minGlobalSatisfaction = 10;
-    private int money = 200, food = 200;
-    private int industries = 50, agriculture = 50;
+    GameParameter gameParameter;
+    private int minGlobalSatisfaction;
 
     public Game(Input input, Output output, Repository repository){
         this.input = input;
@@ -37,21 +36,24 @@ public class Game {
 
     public void start(){
         //TODO ask for rules the player want use and difficulty
-        factionManager = new Factions(repository.getAllFactions());
 
+        minGlobalSatisfaction = 10;
+
+        factionManager = new Factions(repository.getAllFactions());
+        gameParameter = repository.getAllGameParameter();
         rules = new Sandbox( repository.getAllEvent());
         //rules = new Sandbox( events);
     }
 
     public void playGame(){
         boolean loose = false;
-        Saisons[] saisons = Saisons.values(); //TODO rename to season
+        Saisons[] seasons = Saisons.values();
 
         while( !loose){
 
             for (int i = 0; i < Saisons.values().length; i++) {
                 Event event = rules.getEvent();
-                output.displayString("||| "+ saisons[i]+" |||");
+                output.displayString("||| "+ seasons[i]+" |||");
                 output.displayGameInfo(this);
 
                 Choice choice = input.getChoice(event);
@@ -65,13 +67,32 @@ public class Game {
     }
 
     private void endOfYear(){
+        Faction faction = null;
         int necessaryFood = factionManager.getTotalNumberOfPartisan() * Game.PartisanFoodConsumption;
 
-        money += Game.IndustryRevenue * industries;
-        food += Game.AgricultureRevenue * agriculture;
+        gameParameter.treasury += Game.IndustryRevenue * gameParameter.industryPercentage;
+        gameParameter.foodUnits += Game.AgricultureRevenue * gameParameter.agriculturePercentage;
 
-        if(food < necessaryFood){
-            factionManager.addPopulation( (int)((necessaryFood - food) / (float) Game.PartisanFoodConsumption +0.5) );
+        /*TODO
+               possibility to buy food
+        */
+
+        do{
+            System.out.println("treasury: "+ gameParameter.treasury);
+            output.displayFactions(factionManager);
+            faction = input.selectFaction(factionManager);
+
+            if(faction != null){
+                gameParameter.treasury -= faction.getCorruptionPrice();
+                factionManager.corrupt(faction);
+            }
+        }while(faction != null);
+
+        output.displayMarket(gameParameter.foodUnits, necessaryFood);
+        gameParameter.foodUnits += input.getMarketAmount(gameParameter.treasury);
+
+        if(gameParameter.foodUnits < necessaryFood){
+            factionManager.addPopulation( (int)((necessaryFood - gameParameter.foodUnits) / (float) Game.PartisanFoodConsumption +0.5) );
         }else{
             factionManager.populate();
         }
@@ -79,16 +100,16 @@ public class Game {
     }
 
     private void addAgriculture(int amount){
-        this.agriculture += amount;
-        if( this.agriculture + this.industries > 100){
-            this.industries -= this.agriculture + this.industries - 100;
+        gameParameter.agriculturePercentage += amount;
+        if( gameParameter.agriculturePercentage + gameParameter.industryPercentage > 100){
+            gameParameter.industryPercentage -= gameParameter.agriculturePercentage + gameParameter.industryPercentage - 100;
         }
     }
 
     private void addIndustries(int amount){
-        this.industries += amount;
-        if( this.agriculture + this.industries > 100){
-            this.agriculture -= this.agriculture + this.industries - 100;
+        gameParameter.industryPercentage += amount;
+        if( gameParameter.agriculturePercentage + gameParameter.industryPercentage > 100){
+            gameParameter.agriculturePercentage -= gameParameter.agriculturePercentage + gameParameter.industryPercentage - 100;
         }
     }
 
@@ -115,19 +136,19 @@ public class Game {
     }
 
     public int getMoney() {
-        return money;
+        return gameParameter.treasury;
     }
 
     public int getFood() {
-        return food;
+        return gameParameter.foodUnits;
     }
 
     public int getIndustries() {
-        return industries;
+        return gameParameter.industryPercentage;
     }
 
     public int getAgriculture() {
-        return agriculture;
+        return gameParameter.agriculturePercentage;
     }
 
     private boolean hasLoose(){
