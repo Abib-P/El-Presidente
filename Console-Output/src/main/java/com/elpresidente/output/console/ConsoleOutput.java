@@ -30,4 +30,9 @@ public class ConsoleOutput implements Output {
             System.out.println(" "+(i+1)+". "+ faction.getName()+" "+faction.getSatisfaction()+"% ("+faction.getPartisanNumber()+")");
         }
     }
+
+    public void displayMarket(int food, int necessaryFood){
+        System.out.println("Food: "+ food+" / "+ necessaryFood+
+                           "\namount: ");
+    }
 }

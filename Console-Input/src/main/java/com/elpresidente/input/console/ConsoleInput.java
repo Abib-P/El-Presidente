@@ -4,6 +4,7 @@ import com.elpresidente.event.Choice;
 import com.elpresidente.event.Event;
 import com.elpresidente.faction.Faction;
 import com.elpresidente.factions.Factions;
+import com.elpresidente.game.Game;
 import com.elpresidente.input.Input;
 
 import java.util.Scanner;
@@ -45,5 +46,16 @@ public class ConsoleInput implements Input {
         }
 
         return faction;
+    }
+
+
+    public int getMarketAmount(int treasury){
+        int amount = 0;
+        Scanner scanner = new Scanner( System.in);
+        do {
+            amount = scanner.nextInt(treasury / Game.FoodUnitPrice + 1);
+        }while( amount < 0);
+
+        return  amount;
     }
 }

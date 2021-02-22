@@ -9,4 +9,5 @@ public interface Input {
 
      Choice getChoice(Event event);
      Faction selectFaction(Factions factions);
+     int getMarketAmount(int treasury);
 }

@@ -88,6 +88,9 @@ public class Game {
             }
         }while(faction != null);
 
+        output.displayMarket(gameParameter.foodUnits, necessaryFood);
+        gameParameter.foodUnits += input.getMarketAmount(gameParameter.treasury);
+
         if(gameParameter.foodUnits < necessaryFood){
             factionManager.addPopulation( (int)((necessaryFood - gameParameter.foodUnits) / (float) Game.PartisanFoodConsumption +0.5) );
         }else{
