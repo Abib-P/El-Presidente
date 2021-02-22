@@ -19,4 +19,11 @@ public class JsonRepositoryTest  {
 
         assertThat(repository.getAllEvent()).isEqualTo("dd");
     }
+
+    @Test
+    public void petit_test3(){
+        Repository repository = new JsonRepository("src/test/resources/attackOnTitans.json");
+
+        assertThat(repository.getAllGameParameter()).isEqualTo("dd");
+    }
 }

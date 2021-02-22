@@ -3,6 +3,7 @@ package com.elpresidente.repository.json;
 import com.elpresidente.event.Choice;
 import com.elpresidente.event.Event;
 import com.elpresidente.faction.Faction;
+import com.elpresidente.game.GameParameter;
 import com.elpresidente.repository.Repository;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -58,6 +59,22 @@ public class JsonRepository implements Repository {
         JSONArray events = (JSONArray) jsonFile.get("events");
 
         return (List<Event>) events.stream().map(event -> parseEvent((JSONObject) event)).collect(toList());
+    }
+
+    @Override
+    public GameParameter getAllGameParameter() {
+        JSONObject gameStartParameters = (JSONObject) jsonFile.get("gameStartParameters");
+        JSONObject difficulty = (JSONObject) gameStartParameters.get("NORMAL");
+        int industryPercentage = Integer.parseInt(difficulty.get("industryPercentage").toString());
+        int treasury = Integer.parseInt(difficulty.get("treasury").toString());
+        int foodUnits = Integer.parseInt(difficulty.get("foodUnits").toString());
+        int agriculturePercentage = Integer.parseInt(difficulty.get("agriculturePercentage").toString());
+
+        return new GameParameter(Integer.valueOf(Integer.toString(agriculturePercentage)),
+                Integer.valueOf(Integer.toString(industryPercentage)),
+                Integer.valueOf(Integer.toString(treasury)),
+                Integer.valueOf(Integer.toString(foodUnits))
+        );
     }
 
     private Event parseEvent(JSONObject event){
