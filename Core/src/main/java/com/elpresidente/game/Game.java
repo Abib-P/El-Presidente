@@ -67,14 +67,26 @@ public class Game {
     }
 
     private void endOfYear(){
+        Faction faction = null;
         int necessaryFood = factionManager.getTotalNumberOfPartisan() * Game.PartisanFoodConsumption;
 
         gameParameter.treasury += Game.IndustryRevenue * gameParameter.industryPercentage;
         gameParameter.foodUnits += Game.AgricultureRevenue * gameParameter.agriculturePercentage;
 
-        /*TODO select the factions to corrupt
+        /*TODO
                possibility to buy food
         */
+
+        do{
+            System.out.println("treasury: "+ gameParameter.treasury);
+            output.displayFactions(factionManager);
+            faction = input.selectFaction(factionManager);
+
+            if(faction != null){
+                gameParameter.treasury -= faction.getCorruptionPrice();
+                factionManager.corrupt(faction);
+            }
+        }while(faction != null);
 
         if(gameParameter.foodUnits < necessaryFood){
             factionManager.addPopulation( (int)((necessaryFood - gameParameter.foodUnits) / (float) Game.PartisanFoodConsumption +0.5) );
