@@ -27,7 +27,7 @@ public class Game {
     private Factions factionManager;
     private int minGlobalSatisfaction = 10;
     private int money = 200, food = 200;
-    private int industries, agriculture;
+    private int industries = 50, agriculture = 50;
 
     public Game(Input input, Output output, Repository repository){
         this.input = input;
@@ -36,18 +36,8 @@ public class Game {
     }
 
     public void start(){
-        //ask for rules the player want use and difficulty
-      /*  HashMap<String, Integer> map = new HashMap<String, Integer>();
-        map.put("COMMUNISTS", 5);
-
-        Choice choice1 = new Choice("choice1", map, null, 0);
-        ArrayList<Event> events = new ArrayList<>();
-        Event event1 = new Event("event1");
-        event1.addChoice( choice1);
-        events.add(event1);
-        */
+        //TODO ask for rules the player want use and difficulty
         factionManager = new Factions(repository.getAllFactions());
-
 
         rules = new Sandbox( repository.getAllEvent());
         //rules = new Sandbox( events);
@@ -55,17 +45,7 @@ public class Game {
 
     public void playGame(){
         boolean loose = false;
-        Saisons[] saisons = Saisons.values();
-
-        /*ArrayList<Faction> factions = new ArrayList<Faction>();
-        factions.add( new Faction("Capitalistes", 50, 6));
-        factions.add( new Faction("communistes", 50, 6));
-        factions.add( new Faction("libéraux", 50, 6));
-        factions.add( new Faction("religieux", 50, 6));
-        factions.add( new Faction("militaristes", 50, 6));
-        factions.add( new Faction("écologistes", 50, 6));
-        factions.add( new Faction("nationalistes", 50, 6));
-        factions.add( new Faction("loyalistes", 100, 6));*/
+        Saisons[] saisons = Saisons.values(); //TODO rename to season
 
         while( !loose){
 
@@ -122,7 +102,10 @@ public class Game {
 
         if(choice.getActionOnFactor() != null)
             for (Map.Entry<String, Integer> entry: choice.getActionOnFactor().entrySet() ) {
-                factionManager.addSatisfactionToFaction(entry.getKey(), entry.getValue());
+                if(entry.getKey().equals("AGRICULTURE"))
+                    addAgriculture(entry.getValue());
+                if(entry.getKey().equals("INDUSTRY"))
+                    addIndustries(entry.getValue());
             }
         
     }

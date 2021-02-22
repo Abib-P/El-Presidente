@@ -1,10 +1,11 @@
 package com.elpresidente.event;
 
+import java.util.List;
 import java.util.Map;
 
 public class Choice {
     String name;
-    Event relatedEvent;
+    List<Event> relatedEvent;
     Map<String,Integer> actionOnFaction;
     Map<String,Integer> actionOnFactor;
     Integer partisanGained;
@@ -14,6 +15,10 @@ public class Choice {
         this.actionOnFaction = actionOnFaction;
         this.actionOnFactor = actionOnFactor;
         this.partisanGained = partisanGained;
+    }
+
+    public void setRelatedEvent(List<Event> relatedEvent){
+        this.relatedEvent = relatedEvent;
     }
 
     public String getName() {
