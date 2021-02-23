@@ -25,7 +25,7 @@ public class Game {
     private Rules rules;
 
     private Factions factionManager;
-    GameParameter gameParameter;
+    private GameParameter gameParameter;
     private int minGlobalSatisfaction;
 
     public Game(Input input, Output output, Repository repository){
@@ -37,6 +37,7 @@ public class Game {
     public void start(){
         //TODO ask for rules the player want use and difficulty
 
+        output.askGameRule(input);
         minGlobalSatisfaction = 10;
 
         factionManager = new Factions(repository.getAllFactions());
@@ -52,6 +53,9 @@ public class Game {
         while( !loose){
 
             for (int i = 0; i < Saisons.values().length; i++) {
+                if(isScenarioOver())
+                    ;
+
                 Event event = rules.getEvent();
                 output.displayString("||| "+ seasons[i]+" |||");
                 output.displayGameInfo(this);
@@ -64,6 +68,10 @@ public class Game {
 
             loose = hasLoose();
         }
+    }
+
+    private boolean isScenarioOver() {
+        return rules.hasEvent();
     }
 
     private void endOfYear(){

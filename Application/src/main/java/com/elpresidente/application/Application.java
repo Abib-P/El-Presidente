@@ -12,6 +12,8 @@ public class Application {
     public static void main(String[] args) {
         Input input = new ConsoleInput();
         Output output = new ConsoleOutput();
+        //RepositoryUtils repositoryUtils = new JsonRepositoryUtils();
+        //Map<String,String> AllScenarioNames = repositoryUtils.loadAllScenarioName("scenario");
         Repository repository = new JsonRepository("Json-Repository/src/test/resources/attackOnTitans.json");
 
         Game game = new Game(input,output,repository);
@@ -20,4 +22,6 @@ public class Application {
 
         game.playGame();
     }
+
+
 }

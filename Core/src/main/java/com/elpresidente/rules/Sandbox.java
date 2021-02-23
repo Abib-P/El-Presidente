@@ -16,4 +16,9 @@ public class Sandbox implements Rules{
     public Event getEvent() {
         return events.get((int) (Math.random() * events.size()));
     }
+
+    @Override
+    public boolean hasEvent() {
+        return true;
+    }
 }

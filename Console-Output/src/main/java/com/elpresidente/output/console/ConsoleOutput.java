@@ -3,6 +3,7 @@ package com.elpresidente.output.console;
 import com.elpresidente.faction.Faction;
 import com.elpresidente.factions.Factions;
 import com.elpresidente.game.Game;
+import com.elpresidente.input.Input;
 import com.elpresidente.output.Output;
 
 public class ConsoleOutput implements Output {
@@ -35,4 +36,10 @@ public class ConsoleOutput implements Output {
         System.out.println("Food: "+ food+" / "+ necessaryFood+
                            "\namount: ");
     }
+
+    @Override
+    public String askWhichScenarioToUse(Input input) {
+        return null;
+    }
+
 }
