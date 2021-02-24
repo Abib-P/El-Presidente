@@ -5,6 +5,9 @@ import com.elpresidente.faction.Faction;
 import java.util.List;
 
 public class Factions {
+
+    public static final String LoyalistsFactionKey = "LOYALISTS";
+
     List<Faction> factions;
 
     public Factions(List<Faction> factions){
@@ -26,7 +29,7 @@ public class Factions {
         price = faction.getCorruptionPrice();
         faction.addSatisfaction(10);
 
-        faction = getFaction("Loyalistes");
+        faction = getFaction(LoyalistsFactionKey);
         if(faction == null) return;
 
         faction.addSatisfaction( -price/10);

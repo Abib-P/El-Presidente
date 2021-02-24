@@ -100,7 +100,7 @@ public class Game {
             faction = input.selectFaction(factionManager);
 
             if(faction != null){
-                gameParameter.addTreasury( faction.getCorruptionPrice() );
+                gameParameter.addTreasury( -faction.getCorruptionPrice() );
                 factionManager.corrupt(faction);
             }
         }while(faction != null);
