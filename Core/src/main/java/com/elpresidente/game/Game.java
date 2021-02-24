@@ -14,6 +14,8 @@ import java.util.*;
 
 public class Game {
 
+    public static final String IndustryFactorKey = "INDUSTRY";
+    public static final String AgricultureFactorKey = "AGRICULTURE";
     public static final int IndustryRevenue = 10;
     public static final int AgricultureRevenue = 40;
     public static final int PartisanFoodConsumption = 4;
@@ -26,7 +28,9 @@ public class Game {
 
     private Factions factionManager;
     private GameParameter gameParameter;
+
     private int minGlobalSatisfaction;
+    private float difficulty;
 
     public Game(Input input, Output output, Repository repository){
         this.input = input;
@@ -35,15 +39,17 @@ public class Game {
     }
 
     public void start(){
-        //TODO ask for rules the player want use and difficulty
+        //TODO ask for rules the player want
 
-        output.askGameRule(input);
-        minGlobalSatisfaction = 10;
+        difficulty = input.askForDifficulty();
+
+        minGlobalSatisfaction = (int) (30 * difficulty);
 
         factionManager = new Factions(repository.getAllFactions());
         gameParameter = repository.getAllGameParameter();
+
         rules = new Sandbox( repository.getAllEvent());
-        //rules = new Sandbox( events);
+
     }
 
     public void playGame(){
@@ -53,10 +59,12 @@ public class Game {
         while( !loose){
 
             for (int i = 0; i < Saisons.values().length; i++) {
-                if(isScenarioOver())
-                    ;
 
-                Event event = rules.getEvent();
+                if( isScenarioOver()) {
+                    goToSandBoxMod();
+                }
+
+                Event event = rules.getEvent(seasons[i]);
                 output.displayString("||| "+ seasons[i]+" |||");
                 output.displayGameInfo(this);
 
@@ -70,72 +78,73 @@ public class Game {
         }
     }
 
+    private void goToSandBoxMod(){
+        rules = new Sandbox( repository.getAllEvent());
+    }
+
     private boolean isScenarioOver() {
         return rules.hasEvent();
     }
 
     private void endOfYear(){
-        Faction faction = null;
+        Faction faction;
         int necessaryFood = factionManager.getTotalNumberOfPartisan() * Game.PartisanFoodConsumption;
+        int boughtFood = 0;
 
-        gameParameter.treasury += Game.IndustryRevenue * gameParameter.industryPercentage;
-        gameParameter.foodUnits += Game.AgricultureRevenue * gameParameter.agriculturePercentage;
-
-        /*TODO
-               possibility to buy food
-        */
+        gameParameter.addTreasury( Game.IndustryRevenue * gameParameter.getIndustryPercentage() );
+        gameParameter.addFood( Game.AgricultureRevenue * gameParameter.getAgriculturePercentage() );
 
         do{
-            System.out.println("treasury: "+ gameParameter.treasury);
+            System.out.println("treasury: "+ gameParameter.getTreasury());
             output.displayFactions(factionManager);
             faction = input.selectFaction(factionManager);
 
             if(faction != null){
-                gameParameter.treasury -= faction.getCorruptionPrice();
+                gameParameter.addTreasury( -faction.getCorruptionPrice() );
                 factionManager.corrupt(faction);
             }
         }while(faction != null);
 
-        output.displayMarket(gameParameter.foodUnits, necessaryFood);
-        gameParameter.foodUnits += input.getMarketAmount(gameParameter.treasury);
+        output.displayMarket(gameParameter.getFoodUnits(), necessaryFood);
+        boughtFood = input.getMarketAmount(gameParameter.getTreasury());
+        gameParameter.addTreasury( -boughtFood * Game.FoodUnitPrice);
+        gameParameter.addFood( boughtFood );
 
-        if(gameParameter.foodUnits < necessaryFood){
-            factionManager.addPopulation( (int)((necessaryFood - gameParameter.foodUnits) / (float) Game.PartisanFoodConsumption +0.5) );
+        if(gameParameter.getFoodUnits() < necessaryFood){
+            factionManager.addPopulation( (int)((gameParameter.getFoodUnits() - necessaryFood) / (float) Game.PartisanFoodConsumption +0.5) );
         }else{
             factionManager.populate();
         }
         
     }
 
-    private void addAgriculture(int amount){
-        gameParameter.agriculturePercentage += amount;
-        if( gameParameter.agriculturePercentage + gameParameter.industryPercentage > 100){
-            gameParameter.industryPercentage -= gameParameter.agriculturePercentage + gameParameter.industryPercentage - 100;
-        }
-    }
-
-    private void addIndustries(int amount){
-        gameParameter.industryPercentage += amount;
-        if( gameParameter.agriculturePercentage + gameParameter.industryPercentage > 100){
-            gameParameter.agriculturePercentage -= gameParameter.agriculturePercentage + gameParameter.industryPercentage - 100;
+    private int adaptValueToDifficulty(int value){
+        if(value > 0){
+            return (int) (value / difficulty);
+        }else{
+            return (int) (value * difficulty);
         }
     }
 
     private void applyChoice(Choice choice){
-        factionManager.addPopulation(choice.getPartisanGained());
 
-        if(choice.getActionOnFaction() != null)
-            for (Map.Entry<String, Integer> entry: choice.getActionOnFaction().entrySet() ) {
-                factionManager.addSatisfactionToFaction(entry.getKey(), entry.getValue());
-            }
+        factionManager.addPopulation( adaptValueToDifficulty( choice.getPartisanGained() ));
 
-        if(choice.getActionOnFactor() != null)
-            for (Map.Entry<String, Integer> entry: choice.getActionOnFactor().entrySet() ) {
-                if(entry.getKey().equals("AGRICULTURE"))
-                    addAgriculture(entry.getValue());
-                if(entry.getKey().equals("INDUSTRY"))
-                    addIndustries(entry.getValue());
+        if(choice.getActionOnFaction() != null) {
+            for (Map.Entry<String, Integer> entry : choice.getActionOnFaction().entrySet()) {
+                factionManager.addSatisfactionToFaction(entry.getKey(), adaptValueToDifficulty(entry.getValue()));
             }
+        }
+
+        if(choice.getActionOnFactor() != null) {
+            for (Map.Entry<String, Integer> entry : choice.getActionOnFactor().entrySet()) {
+                if (entry.getKey().equals(Game.AgricultureFactorKey)) {
+                    gameParameter.addAgriculture(adaptValueToDifficulty(entry.getValue()));
+                } else if (entry.getKey().equals(Game.IndustryFactorKey)) {
+                    gameParameter.addIndustries(adaptValueToDifficulty(entry.getValue()));
+                }
+            }
+        }
         
     }
 
@@ -143,20 +152,20 @@ public class Game {
         return factionManager;
     }
 
-    public int getMoney() {
-        return gameParameter.treasury;
+    public int getTreasury() {
+        return gameParameter.getTreasury();
     }
 
     public int getFood() {
-        return gameParameter.foodUnits;
+        return gameParameter.getFoodUnits();
     }
 
     public int getIndustries() {
-        return gameParameter.industryPercentage;
+        return gameParameter.getAgriculturePercentage();
     }
 
     public int getAgriculture() {
-        return gameParameter.agriculturePercentage;
+        return gameParameter.getAgriculturePercentage();
     }
 
     private boolean hasLoose(){

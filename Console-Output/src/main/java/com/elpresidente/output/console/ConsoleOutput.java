@@ -19,7 +19,7 @@ public class ConsoleOutput implements Output {
     }
 
     public void displayGameInfo(Game game){
-        System.out.println("money: "+game.getMoney()+"\nfood: "+ game.getFood()+"\nIndustry: "+game.getIndustries()+"% Agriculture: "+game.getAgriculture()+"%");
+        System.out.println("money: "+game.getTreasury()+"\nfood: "+ game.getFood()+"\nIndustry: "+game.getIndustries()+"% Agriculture: "+game.getAgriculture()+"%");
         displayFactionsInfo(game.getFactionManager());
     }
 

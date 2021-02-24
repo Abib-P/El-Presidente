@@ -1,6 +1,7 @@
 package com.elpresidente.rules;
 
 import com.elpresidente.event.Event;
+import com.elpresidente.game.Saisons;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class Sandbox implements Rules{
     }
 
     @Override
-    public Event getEvent() {
+    public Event getEvent(Saisons season) {
         return events.get((int) (Math.random() * events.size()));
     }
 
