@@ -89,6 +89,7 @@ public class Game {
     private void endOfYear(){
         Faction faction;
         int necessaryFood = factionManager.getTotalNumberOfPartisan() * Game.PartisanFoodConsumption;
+        int boughtFood = 0;
 
         gameParameter.addTreasury( Game.IndustryRevenue * gameParameter.getIndustryPercentage() );
         gameParameter.addFood( Game.AgricultureRevenue * gameParameter.getAgriculturePercentage() );
@@ -105,7 +106,9 @@ public class Game {
         }while(faction != null);
 
         output.displayMarket(gameParameter.getFoodUnits(), necessaryFood);
-        gameParameter.addFood( input.getMarketAmount(gameParameter.getTreasury()) );
+        boughtFood = input.getMarketAmount(gameParameter.getTreasury());
+        gameParameter.addTreasury( -boughtFood * Game.FoodUnitPrice);
+        gameParameter.addFood( boughtFood );
 
         if(gameParameter.getFoodUnits() < necessaryFood){
             factionManager.addPopulation( (int)((gameParameter.getFoodUnits() - necessaryFood) / (float) Game.PartisanFoodConsumption +0.5) );
