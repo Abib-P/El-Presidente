@@ -21,6 +21,8 @@ public class Factions {
     public void corrupt(Faction faction){
         int price;
 
+        if(faction == null) return;
+
         price = faction.getCorruptionPrice();
         faction.addSatisfaction(10);
 

@@ -37,7 +37,6 @@ public class Game {
     public void start(){
         //TODO ask for rules the player want use and difficulty
 
-        output.askGameRule(input);
         minGlobalSatisfaction = 10;
 
         factionManager = new Factions(repository.getAllFactions());
