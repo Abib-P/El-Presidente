@@ -97,4 +97,26 @@ public class ConsoleInput implements Input {
 
         return answer.equals("O");
     }
+
+    @Override
+    public float askForDifficulty() {
+        Scanner scanner = new Scanner(System.in);
+        int difficulty = 1;
+
+        System.out.println("""
+                Select the difficulty\s
+                 0. Easy
+                 1. Normal
+                 2. Hard""");
+
+        do{
+            difficulty = scanner.nextInt();
+        }while( difficulty <0 || difficulty >2);
+
+        return switch (difficulty) {
+            case 0 -> 0.5f;
+            case 2 -> 2f;
+            default -> 1f;
+        };
+    }
 }

@@ -14,6 +14,8 @@ import java.util.*;
 
 public class Game {
 
+    public static final String IndustryFactorKey = "INDUSTRY";
+    public static final String AgricultureFactorKey = "AGRICULTURE";
     public static final int IndustryRevenue = 10;
     public static final int AgricultureRevenue = 40;
     public static final int PartisanFoodConsumption = 4;
@@ -26,7 +28,9 @@ public class Game {
 
     private Factions factionManager;
     private GameParameter gameParameter;
+
     private int minGlobalSatisfaction;
+    private float difficulty;
 
     public Game(Input input, Output output, Repository repository){
         this.input = input;
@@ -35,14 +39,16 @@ public class Game {
     }
 
     public void start(){
-        //TODO ask for rules the player want use and difficulty
+        //TODO ask for rules the player want
 
-        minGlobalSatisfaction = 10;
+        difficulty = input.askForDifficulty();
+
+        minGlobalSatisfaction = (int) (30 * difficulty);
 
         factionManager = new Factions(repository.getAllFactions());
         gameParameter = repository.getAllGameParameter();
         rules = new Sandbox( repository.getAllEvent());
-        //rules = new Sandbox( events);
+
     }
 
     public void playGame(){
@@ -52,8 +58,10 @@ public class Game {
         while( !loose){
 
             for (int i = 0; i < Saisons.values().length; i++) {
-                if(isScenarioOver())
-                    ;
+
+                if( isScenarioOver()) {
+                    goToSandBoxMod();
+                }
 
                 Event event = rules.getEvent();
                 output.displayString("||| "+ seasons[i]+" |||");
@@ -69,20 +77,20 @@ public class Game {
         }
     }
 
+    private void goToSandBoxMod(){
+        rules = new Sandbox( repository.getAllEvent());
+    }
+
     private boolean isScenarioOver() {
         return rules.hasEvent();
     }
 
     private void endOfYear(){
-        Faction faction = null;
+        Faction faction;
         int necessaryFood = factionManager.getTotalNumberOfPartisan() * Game.PartisanFoodConsumption;
 
         gameParameter.treasury += Game.IndustryRevenue * gameParameter.industryPercentage;
         gameParameter.foodUnits += Game.AgricultureRevenue * gameParameter.agriculturePercentage;
-
-        /*TODO
-               possibility to buy food
-        */
 
         do{
             System.out.println("treasury: "+ gameParameter.treasury);
@@ -99,7 +107,7 @@ public class Game {
         gameParameter.foodUnits += input.getMarketAmount(gameParameter.treasury);
 
         if(gameParameter.foodUnits < necessaryFood){
-            factionManager.addPopulation( (int)((necessaryFood - gameParameter.foodUnits) / (float) Game.PartisanFoodConsumption +0.5) );
+            factionManager.addPopulation( (int)((gameParameter.foodUnits - necessaryFood) / (float) Game.PartisanFoodConsumption +0.5) );
         }else{
             factionManager.populate();
         }
@@ -120,21 +128,33 @@ public class Game {
         }
     }
 
+    private int adaptValueToDifficulty(int value){
+        if(value > 0){
+            return (int) (value / difficulty);
+        }else{
+            return (int) (value * difficulty);
+        }
+    }
+
     private void applyChoice(Choice choice){
-        factionManager.addPopulation(choice.getPartisanGained());
 
-        if(choice.getActionOnFaction() != null)
-            for (Map.Entry<String, Integer> entry: choice.getActionOnFaction().entrySet() ) {
-                factionManager.addSatisfactionToFaction(entry.getKey(), entry.getValue());
-            }
+        factionManager.addPopulation( adaptValueToDifficulty( choice.getPartisanGained() ));
 
-        if(choice.getActionOnFactor() != null)
-            for (Map.Entry<String, Integer> entry: choice.getActionOnFactor().entrySet() ) {
-                if(entry.getKey().equals("AGRICULTURE"))
-                    addAgriculture(entry.getValue());
-                if(entry.getKey().equals("INDUSTRY"))
-                    addIndustries(entry.getValue());
+        if(choice.getActionOnFaction() != null) {
+            for (Map.Entry<String, Integer> entry : choice.getActionOnFaction().entrySet()) {
+                factionManager.addSatisfactionToFaction(entry.getKey(), adaptValueToDifficulty(entry.getValue()));
             }
+        }
+
+        if(choice.getActionOnFactor() != null) {
+            for (Map.Entry<String, Integer> entry : choice.getActionOnFactor().entrySet()) {
+                if (entry.getKey().equals(Game.AgricultureFactorKey)) {
+                    addAgriculture(adaptValueToDifficulty(entry.getValue()));
+                } else if (entry.getKey().equals(Game.IndustryFactorKey)) {
+                    addIndustries(adaptValueToDifficulty(entry.getValue()));
+                }
+            }
+        }
         
     }
 

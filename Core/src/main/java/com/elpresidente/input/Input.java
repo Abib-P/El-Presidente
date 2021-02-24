@@ -14,5 +14,6 @@ public interface Input {
      int getMarketAmount(int treasury);
      String selectScenario(Map<String,String> allScenario);
      boolean askYesNoQuestion(String question);
+     float askForDifficulty();
 
 }
