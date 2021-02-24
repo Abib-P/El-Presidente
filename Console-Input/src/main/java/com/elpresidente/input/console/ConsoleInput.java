@@ -50,11 +50,12 @@ public class ConsoleInput implements Input {
     }
 
     public int getMarketAmount(int treasury){
-        int amount = 0;
+        int amount = 0, max = treasury / Game.FoodUnitPrice + 1;
         Scanner scanner = new Scanner( System.in);
+        System.out.println("max: "+max);
         do {
-            amount = scanner.nextInt(treasury / Game.FoodUnitPrice + 1);
-        }while( amount < 0);
+            amount = scanner.nextInt();
+        }while( amount < 0 || amount > max);
 
         return  amount;
     }

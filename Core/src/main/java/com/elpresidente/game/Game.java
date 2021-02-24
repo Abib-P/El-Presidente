@@ -47,6 +47,7 @@ public class Game {
 
         factionManager = new Factions(repository.getAllFactions());
         gameParameter = repository.getAllGameParameter();
+
         rules = new Sandbox( repository.getAllEvent());
 
     }
@@ -89,43 +90,29 @@ public class Game {
         Faction faction;
         int necessaryFood = factionManager.getTotalNumberOfPartisan() * Game.PartisanFoodConsumption;
 
-        gameParameter.treasury += Game.IndustryRevenue * gameParameter.industryPercentage;
-        gameParameter.foodUnits += Game.AgricultureRevenue * gameParameter.agriculturePercentage;
+        gameParameter.addTreasury( Game.IndustryRevenue * gameParameter.getIndustryPercentage() );
+        gameParameter.addFood( Game.AgricultureRevenue * gameParameter.getAgriculturePercentage() );
 
         do{
-            System.out.println("treasury: "+ gameParameter.treasury);
+            System.out.println("treasury: "+ gameParameter.getTreasury());
             output.displayFactions(factionManager);
             faction = input.selectFaction(factionManager);
 
             if(faction != null){
-                gameParameter.treasury -= faction.getCorruptionPrice();
+                gameParameter.addTreasury( faction.getCorruptionPrice() );
                 factionManager.corrupt(faction);
             }
         }while(faction != null);
 
-        output.displayMarket(gameParameter.foodUnits, necessaryFood);
-        gameParameter.foodUnits += input.getMarketAmount(gameParameter.treasury);
+        output.displayMarket(gameParameter.getFoodUnits(), necessaryFood);
+        gameParameter.addFood( input.getMarketAmount(gameParameter.getTreasury()) );
 
-        if(gameParameter.foodUnits < necessaryFood){
-            factionManager.addPopulation( (int)((gameParameter.foodUnits - necessaryFood) / (float) Game.PartisanFoodConsumption +0.5) );
+        if(gameParameter.getFoodUnits() < necessaryFood){
+            factionManager.addPopulation( (int)((gameParameter.getFoodUnits() - necessaryFood) / (float) Game.PartisanFoodConsumption +0.5) );
         }else{
             factionManager.populate();
         }
         
-    }
-
-    private void addAgriculture(int amount){
-        gameParameter.agriculturePercentage += amount;
-        if( gameParameter.agriculturePercentage + gameParameter.industryPercentage > 100){
-            gameParameter.industryPercentage -= gameParameter.agriculturePercentage + gameParameter.industryPercentage - 100;
-        }
-    }
-
-    private void addIndustries(int amount){
-        gameParameter.industryPercentage += amount;
-        if( gameParameter.agriculturePercentage + gameParameter.industryPercentage > 100){
-            gameParameter.agriculturePercentage -= gameParameter.agriculturePercentage + gameParameter.industryPercentage - 100;
-        }
     }
 
     private int adaptValueToDifficulty(int value){
@@ -149,9 +136,9 @@ public class Game {
         if(choice.getActionOnFactor() != null) {
             for (Map.Entry<String, Integer> entry : choice.getActionOnFactor().entrySet()) {
                 if (entry.getKey().equals(Game.AgricultureFactorKey)) {
-                    addAgriculture(adaptValueToDifficulty(entry.getValue()));
+                    gameParameter.addAgriculture(adaptValueToDifficulty(entry.getValue()));
                 } else if (entry.getKey().equals(Game.IndustryFactorKey)) {
-                    addIndustries(adaptValueToDifficulty(entry.getValue()));
+                    gameParameter.addIndustries(adaptValueToDifficulty(entry.getValue()));
                 }
             }
         }
@@ -162,20 +149,20 @@ public class Game {
         return factionManager;
     }
 
-    public int getMoney() {
-        return gameParameter.treasury;
+    public int getTreasury() {
+        return gameParameter.getTreasury();
     }
 
     public int getFood() {
-        return gameParameter.foodUnits;
+        return gameParameter.getFoodUnits();
     }
 
     public int getIndustries() {
-        return gameParameter.industryPercentage;
+        return gameParameter.getAgriculturePercentage();
     }
 
     public int getAgriculture() {
-        return gameParameter.agriculturePercentage;
+        return gameParameter.getAgriculturePercentage();
     }
 
     private boolean hasLoose(){
