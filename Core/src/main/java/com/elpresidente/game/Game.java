@@ -63,7 +63,7 @@ public class Game {
                     goToSandBoxMod();
                 }
 
-                Event event = rules.getEvent();
+                Event event = rules.getEvent(seasons[i]);
                 output.displayString("||| "+ seasons[i]+" |||");
                 output.displayGameInfo(this);
 
