@@ -1,5 +1,6 @@
-package com.elpresidente.application;
+package com.elpresidente.elapplication;
 
+import com.elpresidente.App;
 import com.elpresidente.game.Game;
 import com.elpresidente.input.Input;
 import com.elpresidente.input.console.ConsoleInput;
@@ -10,14 +11,19 @@ import com.elpresidente.repository.RepositoryUtils;
 import com.elpresidente.repository.json.JsonRepository;
 import com.elpresidente.repository.json.JsonRepositoryUtils;
 
+
+import javafx.application.Application;
+
 import java.util.Map;
 
-public class Application {
+public class El_Application {
 
     public static void main(String[] args) {
         boolean playing = true;
         Input input = new ConsoleInput();
         Output output = new ConsoleOutput();
+
+        Application.launch(App.class);
 
         RepositoryUtils repositoryUtils = new JsonRepositoryUtils();
         Map<String,String> AllScenarioNames = repositoryUtils.loadAllScenarioName("scenario");

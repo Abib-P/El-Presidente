@@ -9,8 +9,21 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>application</artifactId>
+    <artifactId>El-Application</artifactId>
     <dependencies>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>15.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>15.0.1</version>
+        </dependency>
+
+
         <dependency>
             <groupId>com.elpresidente</groupId>
             <artifactId>core</artifactId>
@@ -35,6 +48,13 @@
             <version>0.1.0</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.elpresidente</groupId>
+            <artifactId>Graphical-UserInterface</artifactId>
+            <version>0.1.0</version>
+            <scope>compile</scope>
+        </dependency>
+
     </dependencies>
 
     <properties>
