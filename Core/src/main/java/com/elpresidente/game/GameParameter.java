@@ -28,7 +28,6 @@ public class GameParameter {
     }
 
     public void addAgriculture(int amount){
-        System.out.println(" addAgriculture: "+ amount);
         agriculturePercentage += amount;
         if(amount <= 0 ){
             if( agriculturePercentage < 0) agriculturePercentage = 0;
@@ -46,7 +45,6 @@ public class GameParameter {
     }
 
     public void addIndustries(int amount){
-        System.out.println(" addIndustries: "+ amount);
         industryPercentage += amount;
         if(amount <= 0){
             if( industryPercentage < 0) industryPercentage = 0;

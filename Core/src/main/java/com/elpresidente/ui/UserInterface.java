@@ -11,6 +11,9 @@ import java.util.Map;
 
 public interface UserInterface {
     void displayGameInfo(Game game);
+    void displayTreasury(int treasury);
+    void displayAgriculture(int agriculture);
+    void displayIndustry(int industry);
     void displayFactions(Factions factions);
     void displayMarket(int food, int necessaryFood);
     String selectScenario(Map<String,String> AllScenarioNames);

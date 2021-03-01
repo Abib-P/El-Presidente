@@ -93,7 +93,7 @@ public class Game {
         gameParameter.addFood( Game.AgricultureRevenue * gameParameter.getAgriculturePercentage() );
 
         do{
-            System.out.println("treasury: "+ gameParameter.getTreasury());
+            userInterface.displayTreasury(gameParameter.getTreasury());
             userInterface.displayFactions(factionManager);
             faction = userInterface.selectFaction(factionManager);
 
@@ -137,8 +137,10 @@ public class Game {
         if(choice.getActionOnFactor() != null) {
             for (Map.Entry<String, Integer> entry : choice.getActionOnFactor().entrySet()) {
                 if (entry.getKey().equals(Game.AgricultureFactorKey)) {
+                    userInterface.displayAgriculture(entry.getValue());
                     gameParameter.addAgriculture(adaptValueToDifficulty(entry.getValue()));
                 } else if (entry.getKey().equals(Game.IndustryFactorKey)) {
+                    userInterface.displayIndustry(entry.getValue());
                     gameParameter.addIndustries(adaptValueToDifficulty(entry.getValue()));
                 }
             }
