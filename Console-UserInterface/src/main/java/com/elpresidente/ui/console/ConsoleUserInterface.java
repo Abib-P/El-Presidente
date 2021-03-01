@@ -146,6 +146,44 @@ public class ConsoleUserInterface implements UserInterface {
     }
 
     @Override
+    public Faction selectFactionToCorrupt(Factions factions, int treasury) {
+        Faction faction;
+        int index = -1;
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Select a faction to corrupt\ntreasury: "+treasury+"€\n 0. do not corrupt");
+        for (int i = 0; i < factions.getFactions().size(); i++) {
+            faction = factions.getFactions().get(i);
+            System.out.println(" "+(i+1)+". "+faction.getName()+" "+faction.getSatisfaction()+"% ("+faction.getCorruptionPrice()+"€)");
+        }
+
+        do{
+            index = scanner.nextInt(factions.getFactions().size()+1); // +1 because we are 1 based -> the 0 is for not corrupt
+
+            if(index > 0 ){
+                faction = factions.getFactions().get(index-1);
+
+                if( faction.getCorruptionPrice() > treasury ) {
+                    System.out.println("You don't have enough treasury");
+                    index = -1;
+                }else if( faction.getSatisfaction() >= 100){
+                    System.out.println("The is already at 100% satisfaction");
+                    index = -1;
+                }
+
+            }
+
+        }while(index < 0);
+
+        if (index > 0) { // 0 is the option to not corrupt
+            return factions.getFactions().get(index - 1);
+        }else{
+            return null;
+        }
+    }
+
+
+    @Override
     public int getMarketAmount(int treasury) {
         int amount = 0, max = treasury / Game.FoodUnitPrice + 1;
         Scanner scanner = new Scanner( System.in);

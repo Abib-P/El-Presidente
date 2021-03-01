@@ -19,5 +19,6 @@ public interface UserInterface {
     void displaySeason(Saisons season);
     Choice getChoice(Event event);
     Faction selectFaction(Factions factions);
+    Faction selectFactionToCorrupt(Factions factions, int treasury);
     int getMarketAmount(int treasury);
 }

@@ -18,7 +18,7 @@ public class El_Application {
         boolean playing = true;
         UserInterface userInterface = new ConsoleUserInterface();
 
-        Application.launch(App.class);
+     //   Application.launch(App.class);
 
         RepositoryUtils repositoryUtils = new JsonRepositoryUtils();
         Map<String,String> AllScenarioNames = repositoryUtils.loadAllScenarioName("scenario");
