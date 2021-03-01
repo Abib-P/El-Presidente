@@ -19,6 +19,21 @@ public class ConsoleUserInterface implements UserInterface {
         displayFactionsInfo(game.getFactionManager());
     }
 
+    @Override
+    public void displayTreasury(int treasury) {
+        System.out.println("treasury: "+ treasury);
+    }
+
+    @Override
+    public void displayAgriculture(int agriculture) {
+        System.out.println("addAgriculture: "+ agriculture);
+    }
+
+    @Override
+    public void displayIndustry(int industry) {
+        System.out.println("addIndustry: "+ industry);
+    }
+
     private void displayFactionsInfo(Factions factions){
         for (Faction faction: factions.getFactions()) {
             System.out.println(faction.getName()+": "+faction.getSatisfaction()+"%");
