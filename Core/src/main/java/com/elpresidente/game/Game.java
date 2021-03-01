@@ -104,6 +104,7 @@ public class Game {
 
         userInterface.displayMarket(gameParameter.getFoodUnits(), necessaryFood);
         boughtFood = userInterface.getMarketAmount(gameParameter.getTreasury());
+
         gameParameter.addTreasury( -boughtFood * Game.FoodUnitPrice);
         gameParameter.addFood( boughtFood );
 

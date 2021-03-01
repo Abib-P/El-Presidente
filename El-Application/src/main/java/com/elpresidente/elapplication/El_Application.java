@@ -1,6 +1,6 @@
 package com.elpresidente.elapplication;
 
-import com.elpresidente.App;
+
 import com.elpresidente.game.Game;
 import com.elpresidente.repository.Repository;
 import com.elpresidente.repository.RepositoryUtils;
@@ -18,7 +18,7 @@ public class El_Application {
         boolean playing = true;
         UserInterface userInterface = new ConsoleUserInterface();
 
-     //   Application.launch(App.class);
+        //Application.launch(GraphicalUserInterface.class);
 
         RepositoryUtils repositoryUtils = new JsonRepositoryUtils();
         Map<String,String> AllScenarioNames = repositoryUtils.loadAllScenarioName("scenario");
