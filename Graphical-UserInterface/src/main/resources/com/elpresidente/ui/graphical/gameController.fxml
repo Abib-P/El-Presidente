@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.BorderPane?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.elpresidente.ui.graphical.GameController">
+   <bottom>
+      <ProgressBar fx:id="progressBar" prefHeight="18.0" prefWidth="601.0" progress="0.43" BorderPane.alignment="CENTER" />
+   </bottom>
+   <left>
+      <PieChart fx:id="pie" prefHeight="382.0" prefWidth="176.0" title="test" BorderPane.alignment="CENTER" />
+   </left>
+   <center>
+      <DialogPane fx:id="dialogPan" prefHeight="382.0" prefWidth="400.0" BorderPane.alignment="CENTER" />
+   </center>
+   <right>
+      <BarChart fx:id="barChart" animated="false" prefHeight="382.0" prefWidth="319.0" title="Factions satisfaction" BorderPane.alignment="CENTER">
+        <xAxis>
+          <CategoryAxis label="Faction name" side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </BarChart>
+   </right>
+</BorderPane>

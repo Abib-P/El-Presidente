@@ -7,6 +7,7 @@ import com.elpresidente.factions.Factions;
 import com.elpresidente.repository.Repository;
 import com.elpresidente.rules.Rules;
 import com.elpresidente.rules.Sandbox;
+import com.elpresidente.rules.Scenario;
 import com.elpresidente.ui.UserInterface;
 
 import java.util.*;
@@ -46,7 +47,9 @@ public class Game {
         factionManager = new Factions(repository.getAllFactions());
         gameParameter = repository.getAllGameParameter();
 
-        rules = new Sandbox( repository.getAllEvent());
+        userInterface.displayGameInfo(this);
+
+        rules = new Scenario( repository.getAllEvent());
 
     }
 
@@ -58,7 +61,8 @@ public class Game {
 
             for (int i = 0; i < Saisons.values().length; i++) {
 
-                if( isScenarioOver()) {
+                if( isScenarioOver() ) {
+                    System.out.println("going to sandbox mod");
                     goToSandBoxMod();
                 }
 
@@ -74,6 +78,7 @@ public class Game {
 
             loose = hasLoose();
         }
+        System.out.println("you loose");
     }
 
     private void goToSandBoxMod(){
@@ -81,7 +86,7 @@ public class Game {
     }
 
     private boolean isScenarioOver() {
-        return rules.hasEvent();
+        return !rules.hasEvent();
     }
 
     private void endOfYear(){
@@ -95,7 +100,6 @@ public class Game {
         do{
             faction = userInterface.selectFactionToCorrupt(factionManager, gameParameter.getTreasury());
 
-
             if(faction != null){
                 gameParameter.addTreasury( -faction.getCorruptionPrice() );
                 factionManager.corrupt(faction);
@@ -103,6 +107,7 @@ public class Game {
         }while(faction != null);
 
         userInterface.displayMarket(gameParameter.getFoodUnits(), necessaryFood);
+
         boughtFood = userInterface.getMarketAmount(gameParameter.getTreasury());
 
         gameParameter.addTreasury( -boughtFood * Game.FoodUnitPrice);
@@ -159,7 +164,7 @@ public class Game {
     }
 
     public int getIndustries() {
-        return gameParameter.getAgriculturePercentage();
+        return gameParameter.getIndustryPercentage();
     }
 
     public int getAgriculture() {

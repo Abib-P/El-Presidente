@@ -47,6 +47,18 @@ public class Factions {
         return faction;
     }
 
+    public Faction getFactionByName(String name){
+        Faction faction = null;
+
+        for (Faction fac: factions) {
+            if(fac.getName().equals(name)){
+                faction = fac;
+            }
+        }
+
+        return faction;
+    }
+
 
     public void populate(){
         float grow = (float) Math.random() *10 +1;

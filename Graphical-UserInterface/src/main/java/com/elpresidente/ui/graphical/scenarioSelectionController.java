@@ -5,7 +5,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DialogPane;
 import javafx.scene.layout.Pane;
 
-public class scenarioSelectionController extends DialogPane {
+public class scenarioSelectionController {
 
     @FXML
     public ChoiceBox<String> choiceBox;

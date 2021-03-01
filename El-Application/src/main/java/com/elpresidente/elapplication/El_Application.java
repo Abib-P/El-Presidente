@@ -39,7 +39,7 @@ public class El_Application {
 
         do {
             String scenarioFilePath = userInterface.selectScenario(AllScenarioNames);
-
+            System.out.println("selected: "+scenarioFilePath);
             Repository repository = new JsonRepository(scenarioFilePath);
 
             Game game = new Game(userInterface, repository);

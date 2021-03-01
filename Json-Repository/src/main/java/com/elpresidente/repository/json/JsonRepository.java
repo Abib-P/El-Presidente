@@ -71,7 +71,7 @@ public class JsonRepository implements Repository {
         int treasury = Integer.parseInt(difficulty.get("treasury").toString());
         int foodUnits = Integer.parseInt(difficulty.get("foodUnits").toString());
         int agriculturePercentage = Integer.parseInt(difficulty.get("agriculturePercentage").toString());
-
+        System.out.println(" loading "+ industryPercentage +"    "+ agriculturePercentage);
         return new GameParameter(Integer.valueOf(Integer.toString(agriculturePercentage)),
                 Integer.valueOf(Integer.toString(industryPercentage)),
                 Integer.valueOf(Integer.toString(treasury)),

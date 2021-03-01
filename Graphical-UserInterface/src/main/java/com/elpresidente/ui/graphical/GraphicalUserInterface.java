@@ -1,6 +1,5 @@
 package com.elpresidente.ui.graphical;
 
-
 import com.elpresidente.event.*;
 import com.elpresidente.faction.Faction;
 import com.elpresidente.factions.Factions;
@@ -9,12 +8,16 @@ import com.elpresidente.game.Saisons;
 import com.elpresidente.ui.UserInterface;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.Observable;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceDialog;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.layout.Pane;
@@ -24,9 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * JavaFX GraphicalUserInterface
@@ -36,6 +37,7 @@ public class GraphicalUserInterface extends Application implements UserInterface
     public static GraphicalUserInterface ui = null;
 
     private static Scene scene;
+    public static GameController controller = null;
 
     public GraphicalUserInterface() {
         ui = this;
@@ -43,8 +45,8 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
     @Override
     public void start(Stage stage) throws IOException {
-      //  scene = new Scene(loadFXML("select"));
-      //  stage.setScene(scene);
+        scene = new Scene(loadFXML("gameController"));
+        stage.setScene(scene);
         stage.show();
     }
 
@@ -53,17 +55,67 @@ public class GraphicalUserInterface extends Application implements UserInterface
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
+        Parent parent;
         FXMLLoader fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
+        parent =  fxmlLoader.load();
+
+        controller = (GameController) fxmlLoader.getController();
+        System.out.println("test controller: "+ controller);
+
+        return parent;
     }
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 
     @Override
     public void displayGameInfo(Game game) {
 
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                PieChart chart = GraphicalUserInterface.controller.pie;
+                chart.getData().get(0).setPieValue( game.getIndustries());
+                chart.getData().get(1).setPieValue( game.getAgriculture());
+            }
+        });
+
+        System.out.println("money: "+game.getTreasury()+"\nfood: "+ game.getFood()+"\nIndustry: "+game.getIndustries()+"% Agriculture: "+game.getAgriculture()+"%");
+        displayFactionsInfo(game.getFactionManager());
+    }
+    private void displayFactionsInfo(Factions factions){
+        BarChart<String, Integer> chart = GraphicalUserInterface.controller.barChart;
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                XYChart.Series<String, Integer> series;
+
+                if( chart.getData().isEmpty() ){
+                    ObservableList< XYChart.Series<String, Integer>> data = chart.getData();
+                    series = new XYChart.Series<String, Integer>();
+                    series.setName("");
+                    data.add( series);
+                }else{
+                    series = chart.getData().get(0);
+                }
+
+                if(series.getData().isEmpty()) {
+                    for (Faction faction : factions.getFactions()) {
+                        series.getData().add(new XYChart.Data<String, Integer>(faction.getName(), faction.getSatisfaction()));
+                    }
+                }else{
+                    for (XYChart.Data<String, Integer> data : series.getData() ) {
+                        data.setYValue( factions.getFactionByName(data.getXValue()).getSatisfaction() );
+                    }
+                }
+            }
+        });
+
+        for (Faction faction: factions.getFactions()) {
+            System.out.println(faction.getName()+": "+faction.getSatisfaction()+"%");
+        }
     }
 
     @Override
@@ -132,7 +184,7 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
     @Override
     public float askForDifficulty() {
-        return 0;
+        return 0.5f;
     }
 
     @Override
@@ -142,12 +194,44 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
     @Override
     public Choice getChoice(Event event) {
+
+        Task<Choice> task = new Task<>() {
+            @Override
+            protected Choice call() throws Exception {
+
+                FXMLLoader fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("eventChoiceSelector.fxml"));
+
+                Pane pane = fxmlLoader.load();
+                DialogPane dialogPane = fxmlLoader.getRoot();
+                dialogPane.setHeaderText(event.getName());
+
+                EventChoiceSelector controller = (EventChoiceSelector) fxmlLoader.getController();
+                controller.choiceBox.getItems().addAll( event.getChoices());
+                controller.choiceBox.setValue( event.getChoices().get(0) );
+
+                Dialog<Choice> dialog = new Dialog<>( );
+                dialog.setDialogPane((DialogPane) pane);
+
+                dialog.showAndWait();
+
+                return event.getChoices().get(0);
+            }
+        };
+
+        Platform.runLater(task);
+
+        try {
+            return task.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
         return null;
+
     }
 
     @Override
     public Faction selectFaction(Factions factions) {
-        return null;
+        return factions.getFactions().get(0);
     }
 
     @Override
