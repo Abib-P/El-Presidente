@@ -78,7 +78,7 @@ public class ConsoleUserInterface implements UserInterface {
 
         entry = (Map.Entry<String, String>) entries[index];
 
-        return  entry.getKey();
+        return  entry.getValue();
     }
 
     @Override

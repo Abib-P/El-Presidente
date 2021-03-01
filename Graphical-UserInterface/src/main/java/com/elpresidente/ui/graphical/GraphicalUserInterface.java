@@ -8,25 +8,43 @@ import com.elpresidente.game.Game;
 import com.elpresidente.game.Saisons;
 import com.elpresidente.ui.UserInterface;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * JavaFX GraphicalUserInterface
  */
 public class GraphicalUserInterface extends Application implements UserInterface {
 
+    public static GraphicalUserInterface ui = null;
+
     private static Scene scene;
+
+    public GraphicalUserInterface() {
+        ui = this;
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("select"));
-        stage.setScene(scene);
+      //  scene = new Scene(loadFXML("select"));
+      //  stage.setScene(scene);
         stage.show();
     }
 
@@ -75,6 +93,35 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
     @Override
     public String selectScenario(Map<String, String> AllScenarioNames) {
+
+        Task<String> task = new Task<>() {
+            @Override
+            protected String call() throws Exception {
+
+                List<String> names = new ArrayList<String>(AllScenarioNames.keySet() );
+                FXMLLoader fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("scenarioSelection.fxml"));
+                Pane pane = fxmlLoader.load();
+
+                scenarioSelectionController controller = (scenarioSelectionController) fxmlLoader.getController();
+                controller.choiceBox.getItems().addAll(names);
+                controller.choiceBox.setValue( names.get(0) );
+
+                Dialog<String> dialog = new Dialog<String>( );
+                dialog.setDialogPane((DialogPane) pane);
+
+                dialog.showAndWait();
+
+                return AllScenarioNames.get(controller.choiceBox.getValue());
+            }
+        };
+
+        Platform.runLater(task);
+
+        try {
+            return task.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

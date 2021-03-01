@@ -8,17 +8,31 @@ import com.elpresidente.repository.json.JsonRepository;
 import com.elpresidente.repository.json.JsonRepositoryUtils;
 import com.elpresidente.ui.UserInterface;
 import com.elpresidente.ui.console.ConsoleUserInterface;
+import com.elpresidente.ui.graphical.GraphicalUserInterface;
 import javafx.application.Application;
+import javafx.application.Platform;
 
 import java.util.Map;
 
 public class El_Application {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         boolean playing = true;
-        UserInterface userInterface = new ConsoleUserInterface();
 
-        //Application.launch(GraphicalUserInterface.class);
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Application.launch(GraphicalUserInterface.class);
+            }
+        });
+
+        thread.start();
+
+        Thread.sleep(1000);
+
+        //UserInterface userInterface = new ConsoleUserInterface();
+        UserInterface userInterface = GraphicalUserInterface.ui ;
+
 
         RepositoryUtils repositoryUtils = new JsonRepositoryUtils();
         Map<String,String> AllScenarioNames = repositoryUtils.loadAllScenarioName("scenario");
@@ -37,6 +51,8 @@ public class El_Application {
             playing = userInterface.askForReplay();
 
         }while(playing);
+
+        thread.join();
     }
 
 
