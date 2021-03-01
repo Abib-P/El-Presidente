@@ -4,11 +4,10 @@ import com.elpresidente.event.Choice;
 import com.elpresidente.event.Event;
 import com.elpresidente.faction.Faction;
 import com.elpresidente.factions.Factions;
-import com.elpresidente.input.Input;
-import com.elpresidente.output.Output;
 import com.elpresidente.repository.Repository;
 import com.elpresidente.rules.Rules;
 import com.elpresidente.rules.Sandbox;
+import com.elpresidente.ui.UserInterface;
 
 import java.util.*;
 
@@ -21,27 +20,26 @@ public class Game {
     public static final int PartisanFoodConsumption = 4;
     public static final int FoodUnitPrice = 8;
 
-    private final Input input;
-    private final Output output;
     private final Repository repository;
     private Rules rules;
 
     private Factions factionManager;
     private GameParameter gameParameter;
 
+    private final UserInterface userInterface;
+
     private int minGlobalSatisfaction;
     private float difficulty;
 
-    public Game(Input input, Output output, Repository repository){
-        this.input = input;
-        this.output = output;
+    public Game(UserInterface userInterface, Repository repository){
+        this.userInterface = userInterface;
         this.repository = repository;
     }
 
     public void start(){
         //TODO ask for rules the player want
 
-        difficulty = input.askForDifficulty();
+        difficulty = userInterface.askForDifficulty();
 
         minGlobalSatisfaction = (int) (30 * difficulty);
 
@@ -65,10 +63,10 @@ public class Game {
                 }
 
                 Event event = rules.getEvent(seasons[i]);
-                output.displayString("||| "+ seasons[i]+" |||");
-                output.displayGameInfo(this);
+                userInterface.displaySeason(seasons[i]);
+                userInterface.displayGameInfo(this);
 
-                Choice choice = input.getChoice(event);
+                Choice choice = userInterface.getChoice(event);
                 applyChoice(choice);
             }
 
@@ -96,8 +94,8 @@ public class Game {
 
         do{
             System.out.println("treasury: "+ gameParameter.getTreasury());
-            output.displayFactions(factionManager);
-            faction = input.selectFaction(factionManager);
+            userInterface.displayFactions(factionManager);
+            faction = userInterface.selectFaction(factionManager);
 
             if(faction != null){
                 gameParameter.addTreasury( -faction.getCorruptionPrice() );
@@ -105,8 +103,8 @@ public class Game {
             }
         }while(faction != null);
 
-        output.displayMarket(gameParameter.getFoodUnits(), necessaryFood);
-        boughtFood = input.getMarketAmount(gameParameter.getTreasury());
+        userInterface.displayMarket(gameParameter.getFoodUnits(), necessaryFood);
+        boughtFood = userInterface.getMarketAmount(gameParameter.getTreasury());
         gameParameter.addTreasury( -boughtFood * Game.FoodUnitPrice);
         gameParameter.addFood( boughtFood );
 
