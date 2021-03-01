@@ -32,18 +32,6 @@
         </dependency>
         <dependency>
             <groupId>com.elpresidente</groupId>
-            <artifactId>Console-Input</artifactId>
-            <version>0.1.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.elpresidente</groupId>
-            <artifactId>Console-Output</artifactId>
-            <version>0.1.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.elpresidente</groupId>
             <artifactId>Json-Repository</artifactId>
             <version>0.1.0</version>
             <scope>compile</scope>
@@ -51,6 +39,12 @@
         <dependency>
             <groupId>com.elpresidente</groupId>
             <artifactId>Graphical-UserInterface</artifactId>
+            <version>0.1.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.elpresidente</groupId>
+            <artifactId>Console-UserInterface</artifactId>
             <version>0.1.0</version>
             <scope>compile</scope>
         </dependency>

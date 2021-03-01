@@ -10,11 +10,10 @@
     <version>0.1.0</version>
     <modules>
         <module>core</module>
-        <module>Console-Input</module>
-        <module>Console-Output</module>
         <module>Json-Repository</module>
         <module>Graphical-UserInterface</module>
         <module>El-Application</module>
+        <module>Console-UserInterface</module>
     </modules>
 
     <dependencies>
