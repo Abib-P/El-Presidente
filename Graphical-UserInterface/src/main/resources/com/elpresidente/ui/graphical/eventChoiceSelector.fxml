@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ButtonType?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
 
 
-<DialogPane headerText="Select action" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.elpresidente.ui.graphical.EventChoiceSelector">
-   <buttonTypes>
-      <ButtonType fx:constant="OK" />
-   </buttonTypes>
-   <content>
-      <ChoiceBox fx:id="choiceBox" prefWidth="150.0" />
-   </content>
-</DialogPane>
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.elpresidente.ui.graphical.EventChoiceSelector">
+   <children>
+      <Label fx:id="label" text="Label" VBox.vgrow="ALWAYS" />
+      <ChoiceBox fx:id="choiceBox" />
+      <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onSelect" text="OK" />
+   </children>
+</VBox>

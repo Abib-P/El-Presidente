@@ -4,23 +4,16 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
-<?import javafx.scene.control.DialogPane?>
-<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.elpresidente.ui.graphical.GameController">
-   <bottom>
-      <ProgressBar fx:id="progressBar" prefHeight="18.0" prefWidth="601.0" progress="0.43" BorderPane.alignment="CENTER" />
-   </bottom>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.elpresidente.ui.graphical.GameController">
    <left>
-      <PieChart fx:id="pie" prefHeight="382.0" prefWidth="176.0" title="test" BorderPane.alignment="CENTER" />
+      <PieChart fx:id="pie" title="test" BorderPane.alignment="CENTER" />
    </left>
-   <center>
-      <DialogPane fx:id="dialogPan" prefHeight="382.0" prefWidth="400.0" BorderPane.alignment="CENTER" />
-   </center>
    <right>
-      <BarChart fx:id="barChart" animated="false" prefHeight="382.0" prefWidth="319.0" title="Factions satisfaction" BorderPane.alignment="CENTER">
+      <BarChart fx:id="barChart" animated="false" title="Factions satisfaction">
         <xAxis>
           <CategoryAxis label="Faction name" side="BOTTOM" />
         </xAxis>
@@ -29,4 +22,12 @@
         </yAxis>
       </BarChart>
    </right>
+   <center>
+      <VBox fx:id="vBox" alignment="CENTER_LEFT" BorderPane.alignment="CENTER_LEFT">
+         <children>
+            <Label fx:id="treasuryLabel" text="Treasury: " VBox.vgrow="ALWAYS" />
+            <Label fx:id="foodLabel" text="Food" VBox.vgrow="ALWAYS" />
+         </children>
+      </VBox>
+   </center>
 </BorderPane>

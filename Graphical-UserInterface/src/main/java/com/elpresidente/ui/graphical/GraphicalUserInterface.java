@@ -20,6 +20,8 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -36,18 +38,33 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
     public static GraphicalUserInterface ui = null;
 
-    private static Scene scene;
     public static GameController controller = null;
+
+    private static Scene scene;
+    private Stage stage;
+
+    private Pane eventSelectorPane;
+    private final EventChoiceSelector eventChoiceSelector;
 
     public GraphicalUserInterface() {
         ui = this;
+
+        FXMLLoader fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("eventChoiceSelector.fxml"));
+        try {
+            eventSelectorPane = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        eventChoiceSelector = fxmlLoader.getController();
     }
 
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("gameController"));
+        this.stage = stage;
         stage.setScene(scene);
         stage.show();
+        stage.sizeToScene();
     }
 
     static void setRoot(String fxml) throws IOException {
@@ -78,6 +95,12 @@ public class GraphicalUserInterface extends Application implements UserInterface
                 PieChart chart = GraphicalUserInterface.controller.pie;
                 chart.getData().get(0).setPieValue( game.getIndustries());
                 chart.getData().get(1).setPieValue( game.getAgriculture());
+
+                Label label = GraphicalUserInterface.controller.foodLabel;
+                label.setText("Food: "+ game.getFood());
+
+                label = GraphicalUserInterface.controller.treasuryLabel;
+                label.setText("Treasury: "+ game.getTreasury());
             }
         });
 
@@ -195,38 +218,16 @@ public class GraphicalUserInterface extends Application implements UserInterface
     @Override
     public Choice getChoice(Event event) {
 
-        Task<Choice> task = new Task<>() {
+        Platform.runLater(new Runnable() {
             @Override
-            protected Choice call() throws Exception {
-
-                FXMLLoader fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("eventChoiceSelector.fxml"));
-
-                Pane pane = fxmlLoader.load();
-                DialogPane dialogPane = fxmlLoader.getRoot();
-                dialogPane.setHeaderText(event.getName());
-
-                EventChoiceSelector controller = (EventChoiceSelector) fxmlLoader.getController();
-                controller.choiceBox.getItems().addAll( event.getChoices());
-                controller.choiceBox.setValue( event.getChoices().get(0) );
-
-                Dialog<Choice> dialog = new Dialog<>( );
-                dialog.setDialogPane((DialogPane) pane);
-
-                dialog.showAndWait();
-
-                return event.getChoices().get(0);
+            public void run() {
+                controller.addEven( eventSelectorPane);
+                eventChoiceSelector.setEventChoice(event);
+                stage.sizeToScene();
             }
-        };
+        });
 
-        Platform.runLater(task);
-
-        try {
-            return task.get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-        return null;
-
+        return eventChoiceSelector.getEventChoice(event);
     }
 
     @Override
