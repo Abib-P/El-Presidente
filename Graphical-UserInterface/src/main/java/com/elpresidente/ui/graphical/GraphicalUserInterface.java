@@ -222,7 +222,12 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
     @Override
     public void displaySeason(Saisons season) {
-
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                controller.seasonLabel.setText( season.toString() );
+            }
+        });
     }
 
     @Override
@@ -231,6 +236,7 @@ public class GraphicalUserInterface extends Application implements UserInterface
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+                controller.actionLabel.setText( "New Event" );
                 controller.addEven( eventSelectorPane);
                 eventChoiceSelector.setEventChoice(event);
                 stage.sizeToScene();
@@ -254,6 +260,7 @@ public class GraphicalUserInterface extends Application implements UserInterface
             @Override
             public void run() {
 
+                controller.actionLabel.setText( "Corruption Time" );
                 factionSelection = new HBox();
 
                 for (Faction faction: factions.getFactions() ) {
@@ -261,7 +268,13 @@ public class GraphicalUserInterface extends Application implements UserInterface
                     if(faction.getKey().equals( Factions.LoyalistsFactionKey))
                         continue;
 
-                    Button button = new Button(faction.getName()+" ("+faction.getPartisanNumber()+"): "+faction.getCorruptionPrice()+"€");
+                    Button button = new Button();
+
+                    if( factions.areLoyalist()){
+                        button.setText( faction.getName()+" ("+faction.getPartisanNumber()+"): "+faction.getCorruptionPrice()+"€\n Loyalists: "+ -faction.getCorruptionImpactOnLoyalist() );
+                    }else{
+                        button.setText( faction.getName()+" ("+faction.getPartisanNumber()+"): "+faction.getCorruptionPrice()+"€");
+                    }
 
                     if(faction.getCorruptionPrice()<treasury && faction.getSatisfaction() < 100) {
 

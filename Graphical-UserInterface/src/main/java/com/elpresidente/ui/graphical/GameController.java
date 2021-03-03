@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -20,6 +21,8 @@ public class GameController {
     public BarChart<Integer, String> treasuryChart;
     public BorderPane borderPane;
     public HBox hBox;
+    public Label actionLabel;
+    public Label seasonLabel;
 
     @FXML
     public void initialize() {

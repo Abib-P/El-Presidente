@@ -4,9 +4,11 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.elpresidente.ui.graphical.GameController">
    <left>
@@ -23,8 +25,13 @@
       </BarChart>
    </right>
    <center>
-      <VBox fx:id="vBox" alignment="CENTER_LEFT" BorderPane.alignment="CENTER_LEFT">
+      <VBox fx:id="vBox" alignment="CENTER" BorderPane.alignment="CENTER_LEFT">
          <children>
+            <Label fx:id="seasonLabel" text="Label">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
             <BarChart fx:id="foodChart" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" title=" Food quantity">
               <xAxis>
                   <NumberAxis maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" side="LEFT" />
@@ -41,6 +48,11 @@
                      <CategoryAxis maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" side="BOTTOM" />
                  </yAxis>
              </BarChart>
+            <Label fx:id="actionLabel" text="Label">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
          </children>
           
       </VBox>

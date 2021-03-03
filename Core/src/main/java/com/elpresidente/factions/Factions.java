@@ -16,23 +16,20 @@ public class Factions {
 
     public void corrupt(String factionName){
         Faction faction = getFaction(factionName);
-        int price;
         if(faction == null) return;
         corrupt(faction);
     }
 
     public void corrupt(Faction faction){
-        int price;
 
         if(faction == null) return;
 
-        price = faction.getCorruptionPrice();
         faction.addSatisfaction(10);
 
         faction = getFaction(LoyalistsFactionKey);
         if(faction == null) return;
 
-        faction.addSatisfaction( -price/10);
+        faction.addSatisfaction( -faction.getCorruptionImpactOnLoyalist());
     }
 
     private Faction getFaction(String key){
@@ -59,6 +56,9 @@ public class Factions {
         return faction;
     }
 
+    public boolean areLoyalist(){
+        return getFaction(LoyalistsFactionKey) != null;
+    }
 
     public void populate(){
         float grow = (float) Math.random() *10 +1;
