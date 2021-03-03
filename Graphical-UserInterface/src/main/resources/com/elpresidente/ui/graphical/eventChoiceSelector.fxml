@@ -6,10 +6,10 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.elpresidente.ui.graphical.EventChoiceSelector">
+<VBox fx:id="vBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.elpresidente.ui.graphical.EventChoiceSelector">
    <children>
-      <Label fx:id="label" text="Label" VBox.vgrow="ALWAYS" />
-      <ChoiceBox fx:id="choiceBox" />
-      <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onSelect" text="OK" />
+      <Label fx:id="label" text="Label" />
+      <ChoiceBox fx:id="choiceBox" prefWidth="150.0" />
+      <Button mnemonicParsing="false" onAction="#onSelect" text="OK" />
    </children>
 </VBox>

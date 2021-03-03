@@ -56,6 +56,7 @@ public class GraphicalUserInterface extends Application implements UserInterface
             e.printStackTrace();
         }
         eventChoiceSelector = fxmlLoader.getController();
+
     }
 
     @Override
@@ -77,6 +78,9 @@ public class GraphicalUserInterface extends Application implements UserInterface
         parent =  fxmlLoader.load();
 
         controller = (GameController) fxmlLoader.getController();
+
+        GraphicalUserInterface.ui.eventChoiceSelector.vBox.prefWidthProperty().bind(controller.borderPane.prefWidthProperty());
+
         System.out.println("test controller: "+ controller);
 
         return parent;
@@ -96,11 +100,11 @@ public class GraphicalUserInterface extends Application implements UserInterface
                 chart.getData().get(0).setPieValue( game.getIndustries());
                 chart.getData().get(1).setPieValue( game.getAgriculture());
 
-                Label label = GraphicalUserInterface.controller.foodLabel;
-                label.setText("Food: "+ game.getFood());
+                XYChart.Data< Integer, String> data = GraphicalUserInterface.controller.foodChart.getData().get(0).getData().get(0);
+                data.setXValue( game.getFood());
+                data = GraphicalUserInterface.controller.treasuryChart.getData().get(0).getData().get(0);
+                data.setXValue( game.getTreasury());
 
-                label = GraphicalUserInterface.controller.treasuryLabel;
-                label.setText("Treasury: "+ game.getTreasury());
             }
         });
 
@@ -126,7 +130,7 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
                 if(series.getData().isEmpty()) {
                     for (Faction faction : factions.getFactions()) {
-                        series.getData().add(new XYChart.Data<String, Integer>(faction.getName(), faction.getSatisfaction()));
+                        series.getData().add( new XYChart.Data<String, Integer>(faction.getName(), faction.getSatisfaction()) );
                     }
                 }else{
                     for (XYChart.Data<String, Integer> data : series.getData() ) {
@@ -207,7 +211,7 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
     @Override
     public float askForDifficulty() {
-        return 0.5f;
+        return 1f;
     }
 
     @Override
@@ -237,6 +241,9 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
     @Override
     public Faction selectFactionToCorrupt(Factions factions, int treasury) {
+
+
+
         return null;
     }
 

@@ -6,6 +6,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
 public class EventChoiceSelector {
 
@@ -14,11 +16,13 @@ public class EventChoiceSelector {
 
     @FXML
     public Label label;
+    public VBox vBox;
 
     private volatile boolean selected;
 
     @FXML
     public void initialize() {
+       // vBox.prefWidthProperty().bind(borderPane.prefWidthProperty());
         selected = false;
     }
 

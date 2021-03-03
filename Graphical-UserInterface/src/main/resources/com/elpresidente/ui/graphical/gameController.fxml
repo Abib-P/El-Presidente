@@ -4,13 +4,13 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.elpresidente.ui.graphical.GameController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.elpresidente.ui.graphical.GameController">
    <left>
-      <PieChart fx:id="pie" title="test" BorderPane.alignment="CENTER" />
+      <PieChart fx:id="pie" BorderPane.alignment="CENTER" />
    </left>
    <right>
       <BarChart fx:id="barChart" animated="false" title="Factions satisfaction">
@@ -25,9 +25,27 @@
    <center>
       <VBox fx:id="vBox" alignment="CENTER_LEFT" BorderPane.alignment="CENTER_LEFT">
          <children>
-            <Label fx:id="treasuryLabel" text="Treasury: " VBox.vgrow="ALWAYS" />
-            <Label fx:id="foodLabel" text="Food" VBox.vgrow="ALWAYS" />
+            <BarChart fx:id="foodChart" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" title=" Food quantity">
+              <xAxis>
+                  <NumberAxis maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" side="LEFT" />
+              </xAxis>
+              <yAxis>
+                  <CategoryAxis maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" side="BOTTOM" />
+              </yAxis>
+            </BarChart>
+             <BarChart fx:id="treasuryChart" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" title="Treasury">
+                 <xAxis>
+                     <NumberAxis maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" side="LEFT" />
+                 </xAxis>
+                 <yAxis>
+                     <CategoryAxis maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" side="BOTTOM" />
+                 </yAxis>
+             </BarChart>
          </children>
+          
       </VBox>
    </center>
+   <bottom>
+      <HBox fx:id="hBox" alignment="CENTER" BorderPane.alignment="CENTER" />
+   </bottom>
 </BorderPane>
