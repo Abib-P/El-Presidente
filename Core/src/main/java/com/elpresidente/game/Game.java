@@ -96,6 +96,7 @@ public class Game {
 
         gameParameter.addTreasury( Game.IndustryRevenue * gameParameter.getIndustryPercentage() );
         gameParameter.addFood( Game.AgricultureRevenue * gameParameter.getAgriculturePercentage() );
+        userInterface.displayGameInfo(this);
 
         do{
             faction = userInterface.selectFactionToCorrupt(factionManager, gameParameter.getTreasury());
@@ -103,6 +104,7 @@ public class Game {
             if(faction != null){
                 gameParameter.addTreasury( -faction.getCorruptionPrice() );
                 factionManager.corrupt(faction);
+                userInterface.displayGameInfo(this);
             }
         }while(faction != null);
 

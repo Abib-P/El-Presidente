@@ -30,9 +30,10 @@ public class El_Application {
 
         Thread.sleep(1000);
 
-        //UserInterface userInterface = new ConsoleUserInterface();
         UserInterface userInterface = GraphicalUserInterface.ui ;
 
+
+       // UserInterface userInterface = new ConsoleUserInterface();
 
         RepositoryUtils repositoryUtils = new JsonRepositoryUtils();
         Map<String,String> AllScenarioNames = repositoryUtils.loadAllScenarioName("scenario");

@@ -12,16 +12,20 @@ import javafx.beans.Observable;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -45,6 +49,8 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
     private Pane eventSelectorPane;
     private final EventChoiceSelector eventChoiceSelector;
+
+    private HBox factionSelection = null;
 
     public GraphicalUserInterface() {
         ui = this;
@@ -241,10 +247,58 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
     @Override
     public Faction selectFactionToCorrupt(Factions factions, int treasury) {
+        final boolean[] selected = {false};
+        final Faction[] selectedFaction = {null};
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+
+                factionSelection = new HBox();
+
+                for (Faction faction: factions.getFactions() ) {
+
+                    if(faction.getKey().equals( Factions.LoyalistsFactionKey))
+                        continue;
+
+                    Button button = new Button(faction.getName()+" ("+faction.getPartisanNumber()+"): "+faction.getCorruptionPrice()+"€");
+
+                    if(faction.getCorruptionPrice()<treasury && faction.getSatisfaction() < 100) {
+
+                        button.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                selectedFaction[0] = faction;
+                                selected[0] = true;
+                            }
+                        });
+                    }else{
+                        button.setDisable(true);
+                    }
+
+                    factionSelection.getChildren().add( button);
+                }
+
+                Button button = new Button("finish");
+                button.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        selectedFaction[0] = null;
+                        selected[0] = true;
+                    }
+                });
+                factionSelection.getChildren().add( button);
 
 
+                controller.addEven( factionSelection);
+            }
+        });
 
-        return null;
+        while ( !selected[0] ) {
+            Thread.onSpinWait();
+        }
+
+        return  selectedFaction[0];
     }
 
     @Override
