@@ -8,8 +8,6 @@ import com.elpresidente.game.Saisons;
 import com.elpresidente.ui.UserInterface;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.Observable;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -23,8 +21,6 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
-import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -50,6 +46,9 @@ public class GraphicalUserInterface extends Application implements UserInterface
     private Pane eventSelectorPane;
     private final EventChoiceSelector eventChoiceSelector;
 
+    private Pane marketPane;
+    private final MarketController marketController;
+
     private HBox factionSelection = null;
 
     public GraphicalUserInterface() {
@@ -62,6 +61,14 @@ public class GraphicalUserInterface extends Application implements UserInterface
             e.printStackTrace();
         }
         eventChoiceSelector = fxmlLoader.getController();
+
+        fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("market.fxml"));
+        try {
+            marketPane = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        marketController = fxmlLoader.getController();
 
     }
 
@@ -302,7 +309,6 @@ public class GraphicalUserInterface extends Application implements UserInterface
                 });
                 factionSelection.getChildren().add( button);
 
-
                 controller.addEven( factionSelection);
             }
         });
@@ -315,7 +321,15 @@ public class GraphicalUserInterface extends Application implements UserInterface
     }
 
     @Override
-    public int getMarketAmount(int treasury) {
-        return 0;
+    public int getMarketAmount(int food, int necessaryFood,int treasury) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                marketController.setData(food, necessaryFood, treasury);
+                controller.addEven(marketPane);
+            }
+        });
+
+        return marketController.getAmount();
     }
 }

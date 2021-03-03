@@ -110,7 +110,7 @@ public class Game {
 
         userInterface.displayMarket(gameParameter.getFoodUnits(), necessaryFood);
 
-        boughtFood = userInterface.getMarketAmount(gameParameter.getTreasury());
+        boughtFood = userInterface.getMarketAmount(gameParameter.getFoodUnits(), necessaryFood, gameParameter.getTreasury());
 
         gameParameter.addTreasury( -boughtFood * Game.FoodUnitPrice);
         gameParameter.addFood( boughtFood );
@@ -120,7 +120,8 @@ public class Game {
         }else{
             factionManager.populate();
         }
-        
+
+        userInterface.displayGameInfo(this);
     }
 
     private int adaptValueToDifficulty(int value){
