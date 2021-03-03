@@ -77,8 +77,15 @@ public class Factions {
 
     public void addPopulation(int numberOfPeople){
         int n = numberOfPeople >= 0 ? 1 : -1;
+        Faction faction;
         for (int i = 0; i <  Math.abs(numberOfPeople); i++) {
-            factions.get( (int) (Math.random() * factions.size()) ).addPartisanNumber(n);
+            faction =  factions.get( (int) (Math.random() * factions.size()) );
+            faction.addPartisanNumber(n);
+
+            if( numberOfPeople < 0) {
+                faction.addSatisfaction( numberOfPeople);
+            }
+
         }
     }
 

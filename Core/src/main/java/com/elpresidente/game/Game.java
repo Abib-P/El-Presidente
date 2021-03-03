@@ -117,7 +117,9 @@ public class Game {
 
         if(gameParameter.getFoodUnits() < necessaryFood){
             factionManager.addPopulation( (int)((gameParameter.getFoodUnits() - necessaryFood) / (float) Game.PartisanFoodConsumption +0.5) );
+            gameParameter.addFood( -factionManager.getTotalNumberOfPartisan() * Game.PartisanFoodConsumption );
         }else{
+            gameParameter.addFood( -factionManager.getTotalNumberOfPartisan() * Game.PartisanFoodConsumption );
             factionManager.populate();
         }
 
