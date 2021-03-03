@@ -90,9 +90,7 @@ public class GraphicalUserInterface extends Application implements UserInterface
         FXMLLoader fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource(fxml + ".fxml"));
         parent =  fxmlLoader.load();
 
-        controller = (GameController) fxmlLoader.getController();
-
-        GraphicalUserInterface.ui.eventChoiceSelector.vBox.prefWidthProperty().bind(controller.borderPane.prefWidthProperty());
+        controller = fxmlLoader.getController();
 
         System.out.println("test controller: "+ controller);
 
@@ -130,26 +128,35 @@ public class GraphicalUserInterface extends Application implements UserInterface
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                XYChart.Series<String, Integer> series;
+                XYChart.Series<String, Integer> satisfactionSeries, partisanSeries;
 
                 if( chart.getData().isEmpty() ){
                     ObservableList< XYChart.Series<String, Integer>> data = chart.getData();
-                    series = new XYChart.Series<String, Integer>();
-                    series.setName("");
-                    data.add( series);
+                    satisfactionSeries = new XYChart.Series<String, Integer>();
+                    satisfactionSeries.setName("Satisfaction");
+
+                    partisanSeries = new XYChart.Series<String, Integer>();
+                    partisanSeries.setName("Partisan number");
+
+                    data.add( satisfactionSeries);
+                    data.add( partisanSeries);
+
+                    for (Faction faction : factions.getFactions()) {
+                        satisfactionSeries.getData().add( new XYChart.Data<String, Integer>(faction.getName(), faction.getSatisfaction()) );
+                        partisanSeries.getData().add( new XYChart.Data<String, Integer>(faction.getName(), faction.getPartisanNumber()) );
+                    }
                 }else{
-                    series = chart.getData().get(0);
+                    satisfactionSeries = chart.getData().get(0);
+                    partisanSeries = chart.getData().get(1);
                 }
 
-                if(series.getData().isEmpty()) {
-                    for (Faction faction : factions.getFactions()) {
-                        series.getData().add( new XYChart.Data<String, Integer>(faction.getName(), faction.getSatisfaction()) );
-                    }
-                }else{
-                    for (XYChart.Data<String, Integer> data : series.getData() ) {
-                        data.setYValue( factions.getFactionByName(data.getXValue()).getSatisfaction() );
-                    }
+                for (XYChart.Data<String, Integer> data : satisfactionSeries.getData() ) {
+                    data.setYValue( factions.getFactionByName(data.getXValue()).getSatisfaction() );
                 }
+                for (XYChart.Data<String, Integer> data : partisanSeries.getData() ) {
+                    data.setYValue( factions.getFactionByName(data.getXValue()).getPartisanNumber() );
+                }
+
             }
         });
 
@@ -325,6 +332,7 @@ public class GraphicalUserInterface extends Application implements UserInterface
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+                controller.actionLabel.setText( "Food Market" );
                 marketController.setData(food, necessaryFood, treasury);
                 controller.addEven(marketPane);
             }

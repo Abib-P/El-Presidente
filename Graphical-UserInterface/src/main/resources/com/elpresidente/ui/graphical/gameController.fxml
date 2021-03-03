@@ -15,7 +15,7 @@
       <PieChart fx:id="pie" BorderPane.alignment="CENTER" />
    </left>
    <right>
-      <BarChart fx:id="barChart" animated="false" title="Factions satisfaction">
+      <BarChart fx:id="barChart" animated="false" title="Factions overview">
         <xAxis>
           <CategoryAxis label="Faction name" side="BOTTOM" />
         </xAxis>

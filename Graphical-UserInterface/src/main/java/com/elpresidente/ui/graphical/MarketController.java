@@ -47,7 +47,7 @@ public class MarketController {
         this.maxAmount =  (treasury/ Game.FoodUnitPrice);
 
         if(amount>amountNeeded){
-            label.setText("You a have enough food \t you can buy up to"+ maxAmount+" at "+ Game.FoodUnitPrice+" /food" );
+            label.setText("You a have enough food \t you can buy up to "+ maxAmount+" at "+ Game.FoodUnitPrice+" /food" );
         }else{
             label.setText("You need "+ (amountNeeded - amount) +" more food \t you can buy up to"+ (treasury/ Game.FoodUnitPrice)+" at "+ Game.FoodUnitPrice+" /food" );
         }
