@@ -198,7 +198,7 @@ public class GraphicalUserInterface extends Application implements UserInterface
             stage.sizeToScene();
         });
 
-        return eventChoiceSelector.getEventChoice(event);
+        return eventChoiceSelector.getEventChoice();
     }
 
     @Override

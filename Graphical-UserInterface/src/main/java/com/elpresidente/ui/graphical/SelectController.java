@@ -4,12 +4,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DialogPane;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 public class SelectController {
+
+    @FXML
     public ChoiceBox<String> combo;
-    public DialogPane dialogPan;
 
     @FXML
     public void initialize() {

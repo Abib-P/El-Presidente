@@ -1,16 +1,15 @@
 package com.elpresidente.ui.graphical;
 
-import javafx.event.ActionEvent;
-
 public class ReplayController {
+
     private boolean replay = false;
     private volatile boolean selected = false;
 
-    public void onNO(ActionEvent actionEvent) {
+    public void onNO() {
         selected = true;
     }
 
-    public void onYes(ActionEvent actionEvent) {
+    public void onYes() {
         selected = true;
         replay = true;
     }

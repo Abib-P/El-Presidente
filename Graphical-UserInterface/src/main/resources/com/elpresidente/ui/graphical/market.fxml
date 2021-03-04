@@ -8,26 +8,25 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.elpresidente.ui.graphical.MarketController">
-   <children>
-      <Label fx:id="label" text="Label">
-         <font>
-            <Font size="20.0" />
-         </font></Label>
-      <HBox maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="15.0">
-         <children>
-            <TextField fx:id="textField" onAction="#textFiledAction" />
-            <Button fx:id="buyButton" mnemonicParsing="false" onAction="#buy" text="Buy" />
-         </children>
-         <VBox.margin>
-            <Insets />
-         </VBox.margin>
-         <padding>
-            <Insets left="10.0" right="10.0" />
-         </padding>
-      </HBox>
-   </children>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0"
+      xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.elpresidente.ui.graphical.MarketController">
    <padding>
-      <Insets bottom="15.0" top="10.0" />
+      <Insets bottom="15.0" top="10.0"/>
    </padding>
+   <Label fx:id="label" text="Label">
+      <font>
+         <Font size="20.0"/>
+      </font>
+   </Label>
+   <HBox maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="15.0">
+      <VBox.margin>
+         <Insets/>
+      </VBox.margin>
+      <padding>
+         <Insets left="10.0" right="10.0"/>
+      </padding>
+      <TextField fx:id="textField"/>
+      <Button fx:id="buyButton" mnemonicParsing="false" onAction="#buy" text="Buy"/>
+   </HBox>
 </VBox>

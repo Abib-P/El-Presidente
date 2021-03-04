@@ -9,22 +9,24 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 
 public class GameController {
 
+    @FXML
     public PieChart pieChart;
+    @FXML
     public BarChart<String, Integer> barChart;
-    public VBox vBox;
-
+    @FXML
     public BarChart<Integer, String> foodChart;
+    @FXML
     public BarChart<Integer, String> treasuryChart;
-    public BorderPane borderPane;
+    @FXML
     public HBox hBox;
+    @FXML
     public Label actionLabel;
+    @FXML
     public Label seasonLabel;
 
     @FXML

@@ -2,27 +2,24 @@ package com.elpresidente.ui.graphical;
 
 import com.elpresidente.event.Choice;
 import com.elpresidente.event.Event;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 public class EventChoiceSelector {
 
-    @FXML
-    public ChoiceBox<Choice> choiceBox;
-
-    @FXML
-    public Label label;
-    public VBox vBox;
-
     private volatile boolean selected;
 
     @FXML
+    public ChoiceBox<Choice> choiceBox;
+    @FXML
+    public Label label;
+    @FXML
+    public VBox vBox;
+
+    @FXML
     public void initialize() {
-       // vBox.prefWidthProperty().bind(borderPane.prefWidthProperty());
         selected = false;
     }
 
@@ -33,7 +30,7 @@ public class EventChoiceSelector {
         choiceBox.setValue( event.getChoices().get(0));
     }
 
-    public Choice getEventChoice(Event event){
+    public Choice getEventChoice(){
 
         while (!selected) Thread.onSpinWait();
 
@@ -43,7 +40,7 @@ public class EventChoiceSelector {
     }
 
 
-    public void onSelect(ActionEvent actionEvent) {
+    public void onSelect() {
         selected = true;
     }
 }

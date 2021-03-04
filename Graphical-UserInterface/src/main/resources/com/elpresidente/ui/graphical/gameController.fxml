@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.elpresidente.ui.graphical.GameController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.elpresidente.ui.graphical.GameController">
    <left>
       <PieChart fx:id="pieChart" style="-fx-border-color: black;" BorderPane.alignment="CENTER" />
    </left>
@@ -25,37 +25,41 @@
       </BarChart>
    </right>
    <center>
-      <VBox fx:id="vBox" alignment="CENTER" style="-fx-border-color: black;" BorderPane.alignment="CENTER_LEFT">
-         <children>
-            <Label fx:id="seasonLabel" text="Label">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-            <BarChart fx:id="foodChart" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" title=" Food quantity">
-              <xAxis>
-                  <NumberAxis maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" side="LEFT" />
-              </xAxis>
-              <yAxis>
-                  <CategoryAxis maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" side="BOTTOM" />
-              </yAxis>
-            </BarChart>
-             <BarChart fx:id="treasuryChart" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" title="Treasury">
-                 <xAxis>
-                     <NumberAxis maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" side="LEFT" />
-                 </xAxis>
-                 <yAxis>
-                     <CategoryAxis maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" side="BOTTOM" />
-                 </yAxis>
-             </BarChart>
-            <Label fx:id="actionLabel" text="Label">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-         </children>
-          
-            </VBox>
+       <VBox alignment="CENTER" style="-fx-border-color: black;" BorderPane.alignment="CENTER_LEFT">
+
+           <Label fx:id="seasonLabel" text="Label">
+              <font>
+                  <Font size="40.0"/>
+              </font>
+           </Label>
+           <BarChart fx:id="foodChart" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                     minWidth="-Infinity" prefHeight="120.0" title=" Food quantity">
+               <xAxis>
+                   <NumberAxis maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                               side="LEFT"/>
+               </xAxis>
+               <yAxis>
+                   <CategoryAxis maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                                 side="BOTTOM"/>
+               </yAxis>
+           </BarChart>
+           <BarChart fx:id="treasuryChart" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                     minWidth="-Infinity" prefHeight="120.0" title="Treasury">
+               <xAxis>
+                   <NumberAxis maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                               side="LEFT"/>
+               </xAxis>
+               <yAxis>
+                   <CategoryAxis maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                                 side="BOTTOM"/>
+               </yAxis>
+           </BarChart>
+           <Label fx:id="actionLabel" text="Label">
+              <font>
+                  <Font size="40.0"/>
+              </font>
+           </Label>
+       </VBox>
    </center>
    <bottom>
       <HBox fx:id="hBox" alignment="CENTER" style="-fx-border-color: black;" BorderPane.alignment="CENTER" />

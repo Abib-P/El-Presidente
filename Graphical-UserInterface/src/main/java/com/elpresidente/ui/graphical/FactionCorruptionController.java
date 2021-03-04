@@ -2,8 +2,7 @@ package com.elpresidente.ui.graphical;
 
 import com.elpresidente.faction.Faction;
 import com.elpresidente.factions.Factions;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -12,13 +11,12 @@ public class FactionCorruptionController {
 
     private boolean isFilled = false;
     private volatile boolean finished;
-
     Faction selectedFaction;
+
+    @FXML
     public HBox hBox;
 
     public void setData(Factions factions, int treasury){
-        int i = 0;
-
         selectedFaction = null;
 
         if(! isFilled) {
@@ -31,13 +29,10 @@ public class FactionCorruptionController {
                 Button button = new Button();
                 button.setUserData(faction);
 
-                button.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent actionEvent) {
-                        selectedFaction = faction;
-                        finished = true;
-                        System.out.println("clicked: " + faction.getName() + " b: " + button.getText());
-                    }
+                button.setOnAction(actionEvent -> {
+                    selectedFaction = faction;
+                    finished = true;
+                    System.out.println("clicked: " + faction.getName() + " b: " + button.getText());
                 });
 
                 hBox.getChildren().add(hBox.getChildren().size() - 1, button);
@@ -70,7 +65,7 @@ public class FactionCorruptionController {
         return selectedFaction;
     }
 
-    public void onFinish(ActionEvent actionEvent) {
+    public void onFinish() {
         finished = true;
     }
 }
