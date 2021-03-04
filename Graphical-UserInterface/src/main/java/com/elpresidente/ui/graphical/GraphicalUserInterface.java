@@ -40,6 +40,9 @@ public class GraphicalUserInterface extends Application implements UserInterface
     private Pane factionCorruptionPane;
     private final FactionCorruptionController factionCorruptionController;
 
+    private Pane replayPane;
+    private final ReplayController replayConstroller;
+
     public GraphicalUserInterface() {
         ui = this;
 
@@ -82,6 +85,14 @@ public class GraphicalUserInterface extends Application implements UserInterface
             e.printStackTrace();
         }
         marketController = fxmlLoader.getController();
+
+        fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("replay.fxml"));
+        try {
+            replayPane = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        replayConstroller = fxmlLoader.getController();
 
     }
 
@@ -150,7 +161,21 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
     @Override
     public boolean askForReplay() {
-        return false;
+        boolean answer;
+
+        Platform.runLater(() -> {
+            gameController.actionLabel.setText( "You Lose" );
+            gameController.setEvent( replayPane);
+            stage.sizeToScene();
+        });
+
+        answer =  replayConstroller.getAnswer();
+
+        if( !answer){
+            Platform.runLater(() -> stage.close());
+        }
+
+        return answer;
     }
 
     @Override

@@ -62,7 +62,6 @@ public class Game {
             for (int i = 0; i < Saisons.values().length; i++) {
 
                 if( isScenarioOver() ) {
-                    System.out.println("going to sandbox mod");
                     goToSandBoxMod();
                 }
 
@@ -78,7 +77,6 @@ public class Game {
 
             loose = hasLoose();
         }
-        System.out.println("you loose");
     }
 
     private void goToSandBoxMod(){
@@ -92,7 +90,7 @@ public class Game {
     private void endOfYear(){
         Faction faction;
         int necessaryFood = factionManager.getTotalNumberOfPartisan() * Game.PartisanFoodConsumption;
-        int boughtFood = 0;
+        int boughtFood;
 
         gameParameter.addTreasury( Game.IndustryRevenue * gameParameter.getIndustryPercentage() );
         gameParameter.addFood( Game.AgricultureRevenue * gameParameter.getAgriculturePercentage() );

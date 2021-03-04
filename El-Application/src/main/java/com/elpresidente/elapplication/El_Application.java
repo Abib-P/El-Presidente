@@ -52,6 +52,7 @@ public class El_Application {
             playing = userInterface.askForReplay();
 
         }while(playing);
+        System.out.println("stopped playing");
 
         thread.join();
     }
