@@ -38,12 +38,14 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
     public static GraphicalUserInterface ui = null;
 
+    private static Scene scene;
+    private Stage stage;
 
     private Scene gameControllerPane;
     public GameController gameController = null;
 
-    private static Scene scene;
-    private Stage stage;
+    private Scene scenarioSelectionScene;
+    private final ScenarioSelectionController scenarioSelectionController;
 
     private Pane eventSelectorPane;
     private final EventChoiceSelector eventChoiceSelector;
@@ -51,10 +53,8 @@ public class GraphicalUserInterface extends Application implements UserInterface
     private Pane marketPane;
     private final MarketController marketController;
 
-    private Scene scenarioSelectionScene;
-    private final ScenarioSelectionController scenarioSelectionController;
-
-    private HBox factionSelection = null;
+    private Pane factionCorruptionPane;
+    private final FactionCorruptionController factionCorruptionController;
 
     public GraphicalUserInterface() {
         ui = this;
@@ -82,6 +82,14 @@ public class GraphicalUserInterface extends Application implements UserInterface
             e.printStackTrace();
         }
         eventChoiceSelector = fxmlLoader.getController();
+
+        fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("factionCorruption.fxml"));
+        try {
+            factionCorruptionPane = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        factionCorruptionController = fxmlLoader.getController();
 
         fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("market.fxml"));
         try {
@@ -272,64 +280,20 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
     @Override
     public Faction selectFactionToCorrupt(Factions factions, int treasury) {
-        final boolean[] selected = {false};
-        final Faction[] selectedFaction = {null};
 
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
 
                 gameController.actionLabel.setText( "Corruption Time" );
-                factionSelection = new HBox();
 
-                for (Faction faction: factions.getFactions() ) {
+                factionCorruptionController.setData(factions, treasury);
 
-                    if(faction.getKey().equals( Factions.LoyalistsFactionKey))
-                        continue;
-
-                    Button button = new Button();
-
-                    if( factions.areLoyalist()){
-                        button.setText( faction.getName()+" ("+faction.getPartisanNumber()+"): "+faction.getCorruptionPrice()+"€\n Loyalists: "+ -faction.getCorruptionImpactOnLoyalist() );
-                    }else{
-                        button.setText( faction.getName()+" ("+faction.getPartisanNumber()+"): "+faction.getCorruptionPrice()+"€");
-                    }
-
-                    if(faction.getCorruptionPrice()<treasury && faction.getSatisfaction() < 100) {
-
-                        button.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent actionEvent) {
-                                selectedFaction[0] = faction;
-                                selected[0] = true;
-                            }
-                        });
-                    }else{
-                        button.setDisable(true);
-                    }
-
-                    factionSelection.getChildren().add( button);
-                }
-
-                Button button = new Button("finish");
-                button.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent actionEvent) {
-                        selectedFaction[0] = null;
-                        selected[0] = true;
-                    }
-                });
-                factionSelection.getChildren().add( button);
-
-                gameController.addEven( factionSelection);
+                gameController.addEven( factionCorruptionPane);
             }
         });
 
-        while ( !selected[0] ) {
-            Thread.onSpinWait();
-        }
-
-        return  selectedFaction[0];
+        return  factionCorruptionController.getFaction();
     }
 
     @Override
