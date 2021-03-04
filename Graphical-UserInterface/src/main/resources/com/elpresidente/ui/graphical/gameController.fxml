@@ -12,7 +12,7 @@
 
 <BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.elpresidente.ui.graphical.GameController">
    <left>
-      <PieChart fx:id="pie" style="-fx-border-color: black;" BorderPane.alignment="CENTER" />
+      <PieChart fx:id="pieChart" style="-fx-border-color: black;" BorderPane.alignment="CENTER" />
    </left>
    <right>
       <BarChart fx:id="barChart" animated="false" style="-fx-border-color: black;" title="Factions overview">
