@@ -61,10 +61,13 @@ public class Factions {
     }
 
     public void populate(){
-        float grow = (float) Math.random() *10 +1;
+        float grow = (float) Math.random() *0.1f +1;
         int numberOfNewPopulation = (int) (getTotalNumberOfPartisan() * grow);
+        System.out.println(getTotalNumberOfPartisan() +" * "+ grow);
 
         addPopulation(numberOfNewPopulation);
+
+        System.out.println("= "+getTotalNumberOfPartisan());
 
     }
 

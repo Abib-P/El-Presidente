@@ -33,8 +33,8 @@ public class Faction {
     }
 
     public void addPartisanNumber(Integer partisanNumber) {
-        if( this.partisanNumber - partisanNumber < 0){
-            partisanNumber +=  this.partisanNumber;
+        if( this.partisanNumber + partisanNumber < 0){
+            partisanNumber += partisanNumber - this.partisanNumber;
         }
 
         this.partisanNumber += partisanNumber;

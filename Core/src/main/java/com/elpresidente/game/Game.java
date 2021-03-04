@@ -111,12 +111,13 @@ public class Game {
         boughtFood = userInterface.getMarketAmount(gameParameter.getFoodUnits(), necessaryFood, gameParameter.getTreasury());
 
         gameParameter.addTreasury( -boughtFood * Game.FoodUnitPrice);
-        gameParameter.addFood( boughtFood );
 
         if(gameParameter.getFoodUnits() < necessaryFood){
+            gameParameter.addFood( boughtFood );
             factionManager.addPopulation( (int)((gameParameter.getFoodUnits() - necessaryFood) / (float) Game.PartisanFoodConsumption +0.5) );
             gameParameter.addFood( -factionManager.getTotalNumberOfPartisan() * Game.PartisanFoodConsumption );
         }else{
+            gameParameter.addFood( boughtFood );
             gameParameter.addFood( -factionManager.getTotalNumberOfPartisan() * Game.PartisanFoodConsumption );
             factionManager.populate();
         }
