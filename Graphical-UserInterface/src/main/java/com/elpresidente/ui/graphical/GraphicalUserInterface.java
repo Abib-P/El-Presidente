@@ -38,7 +38,9 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
     public static GraphicalUserInterface ui = null;
 
-    public static GameController controller = null;
+
+    private Scene gameControllerPane;
+    public GameController gameController = null;
 
     private static Scene scene;
     private Stage stage;
@@ -49,12 +51,31 @@ public class GraphicalUserInterface extends Application implements UserInterface
     private Pane marketPane;
     private final MarketController marketController;
 
+    private Scene scenarioSelectionScene;
+    private final ScenarioSelectionController scenarioSelectionController;
+
     private HBox factionSelection = null;
 
     public GraphicalUserInterface() {
         ui = this;
 
-        FXMLLoader fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("eventChoiceSelector.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("scenarioSelection.fxml"));
+        try {
+            scenarioSelectionScene = new Scene( fxmlLoader.load() );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        scenarioSelectionController = fxmlLoader.getController();
+
+        fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("gameController.fxml"));
+        try {
+            gameControllerPane = new Scene( fxmlLoader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        gameController = fxmlLoader.getController();
+
+        fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("eventChoiceSelector.fxml"));
         try {
             eventSelectorPane = fxmlLoader.load();
         } catch (IOException e) {
@@ -74,11 +95,8 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("gameController"));
-        this.stage = stage;
-        stage.setScene(scene);
-        stage.show();
-        stage.sizeToScene();
+       this.stage = stage;
+       this.stage.show();
     }
 
     static void setRoot(String fxml) throws IOException {
@@ -89,10 +107,6 @@ public class GraphicalUserInterface extends Application implements UserInterface
         Parent parent;
         FXMLLoader fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource(fxml + ".fxml"));
         parent =  fxmlLoader.load();
-
-        controller = fxmlLoader.getController();
-
-        System.out.println("test controller: "+ controller);
 
         return parent;
     }
@@ -107,13 +121,13 @@ public class GraphicalUserInterface extends Application implements UserInterface
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                PieChart chart = GraphicalUserInterface.controller.pie;
+                PieChart chart = gameController.pie;
                 chart.getData().get(0).setPieValue( game.getIndustries());
                 chart.getData().get(1).setPieValue( game.getAgriculture());
 
-                XYChart.Data< Integer, String> data = GraphicalUserInterface.controller.foodChart.getData().get(0).getData().get(0);
+                XYChart.Data< Integer, String> data = gameController.foodChart.getData().get(0).getData().get(0);
                 data.setXValue( game.getFood());
-                data = GraphicalUserInterface.controller.treasuryChart.getData().get(0).getData().get(0);
+                data = gameController.treasuryChart.getData().get(0).getData().get(0);
                 data.setXValue( game.getTreasury());
 
             }
@@ -123,7 +137,7 @@ public class GraphicalUserInterface extends Application implements UserInterface
         displayFactionsInfo(game.getFactionManager());
     }
     private void displayFactionsInfo(Factions factions){
-        BarChart<String, Integer> chart = GraphicalUserInterface.controller.barChart;
+        BarChart<String, Integer> chart = gameController.barChart;
 
         Platform.runLater(new Runnable() {
             @Override
@@ -192,36 +206,27 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
     @Override
     public String selectScenario(Map<String, String> AllScenarioNames) {
-
-        Task<String> task = new Task<>() {
+        String scenario;
+        Platform.runLater(new Runnable() {
             @Override
-            protected String call() throws Exception {
+            public void run() {
+                scenarioSelectionController.setData( AllScenarioNames);
+                stage.setScene( scenarioSelectionScene);
+                stage.sizeToScene();
 
-                List<String> names = new ArrayList<String>(AllScenarioNames.keySet() );
-                FXMLLoader fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("scenarioSelection.fxml"));
-                Pane pane = fxmlLoader.load();
-
-                scenarioSelectionController controller = (scenarioSelectionController) fxmlLoader.getController();
-                controller.choiceBox.getItems().addAll(names);
-                controller.choiceBox.setValue( names.get(0) );
-
-                Dialog<String> dialog = new Dialog<String>( );
-                dialog.setDialogPane((DialogPane) pane);
-
-                dialog.showAndWait();
-
-                return AllScenarioNames.get(controller.choiceBox.getValue());
             }
-        };
+        });
 
-        Platform.runLater(task);
+        scenario = AllScenarioNames.get( scenarioSelectionController.getScenario());
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                stage.setScene( gameControllerPane);
+                stage.sizeToScene();
+            }
+        });
 
-        try {
-            return task.get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return scenario;
     }
 
     @Override
@@ -239,7 +244,7 @@ public class GraphicalUserInterface extends Application implements UserInterface
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                controller.seasonLabel.setText( season.toString() );
+                gameController.seasonLabel.setText( season.toString() );
             }
         });
     }
@@ -250,8 +255,8 @@ public class GraphicalUserInterface extends Application implements UserInterface
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                controller.actionLabel.setText( "New Event" );
-                controller.addEven( eventSelectorPane);
+                gameController.actionLabel.setText( "New Event" );
+                gameController.addEven( eventSelectorPane);
                 eventChoiceSelector.setEventChoice(event);
                 stage.sizeToScene();
             }
@@ -274,7 +279,7 @@ public class GraphicalUserInterface extends Application implements UserInterface
             @Override
             public void run() {
 
-                controller.actionLabel.setText( "Corruption Time" );
+                gameController.actionLabel.setText( "Corruption Time" );
                 factionSelection = new HBox();
 
                 for (Faction faction: factions.getFactions() ) {
@@ -316,7 +321,7 @@ public class GraphicalUserInterface extends Application implements UserInterface
                 });
                 factionSelection.getChildren().add( button);
 
-                controller.addEven( factionSelection);
+                gameController.addEven( factionSelection);
             }
         });
 
@@ -332,9 +337,9 @@ public class GraphicalUserInterface extends Application implements UserInterface
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                controller.actionLabel.setText( "Food Market" );
+                gameController.actionLabel.setText( "Food Market" );
                 marketController.setData(food, necessaryFood, treasury);
-                controller.addEven(marketPane);
+                gameController.addEven(marketPane);
             }
         });
 

@@ -1,20 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.elpresidente.ui.graphical.MarketController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.elpresidente.ui.graphical.MarketController">
    <children>
-      <Label fx:id="label" text="Label" />
-      <HBox maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+      <Label fx:id="label" text="Label">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+      <HBox maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="15.0">
          <children>
             <TextField fx:id="textField" onAction="#textFiledAction" />
             <Button fx:id="buyButton" mnemonicParsing="false" onAction="#buy" text="Buy" />
          </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <padding>
+            <Insets left="10.0" right="10.0" />
+         </padding>
       </HBox>
    </children>
+   <padding>
+      <Insets bottom="15.0" top="10.0" />
+   </padding>
 </VBox>
