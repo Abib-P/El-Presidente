@@ -7,6 +7,7 @@ import com.elpresidente.factions.Factions;
 import com.elpresidente.repository.Repository;
 import com.elpresidente.rules.Rules;
 import com.elpresidente.rules.Sandbox;
+import com.elpresidente.rules.Scenario;
 import com.elpresidente.ui.UserInterface;
 
 import java.util.*;
@@ -46,7 +47,9 @@ public class Game {
         factionManager = new Factions(repository.getAllFactions());
         gameParameter = repository.getAllGameParameter();
 
-        rules = new Sandbox( repository.getAllEvent());
+        userInterface.displayGameInfo(this);
+
+        rules = new Scenario( repository.getAllEvent());
 
     }
 
@@ -58,7 +61,7 @@ public class Game {
 
             for (int i = 0; i < Saisons.values().length; i++) {
 
-                if( isScenarioOver()) {
+                if( isScenarioOver() ) {
                     goToSandBoxMod();
                 }
 
@@ -81,38 +84,45 @@ public class Game {
     }
 
     private boolean isScenarioOver() {
-        return rules.hasEvent();
+        return !rules.hasEvent();
     }
 
     private void endOfYear(){
         Faction faction;
-        int necessaryFood = factionManager.getTotalNumberOfPartisan() * Game.PartisanFoodConsumption;
-        int boughtFood = 0;
+        int necessaryFood = getFoodConsumption();
+        int boughtFood;
 
         gameParameter.addTreasury( Game.IndustryRevenue * gameParameter.getIndustryPercentage() );
-        gameParameter.addFood( Game.AgricultureRevenue * gameParameter.getAgriculturePercentage() );
+        gameParameter.addFood( getFoodProduction() );
+        userInterface.displayGameInfo(this);
 
         do{
             faction = userInterface.selectFactionToCorrupt(factionManager, gameParameter.getTreasury());
 
-
             if(faction != null){
                 gameParameter.addTreasury( -faction.getCorruptionPrice() );
                 factionManager.corrupt(faction);
+                userInterface.displayGameInfo(this);
             }
         }while(faction != null);
 
         userInterface.displayMarket(gameParameter.getFoodUnits(), necessaryFood);
-        boughtFood = userInterface.getMarketAmount(gameParameter.getTreasury());
+
+        boughtFood = userInterface.getMarketAmount(gameParameter.getFoodUnits(), necessaryFood, gameParameter.getTreasury());
+
         gameParameter.addTreasury( -boughtFood * Game.FoodUnitPrice);
-        gameParameter.addFood( boughtFood );
 
         if(gameParameter.getFoodUnits() < necessaryFood){
+            gameParameter.addFood( boughtFood );
             factionManager.addPopulation( (int)((gameParameter.getFoodUnits() - necessaryFood) / (float) Game.PartisanFoodConsumption +0.5) );
+            gameParameter.addFood( -getFoodConsumption() );
         }else{
+            gameParameter.addFood( boughtFood );
+            gameParameter.addFood( -getFoodConsumption() );
             factionManager.populate();
         }
-        
+
+        userInterface.displayGameInfo(this);
     }
 
     private int adaptValueToDifficulty(int value){
@@ -145,6 +155,14 @@ public class Game {
         
     }
 
+    public int getFoodConsumption(){
+        return factionManager.getTotalNumberOfPartisan() * Game.PartisanFoodConsumption;
+    }
+
+    public int getFoodProduction(){
+        return Game.AgricultureRevenue * gameParameter.getAgriculturePercentage();
+    }
+
     public Factions getFactionManager() {
         return factionManager;
     }
@@ -158,7 +176,7 @@ public class Game {
     }
 
     public int getIndustries() {
-        return gameParameter.getAgriculturePercentage();
+        return gameParameter.getIndustryPercentage();
     }
 
     public int getAgriculture() {

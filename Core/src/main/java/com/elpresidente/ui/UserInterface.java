@@ -23,5 +23,5 @@ public interface UserInterface {
     Choice getChoice(Event event);
     Faction selectFaction(Factions factions);
     Faction selectFactionToCorrupt(Factions factions, int treasury);
-    int getMarketAmount(int treasury);
+    int getMarketAmount(int food, int necessaryFood, int treasury);
 }

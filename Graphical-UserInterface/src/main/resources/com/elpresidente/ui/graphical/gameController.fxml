@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.elpresidente.ui.graphical.GameController">
+   <left>
+      <PieChart fx:id="pieChart" style="-fx-border-color: black;" BorderPane.alignment="CENTER" />
+   </left>
+   <right>
+      <BarChart fx:id="barChart" animated="false" style="-fx-border-color: black;" title="Factions overview">
+        <xAxis>
+          <CategoryAxis label="Faction name" side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </BarChart>
+   </right>
+   <center>
+       <VBox alignment="CENTER" prefWidth="800.0" style="-fx-border-color: black;" BorderPane.alignment="CENTER">
+
+           <Label fx:id="seasonLabel" text="Label" VBox.vgrow="ALWAYS">
+              <font>
+                  <Font size="40.0" />
+              </font>
+           </Label>
+           <BarChart fx:id="foodChart" barGap="15.0" categoryGap="0.0" maxHeight="300.0" title=" Food quantity">
+               <xAxis>
+                   <NumberAxis maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" side="LEFT" />
+               </xAxis>
+               <yAxis>
+                   <CategoryAxis side="BOTTOM" startMargin="0.0" />
+               </yAxis>
+           </BarChart>
+           <BarChart fx:id="treasuryChart" barGap="1.0" categoryGap="1.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="120.0" title="Treasury" VBox.vgrow="ALWAYS">
+               <xAxis>
+                   <NumberAxis maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" side="LEFT" />
+               </xAxis>
+               <yAxis>
+                   <CategoryAxis maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" side="BOTTOM" />
+               </yAxis>
+           </BarChart>
+           <Label fx:id="actionLabel" text="Label" VBox.vgrow="ALWAYS">
+              <font>
+                  <Font size="40.0" />
+              </font>
+           </Label>
+       </VBox>
+   </center>
+   <bottom>
+      <HBox fx:id="hBox" alignment="CENTER" style="-fx-border-color: black;" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>

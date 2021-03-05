@@ -78,7 +78,7 @@ public class ConsoleUserInterface implements UserInterface {
 
         entry = (Map.Entry<String, String>) entries[index];
 
-        return  entry.getKey();
+        return  entry.getValue();
     }
 
     @Override
@@ -199,7 +199,7 @@ public class ConsoleUserInterface implements UserInterface {
 
 
     @Override
-    public int getMarketAmount(int treasury) {
+    public int getMarketAmount(int food, int necessaryFood, int treasury) {
         int amount = 0, max = treasury / Game.FoodUnitPrice + 1;
         Scanner scanner = new Scanner( System.in);
         System.out.println("max: "+max);

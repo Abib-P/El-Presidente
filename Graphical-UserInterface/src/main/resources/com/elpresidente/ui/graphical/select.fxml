@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ButtonType?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.layout.HBox?>
+
+<DialogPane headerText="Select interface" prefHeight="0.0" prefWidth="497.0"
+            xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.elpresidente.ui.graphical.SelectController">
+   <content>
+      <HBox prefHeight="61.0" prefWidth="497.0">
+         <ChoiceBox fx:id="combo" prefHeight="31.0" prefWidth="394.0"/>
+      </HBox>
+   </content>
+   <ButtonType fx:constant="OK"/>
+</DialogPane>

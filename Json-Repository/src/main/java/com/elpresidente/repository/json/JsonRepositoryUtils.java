@@ -30,7 +30,7 @@ public class JsonRepositoryUtils implements RepositoryUtils {
                 try {
                     FileReader reader = new FileReader(filePath+"\\"+fileName);
                     JSONObject jsonFile = (JSONObject) jsonParser.parse(reader);
-                    result.put(filePath+"\\"+fileName,getScenarioName(jsonFile));
+                    result.put(getScenarioName(jsonFile), filePath+"\\"+fileName );
                 } catch (ParseException | IOException e) {
                     e.printStackTrace();
                 }

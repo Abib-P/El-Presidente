@@ -29,36 +29,38 @@ public class GameParameter {
 
     public void addAgriculture(int amount){
         agriculturePercentage += amount;
-        if(amount <= 0 ){
-            if( agriculturePercentage < 0) agriculturePercentage = 0;
+        System.out.println("addAgriculture: "+ amount);
+        if( agriculturePercentage < 0){
+             agriculturePercentage = 0;
         }else {
 
             if(agriculturePercentage > 100){
-                amount -= (agriculturePercentage - 100);
                 agriculturePercentage = 100;
             }
 
             if (agriculturePercentage + industryPercentage > 100) {
-                addIndustries(-amount); //agriculturePercentage + industryPercentage - 100;
+                addIndustries(100 - agriculturePercentage - industryPercentage  );
             }
         }
     }
 
     public void addIndustries(int amount){
         industryPercentage += amount;
-        if(amount <= 0){
-            if( industryPercentage < 0) industryPercentage = 0;
+        System.out.println("add indsutry: "+ amount);
+
+        if( industryPercentage < 0){
+           industryPercentage = 0;
         }else {
 
             if(industryPercentage > 100){
-                amount -= (industryPercentage - 100);
                 industryPercentage = 100;
             }
 
             if (agriculturePercentage + industryPercentage > 100) {
-                addAgriculture( -amount);
+                addAgriculture( 100 - agriculturePercentage - industryPercentage);
             }
         }
+        System.out.println("add indsutry end: "+ industryPercentage);
     }
 
     public Integer getAgriculturePercentage() {

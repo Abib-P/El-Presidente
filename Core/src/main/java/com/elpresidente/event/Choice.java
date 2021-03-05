@@ -36,4 +36,7 @@ public class Choice {
     public Map<String, Integer> getActionOnFactor() {
         return actionOnFactor;
     }
+
+    @Override
+    public String toString(){ return name; }
 }

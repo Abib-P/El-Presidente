@@ -28,10 +28,13 @@ public class Faction {
     public int getCorruptionPrice(){
         return partisanNumber * Faction.CorruptionPriceByPartisan;
     }
+    public int getCorruptionImpactOnLoyalist(){
+        return getCorruptionPrice()/10;
+    }
 
     public void addPartisanNumber(Integer partisanNumber) {
-        if( this.partisanNumber - partisanNumber < 0){
-            partisanNumber +=  this.partisanNumber;
+        if( this.partisanNumber + partisanNumber < 0){
+            partisanNumber += partisanNumber - this.partisanNumber;
         }
 
         this.partisanNumber += partisanNumber;
@@ -40,6 +43,9 @@ public class Faction {
     }
 
     public void addSatisfaction(Integer satisfaction) {
+        if(this.satisfaction <= 0)
+            return;
+
         this.satisfaction += satisfaction;
 
         if(this.satisfaction <= 0 ){
