@@ -43,7 +43,6 @@ public class Faction {
     }
 
     public void addSatisfaction(Integer satisfaction) {
-
         if(this.satisfaction <= 0)
             return;
 

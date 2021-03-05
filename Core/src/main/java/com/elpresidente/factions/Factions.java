@@ -61,14 +61,27 @@ public class Factions {
     }
 
     public void populate(){
+        double[] stats = new double[factions.size()];
+        int total = 0;
+
         float grow = (float) Math.random() *0.09f +1.01f;
         int numberOfNewPopulation = (int) (getTotalNumberOfPartisan() * grow);
-        System.out.println(getTotalNumberOfPartisan() +" * "+ grow);
+        System.out.println("new pop: "+ numberOfNewPopulation);
+        for (int i = 0; i < factions.size(); i++) {
+            Faction faction = factions.get(i);
+            stats[i] = faction.getSatisfaction() * faction.getPartisanNumber();
+            total += stats[i];
+        }
 
-        addPopulation(numberOfNewPopulation);
+        for (int i = 0; i < factions.size(); i++) {
+            stats[i] /= total;
+        }
 
-        System.out.println("= "+getTotalNumberOfPartisan());
-
+        for (int i = 0; i < factions.size(); i++) {
+            Faction faction = factions.get(i);
+            System.out.println(faction.getName() +" ("+faction.getPartisanNumber()+") "+faction.getSatisfaction()+"% :"+ (int) (numberOfNewPopulation * stats[i]));
+            faction.addPartisanNumber((int) (numberOfNewPopulation * stats[i]));
+        }
     }
 
     public void addSatisfactionToFaction(String factionName, int delta){
