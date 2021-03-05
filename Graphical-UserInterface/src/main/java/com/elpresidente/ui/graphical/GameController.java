@@ -29,6 +29,8 @@ public class GameController {
     public Label actionLabel;
     @FXML
     public Label seasonLabel;
+    @FXML
+    public BarChart<Integer, String> globalSatisfactionChart;
 
     @FXML
     public void initialize() {
@@ -54,6 +56,11 @@ public class GameController {
         series.setName("");
         series.getData().add(new XYChart.Data<>(0, ""));
         treasuryChart.getData().add( series);
+
+        series = new XYChart.Series<>();
+        series.setName("");
+        series.getData().add(new XYChart.Data<>(0, ""));
+        globalSatisfactionChart.getData().add( series);
 
         XYChart.Series<String, Integer> satisfactionSeries, partisanSeries;
 
@@ -85,6 +92,9 @@ public class GameController {
 
         data = treasuryChart.getData().get(0).getData().get(0);
         data.setXValue( game.getTreasury());
+
+        data = globalSatisfactionChart.getData().get(0).getData().get(0);
+        data.setXValue( (int) game.getGlobalSatisfaction());
 
         displayFactionsInfo(game.getFactionManager() );
     }

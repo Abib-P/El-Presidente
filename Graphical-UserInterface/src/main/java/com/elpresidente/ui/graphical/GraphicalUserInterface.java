@@ -8,10 +8,12 @@ import com.elpresidente.game.Saisons;
 import com.elpresidente.ui.UserInterface;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.util.Map;
@@ -30,6 +32,9 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
     private Scene scenarioSelectionScene;
     private final ScenarioSelectionController scenarioSelectionController;
+
+    private Scene rulesSelectionScene;
+    private final RulesSelectionController rulesSelectionController;
 
     private Pane eventSelectorPane;
     private final EventChoiceSelector eventChoiceSelector;
@@ -61,6 +66,14 @@ public class GraphicalUserInterface extends Application implements UserInterface
             e.printStackTrace();
         }
         gameController = fxmlLoader.getController();
+
+        fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("rulesSelection.fxml"));
+        try {
+            rulesSelectionScene = new Scene( fxmlLoader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        rulesSelectionController = fxmlLoader.getController();
 
         fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("eventChoiceSelector.fxml"));
         try {
@@ -98,8 +111,19 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
     @Override
     public void start(Stage stage) {
-       this.stage = stage;
-       this.stage.show();
+        this.stage = stage;
+        stage.setTitle("Title");
+        stage.setResizable(false);
+
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                Platform.exit();
+                System.exit(0);
+            }
+        });
+
+        this.stage.show();
     }
 
     public static void main(String[] args) {
@@ -142,7 +166,8 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
     @Override
     public String selectScenario(Map<String, String> AllScenarioNames) {
-        String scenario;
+        String scenarioFile, scenario;
+
         Platform.runLater(() -> {
             scenarioSelectionController.setData( AllScenarioNames);
             stage.setScene( scenarioSelectionScene);
@@ -150,13 +175,14 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
         });
 
-        scenario = AllScenarioNames.get( scenarioSelectionController.getScenario());
+        scenario = scenarioSelectionController.getScenario();
+
         Platform.runLater(() -> {
-            stage.setScene( gameControllerPane);
-            stage.sizeToScene();
+            stage.setTitle(scenario);
         });
 
-        return scenario;
+        scenarioFile = AllScenarioNames.get( scenario);
+        return scenarioFile;
     }
 
     @Override
@@ -174,6 +200,24 @@ public class GraphicalUserInterface extends Application implements UserInterface
         if( !answer){
             Platform.runLater(() -> stage.close());
         }
+
+        return answer;
+    }
+
+    @Override
+    public boolean askForRules() {
+
+        Platform.runLater(() -> {
+            stage.setScene( rulesSelectionScene);
+            stage.sizeToScene();
+        });
+
+        boolean answer = rulesSelectionController.getRule();
+
+        Platform.runLater(() -> {
+            stage.setScene( gameControllerPane);
+            stage.sizeToScene();
+        });
 
         return answer;
     }

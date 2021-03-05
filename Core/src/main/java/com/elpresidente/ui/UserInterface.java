@@ -18,6 +18,7 @@ public interface UserInterface {
     void displayMarket(int food, int necessaryFood);
     String selectScenario(Map<String,String> AllScenarioNames);
     boolean askForReplay();
+    boolean askForRules();
     float askForDifficulty();
     void displaySeason(Saisons season);
     Choice getChoice(Event event);
