@@ -37,6 +37,10 @@ public class Choice {
         return actionOnFactor;
     }
 
+    public List<Event> getRelatedEvent() {
+        return relatedEvent;
+    }
+
     @Override
     public String toString(){ return name; }
 }

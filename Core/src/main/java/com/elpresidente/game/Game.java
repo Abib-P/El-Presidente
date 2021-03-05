@@ -16,6 +16,7 @@ public class Game {
 
     public static final String IndustryFactorKey = "INDUSTRY";
     public static final String AgricultureFactorKey = "AGRICULTURE";
+    public static final String TreasuryFactorKey = "TREASURY";
     public static final int IndustryRevenue = 10;
     public static final int AgricultureRevenue = 40;
     public static final int PartisanFoodConsumption = 4;
@@ -31,6 +32,7 @@ public class Game {
 
     private int minGlobalSatisfaction;
     private float difficulty;
+    private Saisons currentSeason;
 
     public Game(UserInterface userInterface, Repository repository){
         this.userInterface = userInterface;
@@ -53,9 +55,9 @@ public class Game {
         factionManager = new Factions(repository.getAllFactions());
         gameParameter = repository.getAllGameParameter();
 
+        currentSeason = Saisons.PRINTEMPS;
+
         userInterface.displayGameInfo(this);
-
-
 
     }
 
@@ -70,13 +72,12 @@ public class Game {
                 if( isScenarioOver() ) {
                     goToSandBoxMod();
                 }
+                currentSeason = seasons[i];
 
-                Event event = rules.getEvent(seasons[i]);
-                userInterface.displaySeason(seasons[i]);
-                userInterface.displayGameInfo(this);
-
+                Event event = rules.getEvent( currentSeason );
                 Choice choice = userInterface.getChoice(event);
                 applyChoice(choice);
+
             }
 
             endOfYear();
@@ -140,6 +141,7 @@ public class Game {
     }
 
     private void applyChoice(Choice choice){
+        System.out.println("choice: "+choice.getName());
 
         factionManager.addPopulation( adaptValueToDifficulty( choice.getPartisanGained() ));
 
@@ -155,10 +157,26 @@ public class Game {
                     gameParameter.addAgriculture(adaptValueToDifficulty(entry.getValue()));
                 } else if (entry.getKey().equals(Game.IndustryFactorKey)) {
                     gameParameter.addIndustries(adaptValueToDifficulty(entry.getValue()));
+                } else if (entry.getKey().equals(Game.TreasuryFactorKey)) {
+                    gameParameter.addTreasury(adaptValueToDifficulty(entry.getValue()));
                 }
+            }
+
+        }
+
+        userInterface.displayGameInfo(this);
+
+        if( choice.getRelatedEvent() != null) {
+            for (Event event : choice.getRelatedEvent()) {
+                choice = userInterface.getChoice(event);
+                applyChoice(choice);
             }
         }
 
+    }
+
+    public Saisons getCurrentSeason() {
+        return currentSeason;
     }
 
     public int getFoodConsumption(){

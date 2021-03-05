@@ -32,7 +32,6 @@ public class FactionCorruptionController {
                 button.setOnAction(actionEvent -> {
                     selectedFaction = faction;
                     finished = true;
-                    System.out.println("clicked: " + faction.getName() + " b: " + button.getText());
                 });
 
                 hBox.getChildren().add(hBox.getChildren().size() - 1, button);

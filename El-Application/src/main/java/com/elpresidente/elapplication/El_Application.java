@@ -1,16 +1,13 @@
 package com.elpresidente.elapplication;
 
-
 import com.elpresidente.game.Game;
 import com.elpresidente.repository.Repository;
 import com.elpresidente.repository.RepositoryUtils;
 import com.elpresidente.repository.json.JsonRepository;
 import com.elpresidente.repository.json.JsonRepositoryUtils;
 import com.elpresidente.ui.UserInterface;
-import com.elpresidente.ui.console.ConsoleUserInterface;
 import com.elpresidente.ui.graphical.GraphicalUserInterface;
 import javafx.application.Application;
-import javafx.application.Platform;
 
 import java.util.Map;
 

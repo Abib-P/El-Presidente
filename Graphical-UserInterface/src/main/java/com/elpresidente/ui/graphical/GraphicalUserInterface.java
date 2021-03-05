@@ -8,12 +8,10 @@ import com.elpresidente.game.Saisons;
 import com.elpresidente.ui.UserInterface;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.util.Map;
@@ -124,12 +122,9 @@ public class GraphicalUserInterface extends Application implements UserInterface
         }
         startController = fxmlLoader.getController();
 
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent event) {
-                Platform.exit();
-                System.exit(0);
-            }
+        stage.setOnCloseRequest(event -> {
+            Platform.exit();
+            System.exit(0);
         });
 
         this.stage.show();
@@ -142,9 +137,11 @@ public class GraphicalUserInterface extends Application implements UserInterface
     @Override
     public void displayGameInfo(Game game) {
 
-        Platform.runLater(() -> gameController.updateGameInfo(game));
+        Platform.runLater(() -> {
+            gameController.updateGameInfo(game);
+            gameController.seasonLabel.setText( game.getCurrentSeason().toString() );
+        });
 
-        System.out.println("money: "+game.getTreasury()+"\nfood: "+ game.getFood()+"\nIndustry: "+game.getIndustries()+"% Agriculture: "+game.getAgriculture()+"%");
     }
 
 
@@ -186,9 +183,7 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
         scenario = scenarioSelectionController.getScenario();
 
-        Platform.runLater(() -> {
-            stage.setTitle(scenario);
-        });
+        Platform.runLater(() -> stage.setTitle(scenario));
 
         scenarioFile = AllScenarioNames.get( scenario);
         return scenarioFile;
