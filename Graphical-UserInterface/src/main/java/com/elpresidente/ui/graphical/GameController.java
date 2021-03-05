@@ -6,6 +6,7 @@ import com.elpresidente.game.Game;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
@@ -35,7 +36,17 @@ public class GameController {
         pieChart.getData().add(new PieChart.Data("Agriculture", 0));
 
         XYChart.Series<Integer, String> series = new XYChart.Series<>();
-        series.setName("");
+        series.setName("food stock");
+        series.getData().add(new XYChart.Data<>(0, ""));
+        foodChart.getData().add( series );
+
+        series = new XYChart.Series<>();
+        series.setName("food consumption");
+        series.getData().add(new XYChart.Data<>(0, ""));
+        foodChart.getData().add( series );
+
+        series = new XYChart.Series<>();
+        series.setName("food production");
         series.getData().add(new XYChart.Data<>(0, ""));
         foodChart.getData().add( series );
 
@@ -56,6 +67,7 @@ public class GameController {
         data.add( satisfactionSeries);
         data.add( partisanSeries);
 
+
     }
 
     public void updateGameInfo(Game game){
@@ -64,6 +76,13 @@ public class GameController {
 
         XYChart.Data< Integer, String> data = foodChart.getData().get(0).getData().get(0);
         data.setXValue( game.getFood());
+
+        data = foodChart.getData().get(1).getData().get(0);
+        data.setXValue( game.getFoodConsumption());
+
+        data = foodChart.getData().get(2).getData().get(0);
+        data.setXValue( game.getFoodProduction());
+
         data = treasuryChart.getData().get(0).getData().get(0);
         data.setXValue( game.getTreasury());
 
