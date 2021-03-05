@@ -40,6 +40,12 @@ public class Game {
     public void start(){
         //TODO ask for rules the player want
 
+        if(  userInterface.askForRules() ){
+            rules = new Sandbox( repository.getAllEvent());
+        }else{
+            rules = new Scenario( repository.getAllEvent());
+        }
+
         difficulty = userInterface.askForDifficulty();
 
         minGlobalSatisfaction = (int) (30 * difficulty);
@@ -49,7 +55,7 @@ public class Game {
 
         userInterface.displayGameInfo(this);
 
-        rules = new Scenario( repository.getAllEvent());
+
 
     }
 
@@ -152,7 +158,7 @@ public class Game {
                 }
             }
         }
-        
+
     }
 
     public int getFoodConsumption(){
@@ -161,6 +167,10 @@ public class Game {
 
     public int getFoodProduction(){
         return Game.AgricultureRevenue * gameParameter.getAgriculturePercentage();
+    }
+
+    public float getGlobalSatisfaction(){
+        return factionManager.getGlobalSatisfaction();
     }
 
     public Factions getFactionManager() {

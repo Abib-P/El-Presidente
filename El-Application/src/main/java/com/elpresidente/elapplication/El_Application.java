@@ -17,7 +17,7 @@ import java.util.Map;
 public class El_Application {
 
     public static void main(String[] args) throws InterruptedException {
-        boolean playing = true;
+        boolean playing, newGame;
 
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -32,11 +32,16 @@ public class El_Application {
 
         UserInterface userInterface = GraphicalUserInterface.ui ;
 
-
-       // UserInterface userInterface = new ConsoleUserInterface();
+        newGame = userInterface.askForNewGame();
 
         RepositoryUtils repositoryUtils = new JsonRepositoryUtils();
-        Map<String,String> AllScenarioNames = repositoryUtils.loadAllScenarioName("scenario");
+
+        Map<String, String> AllScenarioNames;
+        if( newGame) {
+            AllScenarioNames = repositoryUtils.loadAllScenarioName("scenario");
+        }else {
+            AllScenarioNames = repositoryUtils.loadAllScenarioName("saves");
+        }
 
         do {
             String scenarioFilePath = userInterface.selectScenario(AllScenarioNames);

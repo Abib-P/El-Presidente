@@ -14,16 +14,6 @@
    <left>
       <PieChart fx:id="pieChart" style="-fx-border-color: black;" BorderPane.alignment="CENTER" />
    </left>
-   <right>
-      <BarChart fx:id="barChart" animated="false" style="-fx-border-color: black;" title="Factions overview">
-        <xAxis>
-          <CategoryAxis label="Faction name" side="BOTTOM" />
-        </xAxis>
-        <yAxis>
-          <NumberAxis side="LEFT" />
-        </yAxis>
-      </BarChart>
-   </right>
    <center>
        <VBox alignment="CENTER" prefWidth="800.0" style="-fx-border-color: black;" BorderPane.alignment="CENTER">
 
@@ -58,4 +48,26 @@
    <bottom>
       <HBox fx:id="hBox" alignment="CENTER" style="-fx-border-color: black;" BorderPane.alignment="CENTER" />
    </bottom>
+   <right>
+      <VBox alignment="CENTER" style="-fx-border-color: black;" BorderPane.alignment="CENTER">
+         <children>
+            <BarChart fx:id="barChart" animated="false" title="Factions overview">
+              <xAxis>
+                <CategoryAxis label="Faction name" side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </BarChart>
+            <BarChart fx:id="globalSatisfactionChart" barGap="1.0" categoryGap="1.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="120.0" title="Global Satisfaction" VBox.vgrow="ALWAYS">
+               <xAxis>
+                  <NumberAxis maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" side="LEFT" />
+               </xAxis>
+               <yAxis>
+                  <CategoryAxis maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" side="BOTTOM" />
+               </yAxis>
+            </BarChart>
+         </children>
+      </VBox>
+   </right>
 </BorderPane>
