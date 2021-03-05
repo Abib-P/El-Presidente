@@ -34,6 +34,8 @@ public class Game {
     private float difficulty;
     private Saisons currentSeason;
 
+    private boolean hasLoose;
+
     public Game(UserInterface userInterface, Repository repository){
         this.userInterface = userInterface;
         this.repository = repository;
@@ -59,13 +61,13 @@ public class Game {
 
         userInterface.displayGameInfo(this);
 
+        hasLoose = false;
     }
 
     public void playGame(){
-        boolean loose = false;
         Saisons[] seasons = Saisons.values();
 
-        while( !loose){
+        while( !hasLoose){
 
             for (int i = 0; i < Saisons.values().length; i++) {
 
@@ -78,11 +80,16 @@ public class Game {
                 Choice choice = userInterface.getChoice(event);
                 applyChoice(choice);
 
+                if( hasLoose ) {
+                    break;
+                }
+
             }
 
-            endOfYear();
+            if( !hasLoose ) {
+                endOfYear();
+            }
 
-            loose = hasLoose();
         }
     }
 
@@ -166,10 +173,14 @@ public class Game {
 
         userInterface.displayGameInfo(this);
 
+        hasLoose = hasLoose();
+        if( hasLoose) { return; }
+
         if( choice.getRelatedEvent() != null) {
             for (Event event : choice.getRelatedEvent()) {
                 choice = userInterface.getChoice(event);
                 applyChoice(choice);
+
             }
         }
 
