@@ -48,6 +48,9 @@ public class GraphicalUserInterface extends Application implements UserInterface
     private Pane replayPane;
     private final ReplayController replayConstroller;
 
+
+    private StartController startController;
+
     public GraphicalUserInterface() {
         ui = this;
 
@@ -112,8 +115,14 @@ public class GraphicalUserInterface extends Application implements UserInterface
     @Override
     public void start(Stage stage) {
         this.stage = stage;
-        stage.setTitle("Title");
-        stage.setResizable(false);
+
+        FXMLLoader fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("start.fxml"));
+        try {
+            this.stage.setScene( new Scene( fxmlLoader.load() ) );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        startController = fxmlLoader.getController();
 
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
@@ -220,6 +229,11 @@ public class GraphicalUserInterface extends Application implements UserInterface
         });
 
         return answer;
+    }
+
+    @Override
+    public boolean askForNewGame() {
+        return startController.getAnswer();
     }
 
     @Override

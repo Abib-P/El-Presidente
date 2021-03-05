@@ -101,6 +101,11 @@ public class ConsoleUserInterface implements UserInterface {
     }
 
     @Override
+    public boolean askForNewGame() {
+        return true;
+    }
+
+    @Override
     public float askForDifficulty() {
         Scanner scanner = new Scanner(System.in);
         int difficulty = 1;

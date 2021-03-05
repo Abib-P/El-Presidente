@@ -19,6 +19,7 @@ public interface UserInterface {
     String selectScenario(Map<String,String> AllScenarioNames);
     boolean askForReplay();
     boolean askForRules();
+    boolean askForNewGame();
     float askForDifficulty();
     void displaySeason(Saisons season);
     Choice getChoice(Event event);
