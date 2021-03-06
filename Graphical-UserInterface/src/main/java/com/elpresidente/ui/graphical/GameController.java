@@ -120,9 +120,6 @@ public class GameController {
             data.setYValue( factions.getFactionByName(data.getXValue()).getPartisanNumber() );
         }
 
-        for (Faction faction: factions.getFactions()) {
-            System.out.println(faction.getName()+": "+faction.getSatisfaction()+"%");
-        }
     }
 
     public void setEvent(Pane pane){

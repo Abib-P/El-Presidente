@@ -16,6 +16,7 @@ public class Game {
 
     public static final String IndustryFactorKey = "INDUSTRY";
     public static final String AgricultureFactorKey = "AGRICULTURE";
+    public static final String TreasuryFactorKey = "TREASURY";
     public static final int IndustryRevenue = 10;
     public static final int AgricultureRevenue = 40;
     public static final int PartisanFoodConsumption = 4;
@@ -31,6 +32,9 @@ public class Game {
 
     private int minGlobalSatisfaction;
     private float difficulty;
+    private Saisons currentSeason;
+
+    private boolean hasLoose;
 
     public Game(UserInterface userInterface, Repository repository){
         this.userInterface = userInterface;
@@ -53,35 +57,39 @@ public class Game {
         factionManager = new Factions(repository.getAllFactions());
         gameParameter = repository.getAllGameParameter();
 
+        currentSeason = Saisons.PRINTEMPS;
+
         userInterface.displayGameInfo(this);
 
-
-
+        hasLoose = false;
     }
 
     public void playGame(){
-        boolean loose = false;
         Saisons[] seasons = Saisons.values();
 
-        while( !loose){
+        while( !hasLoose){
 
             for (int i = 0; i < Saisons.values().length; i++) {
 
                 if( isScenarioOver() ) {
                     goToSandBoxMod();
                 }
+                currentSeason = seasons[i];
 
-                Event event = rules.getEvent(seasons[i]);
-                userInterface.displaySeason(seasons[i]);
-                userInterface.displayGameInfo(this);
-
+                Event event = rules.getEvent( currentSeason );
                 Choice choice = userInterface.getChoice(event);
                 applyChoice(choice);
+
+                if( hasLoose ) {
+                    break;
+                }
+
             }
 
-            endOfYear();
+            if( !hasLoose ) {
+                endOfYear();
+            }
 
-            loose = hasLoose();
         }
     }
 
@@ -140,6 +148,7 @@ public class Game {
     }
 
     private void applyChoice(Choice choice){
+        System.out.println("choice: "+choice.getName());
 
         factionManager.addPopulation( adaptValueToDifficulty( choice.getPartisanGained() ));
 
@@ -151,14 +160,36 @@ public class Game {
 
         if(choice.getActionOnFactor() != null) {
             for (Map.Entry<String, Integer> entry : choice.getActionOnFactor().entrySet()) {
-                if (entry.getKey().equals(Game.AgricultureFactorKey)) {
-                    gameParameter.addAgriculture(adaptValueToDifficulty(entry.getValue()));
-                } else if (entry.getKey().equals(Game.IndustryFactorKey)) {
-                    gameParameter.addIndustries(adaptValueToDifficulty(entry.getValue()));
+                switch (entry.getKey()) {
+                    case Game.AgricultureFactorKey -> gameParameter.addAgriculture(adaptValueToDifficulty(entry.getValue()));
+                    case Game.IndustryFactorKey -> gameParameter.addIndustries(adaptValueToDifficulty(entry.getValue()));
+                    case Game.TreasuryFactorKey -> gameParameter.addTreasury(adaptValueToDifficulty(entry.getValue()));
+                }
+            }
+
+        }
+
+        userInterface.displayGameInfo(this);
+
+        hasLoose = hasLoose();
+
+        if( !hasLoose ) {
+            if (choice.getRelatedEvent() != null) {
+                for (Event event : choice.getRelatedEvent()) {
+                    choice = userInterface.getChoice(event);
+                    applyChoice(choice);
+
+                    if(hasLoose) {
+                        break;
+                    }
                 }
             }
         }
 
+    }
+
+    public Saisons getCurrentSeason() {
+        return currentSeason;
     }
 
     public int getFoodConsumption(){
@@ -194,6 +225,6 @@ public class Game {
     }
 
     private boolean hasLoose(){
-        return factionManager.getGlobalSatisfaction() < minGlobalSatisfaction;
+        return factionManager.getGlobalSatisfaction() < minGlobalSatisfaction || hasLoose;
     }
 }

@@ -8,51 +8,61 @@ import com.elpresidente.game.Saisons;
 import com.elpresidente.ui.UserInterface;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * JavaFX GraphicalUserInterface
  */
 public class GraphicalUserInterface extends Application implements UserInterface {
 
-    public static GraphicalUserInterface ui = null;
+    public static  GraphicalUserInterface ui = null;
+
+    public static final AtomicBoolean isLoaded = new AtomicBoolean(false);
+
+    private Thread thread;
 
     private Stage stage;
 
     private Scene gameControllerPane;
-    private final GameController gameController;
+    private GameController gameController;
 
     private Scene scenarioSelectionScene;
-    private final ScenarioSelectionController scenarioSelectionController;
+    private ScenarioSelectionController scenarioSelectionController;
 
     private Scene rulesSelectionScene;
-    private final RulesSelectionController rulesSelectionController;
+    private RulesSelectionController rulesSelectionController;
 
     private Pane eventSelectorPane;
-    private final EventChoiceSelector eventChoiceSelector;
+    private EventChoiceSelector eventChoiceSelector;
 
     private Pane marketPane;
-    private final MarketController marketController;
+    private MarketController marketController;
 
     private Pane factionCorruptionPane;
-    private final FactionCorruptionController factionCorruptionController;
+    private FactionCorruptionController factionCorruptionController;
 
     private Pane replayPane;
-    private final ReplayController replayConstroller;
+    private ReplayController replayController;
 
 
-    private StartController startController;
+    private volatile StartController startController;
 
     public GraphicalUserInterface() {
         ui = this;
+    }
+
+    @Override
+    public void start(Stage stage) {
+        this.stage = stage;
+        this.stage.getIcons().add( new Image( String.valueOf(GraphicalUserInterface.class.getResource("elpresidenteIcon"))) );
 
         FXMLLoader fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("scenarioSelection.fxml"));
         try {
@@ -108,15 +118,9 @@ public class GraphicalUserInterface extends Application implements UserInterface
         } catch (IOException e) {
             e.printStackTrace();
         }
-        replayConstroller = fxmlLoader.getController();
+        replayController = fxmlLoader.getController();
 
-    }
-
-    @Override
-    public void start(Stage stage) {
-        this.stage = stage;
-
-        FXMLLoader fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("start.fxml"));
+        fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("start.fxml"));
         try {
             this.stage.setScene( new Scene( fxmlLoader.load() ) );
         } catch (IOException e) {
@@ -124,15 +128,13 @@ public class GraphicalUserInterface extends Application implements UserInterface
         }
         startController = fxmlLoader.getController();
 
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent event) {
-                Platform.exit();
-                System.exit(0);
-            }
+        stage.setOnCloseRequest(event -> {
+            Platform.exit();
+            System.exit(0);
         });
 
         this.stage.show();
+        isLoaded.set(true);
     }
 
     public static void main(String[] args) {
@@ -142,9 +144,11 @@ public class GraphicalUserInterface extends Application implements UserInterface
     @Override
     public void displayGameInfo(Game game) {
 
-        Platform.runLater(() -> gameController.updateGameInfo(game));
+        Platform.runLater(() -> {
+            gameController.updateGameInfo(game);
+            gameController.seasonLabel.setText( game.getCurrentSeason().toString() );
+        });
 
-        System.out.println("money: "+game.getTreasury()+"\nfood: "+ game.getFood()+"\nIndustry: "+game.getIndustries()+"% Agriculture: "+game.getAgriculture()+"%");
     }
 
 
@@ -186,9 +190,7 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
         scenario = scenarioSelectionController.getScenario();
 
-        Platform.runLater(() -> {
-            stage.setTitle(scenario);
-        });
+        Platform.runLater(() -> stage.setTitle(scenario));
 
         scenarioFile = AllScenarioNames.get( scenario);
         return scenarioFile;
@@ -204,7 +206,7 @@ public class GraphicalUserInterface extends Application implements UserInterface
             stage.sizeToScene();
         });
 
-        answer =  replayConstroller.getAnswer();
+        answer =  replayController.getAnswer();
 
         if( !answer){
             Platform.runLater(() -> stage.close());
