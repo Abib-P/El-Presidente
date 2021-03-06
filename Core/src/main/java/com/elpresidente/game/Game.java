@@ -160,12 +160,10 @@ public class Game {
 
         if(choice.getActionOnFactor() != null) {
             for (Map.Entry<String, Integer> entry : choice.getActionOnFactor().entrySet()) {
-                if (entry.getKey().equals(Game.AgricultureFactorKey)) {
-                    gameParameter.addAgriculture(adaptValueToDifficulty(entry.getValue()));
-                } else if (entry.getKey().equals(Game.IndustryFactorKey)) {
-                    gameParameter.addIndustries(adaptValueToDifficulty(entry.getValue()));
-                } else if (entry.getKey().equals(Game.TreasuryFactorKey)) {
-                    gameParameter.addTreasury(adaptValueToDifficulty(entry.getValue()));
+                switch (entry.getKey()) {
+                    case Game.AgricultureFactorKey -> gameParameter.addAgriculture(adaptValueToDifficulty(entry.getValue()));
+                    case Game.IndustryFactorKey -> gameParameter.addIndustries(adaptValueToDifficulty(entry.getValue()));
+                    case Game.TreasuryFactorKey -> gameParameter.addTreasury(adaptValueToDifficulty(entry.getValue()));
                 }
             }
 
@@ -174,13 +172,17 @@ public class Game {
         userInterface.displayGameInfo(this);
 
         hasLoose = hasLoose();
-        if( hasLoose) { return; }
 
-        if( choice.getRelatedEvent() != null) {
-            for (Event event : choice.getRelatedEvent()) {
-                choice = userInterface.getChoice(event);
-                applyChoice(choice);
+        if( !hasLoose ) {
+            if (choice.getRelatedEvent() != null) {
+                for (Event event : choice.getRelatedEvent()) {
+                    choice = userInterface.getChoice(event);
+                    applyChoice(choice);
 
+                    if(hasLoose) {
+                        break;
+                    }
+                }
             }
         }
 
@@ -223,6 +225,6 @@ public class Game {
     }
 
     private boolean hasLoose(){
-        return factionManager.getGlobalSatisfaction() < minGlobalSatisfaction;
+        return factionManager.getGlobalSatisfaction() < minGlobalSatisfaction || hasLoose;
     }
 }

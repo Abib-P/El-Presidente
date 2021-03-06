@@ -43,6 +43,7 @@ public class MarketController {
 
     public void setData(int amount, int amountNeeded, int treasury){
         this.maxAmount =  (treasury/ Game.FoodUnitPrice);
+        textField.setText("0");
 
         if(amount>amountNeeded){
             label.setText("You a have enough food \t you can buy up to "+ maxAmount+" at "+ Game.FoodUnitPrice+" /food" );

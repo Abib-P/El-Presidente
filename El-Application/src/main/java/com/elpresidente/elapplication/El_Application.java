@@ -16,18 +16,15 @@ public class El_Application {
     public static void main(String[] args) throws InterruptedException {
         boolean playing, newGame;
 
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Application.launch(GraphicalUserInterface.class);
-            }
-        });
+        Thread thread = new Thread(() -> Application.launch( GraphicalUserInterface.class));
 
         thread.start();
 
-        Thread.sleep(1000);
+        while ( !GraphicalUserInterface.isLoaded.get() ){
+            Thread.sleep(10);
+        }
 
-        UserInterface userInterface = GraphicalUserInterface.ui ;
+        UserInterface userInterface = GraphicalUserInterface.ui;
 
         newGame = userInterface.askForNewGame();
 
