@@ -223,7 +223,7 @@ public class Game {
         return gameParameter.getAgriculturePercentage();
     }
 
-    private boolean hasLoose(){
+    public boolean hasLoose(){
         return factionManager.getGlobalSatisfaction() < minGlobalSatisfaction || hasLoose;
     }
 }
