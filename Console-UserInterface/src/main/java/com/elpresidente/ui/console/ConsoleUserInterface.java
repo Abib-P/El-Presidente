@@ -128,12 +128,27 @@ public class ConsoleUserInterface implements UserInterface {
     }
 
     @Override
+    public boolean askShowAction() {
+        return false;
+    }
+
+    @Override
+    public boolean askForChangeMode() {
+        return false;
+    }
+
+    @Override
+    public void displayEndOfGame(boolean win) {
+
+    }
+
+    @Override
     public void displaySeason(Saisons season) {
         System.out.println("||| "+ season+" |||");
     }
 
     @Override
-    public Choice getChoice(Event event) {
+    public Choice getChoice(Event event, float difficulty, boolean showAction) {
         Scanner scanner = new Scanner(System.in);
         int index = -1;
         System.out.println("event: "+event.getName());

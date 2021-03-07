@@ -70,4 +70,11 @@
          </children>
       </VBox>
    </right>
+   <top>
+      <Label fx:id="storyLabel" text="Label" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+   </top>
 </BorderPane>

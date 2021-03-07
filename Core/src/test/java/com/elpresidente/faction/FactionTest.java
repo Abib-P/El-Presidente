@@ -10,8 +10,16 @@ class FactionTest {
 
     @ParameterizedTest
     @CsvSource({"1,15", "15,225", "34,510"})
-    void should_have_the_right_corruption_price(int numberOfPartisan, int expectedCorruptionPrice){
+    void should_have_the_right_corruption_price_at_10_satisfaction(int numberOfPartisan, int expectedCorruptionPrice){
         Faction faction = new Faction("TEST", "test", 10, numberOfPartisan);
+
+        assertThat(faction.getCorruptionPrice()).isEqualTo(expectedCorruptionPrice);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1,6", "15,90", "34,204"})
+    void should_have_the_right_corruption_price_at_95_satisfaction(int numberOfPartisan, int expectedCorruptionPrice){
+        Faction faction = new Faction("TEST", "test", 96, numberOfPartisan);
 
         assertThat(faction.getCorruptionPrice()).isEqualTo(expectedCorruptionPrice);
     }

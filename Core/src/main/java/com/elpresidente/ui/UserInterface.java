@@ -21,8 +21,17 @@ public interface UserInterface {
     boolean askForRules();
     boolean askForNewGame();
     float askForDifficulty();
+    boolean askShowAction();
+
+    /**
+     *
+     * @return true if the player want to keep playing in Sandbox
+     */
+    boolean askForChangeMode();
+    void displayEndOfGame(boolean win);
+
     void displaySeason(Saisons season);
-    Choice getChoice(Event event);
+    Choice getChoice(Event event, float difficulty, boolean showAction);
     Faction selectFaction(Factions factions);
     Faction selectFactionToCorrupt(Factions factions, int treasury);
     int getMarketAmount(int food, int necessaryFood, int treasury);

@@ -35,6 +35,7 @@ public class Game {
 
     private int minGlobalSatisfaction;
     private float difficulty;
+    private boolean showActionOnChoice;
     private Saisons currentSeason;
 
     private boolean hasLoose;
@@ -53,6 +54,7 @@ public class Game {
         }
 
         difficulty = userInterface.askForDifficulty();
+        showActionOnChoice = userInterface.askShowAction();
 
         minGlobalSatisfaction = (int) (30 * difficulty);
 
@@ -88,6 +90,7 @@ public class Game {
 
     public void playGame(){
         Saisons[] seasons = Saisons.values();
+        boolean isPlaying = true;
 
         int seasonIndexStart;
         if (currentSeason != Saisons.PRINTEMPS){
@@ -96,17 +99,22 @@ public class Game {
             seasonIndexStart = 0;
         }
 
-        while( !hasLoose){
+        while( isPlaying && !hasLoose){
 
             for (int i = seasonIndexStart; i < Saisons.values().length; i++) {
 
                 if( isScenarioOver() ) {
+
+                    if( !userInterface.askForChangeMode() ){
+                        isPlaying = false;
+                        break;
+                    }
                     goToSandBoxMod();
                 }
                 currentSeason = seasons[i];
 
                 Event event = rules.getEvent( currentSeason );
-                Choice choice = userInterface.getChoice(event);
+                Choice choice = userInterface.getChoice(event, difficulty, showActionOnChoice);
                 applyChoice(choice);
 
                 if( hasLoose ) {
@@ -115,8 +123,7 @@ public class Game {
 
             }
 
-
-            if( !hasLoose ) {
+            if( !hasLoose && isPlaying){
                 endOfYear();
             }
 
@@ -129,6 +136,9 @@ public class Game {
                 e.printStackTrace();
             }
         }
+
+        userInterface.displayEndOfGame( !hasLoose);
+
     }
 
     private void goToSandBoxMod(){
@@ -174,6 +184,8 @@ public class Game {
             factionManager.populate();
         }
 
+        hasLoose = hasLoose();
+
         userInterface.displayGameInfo(this);
     }
 
@@ -186,7 +198,6 @@ public class Game {
     }
 
     private void applyChoice(Choice choice){
-        System.out.println("choice: "+choice.getName());
 
         factionManager.addPopulation( adaptValueToDifficulty( choice.getPartisanGained() ));
 
@@ -199,9 +210,9 @@ public class Game {
         if(choice.getActionOnFactor() != null) {
             for (Map.Entry<String, Integer> entry : choice.getActionOnFactor().entrySet()) {
                 switch (entry.getKey()) {
-                    case Game.AgricultureFactorKey -> gameParameter.addAgriculture(adaptValueToDifficulty(entry.getValue()));
-                    case Game.IndustryFactorKey -> gameParameter.addIndustries(adaptValueToDifficulty(entry.getValue()));
-                    case Game.TreasuryFactorKey -> gameParameter.addTreasury(adaptValueToDifficulty(entry.getValue()));
+                    case Game.AgricultureFactorKey -> gameParameter.addAgriculture( entry.getValue());
+                    case Game.IndustryFactorKey -> gameParameter.addIndustries( entry.getValue());
+                    case Game.TreasuryFactorKey -> gameParameter.addTreasury( adaptValueToDifficulty(entry.getValue()));
                 }
             }
 
@@ -214,7 +225,8 @@ public class Game {
         if( !hasLoose ) {
             if (choice.getRelatedEvent() != null) {
                 for (Event event : choice.getRelatedEvent()) {
-                    choice = userInterface.getChoice(event);
+                    System.out.println("related even: "+ event.getName());
+                    choice = userInterface.getChoice(event, difficulty, showActionOnChoice);
                     applyChoice(choice);
 
                     if(hasLoose) {
@@ -224,6 +236,10 @@ public class Game {
             }
         }
 
+    }
+
+    public String getStory(){
+        return repository.getStory();
     }
 
     public Saisons getCurrentSeason() {

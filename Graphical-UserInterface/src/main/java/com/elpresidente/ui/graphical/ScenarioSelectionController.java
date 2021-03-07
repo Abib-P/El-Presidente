@@ -8,19 +8,17 @@ import java.util.Map;
 
 public class ScenarioSelectionController {
 
-    private boolean filled = false;
     private volatile boolean selected;
 
     @FXML
     public ChoiceBox<String> choiceBox;
 
     public void setData(Map<String, String> AllScenarioNames){
-        if( !filled) {
-            filled = true;
-            List<String> names = new ArrayList<>(AllScenarioNames.keySet());
-            choiceBox.getItems().addAll(names);
-            choiceBox.setValue( names.get(0) );
-        }
+
+        choiceBox.getItems().clear();
+        List<String> names = new ArrayList<>(AllScenarioNames.keySet());
+        choiceBox.getItems().addAll(names);
+        choiceBox.setValue( names.get(0) );
         selected = false;
     }
 
