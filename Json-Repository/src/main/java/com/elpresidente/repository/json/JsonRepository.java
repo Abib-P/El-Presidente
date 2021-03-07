@@ -155,13 +155,6 @@ public class JsonRepository implements Repository {
         List<Event> relatedEvent = new ArrayList<>();
         int partisanNumber = 0;
 
-        /*
-        = (Integer) ((JSONArray) choice.get("effects")).stream()
-                .filter(effect -> ((JSONObject) effect).containsKey("partisans"))
-                .map(effect -> Integer.valueOf(((JSONObject) effect).get("partisans").toString()))
-                .reduce(0, (a, b) -> (Integer)a + (Integer) b)
-         */
-
         for (Object o : effects) {
             JSONObject jo = (JSONObject) o;
             if (jo.containsKey("partisans")) {
@@ -184,9 +177,14 @@ public class JsonRepository implements Repository {
             }
         }
 
+      /*
 
+       Integer partisanNumber = (Integer) ((JSONArray) choice.get("effects")).stream()
+                .filter(effect -> ((JSONObject) effect).containsKey("partisans"))
+                .map(effect -> Integer.valueOf(((JSONObject) effect).get("partisans").toString()))
+                .reduce(0, (a, b) -> (Integer)a + (Integer) b)
 
-      /*  ((JSONArray) choice.get("effects")).stream()
+        ((JSONArray) choice.get("effects")).stream()
                 .filter(effect -> ((JSONObject) effect).containsKey("actionOnFaction"))
                 .map(effect -> ((JSONObject) effect).get("actionOnFaction"))
                 .forEach(action -> {
@@ -194,11 +192,9 @@ public class JsonRepository implements Repository {
                         String key = (String) o;
                         actionOnFaction.put(key, Integer.valueOf(((JSONObject) action).get(key).toString()));
                     }
-                });*/
+                });
 
-
-
-       /* ((JSONArray) choice.get("effects")).stream()
+        ((JSONArray) choice.get("effects")).stream()
                 .filter(effect -> ((JSONObject) effect).containsKey("actionOnFactor"))
                 .map(effect -> ((JSONObject) effect).get("actionOnFactor"))
                 .forEach(action -> {
@@ -206,7 +202,9 @@ public class JsonRepository implements Repository {
                         String key = (String) o;
                         actionOnFactor.put(key, Integer.valueOf(((JSONObject) action).get(key).toString()));
                     }
-                });*/
+                });
+
+                */
 
         Choice result = new Choice(choice.get("choice").toString(), actionOnFaction, actionOnFactor, partisanNumber);
         if (choice.get("relatedEvents") != null) {
