@@ -4,6 +4,7 @@ ___
 ### By To Nathanaël, Hottot Clément, Abib Paul
 
 ##Fais depuis la soutenance :
+
 ####-Implementation d'un board pour suivre les différenteq tacheq à faire
 ####-UI graphique
 ####-implémentation des tests
