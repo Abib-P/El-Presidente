@@ -13,7 +13,7 @@ public class Scenario implements Rules{
 
     public Scenario(List<Event> events) {
         this.events = events;
-        this.index = 0;
+        this.index = -1;
     }
 
     public Scenario(List<Event> events, Integer index) {
@@ -23,9 +23,8 @@ public class Scenario implements Rules{
 
     @Override
     public Event getEvent(Saisons season) {
-        Event event = events.get(this.index);
         this.index += 1;
-        return event;
+        return events.get(this.index);
     }
 
     @Override

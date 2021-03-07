@@ -10,10 +10,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FilenameFilter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 import static java.util.stream.Collectors.toList;
@@ -26,7 +23,10 @@ public class JsonRepository implements Repository {
         try {
             FileReader reader = new FileReader(filePath);
             jsonFile = (JSONObject) jsonParser.parse(reader);
-        } catch (ParseException | IOException e) {
+        } catch (ParseException | FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("NTM");
             e.printStackTrace();
         }
     }
@@ -71,7 +71,7 @@ public class JsonRepository implements Repository {
         int treasury = Integer.parseInt(difficulty.get("treasury").toString());
         int foodUnits = Integer.parseInt(difficulty.get("foodUnits").toString());
         int agriculturePercentage = Integer.parseInt(difficulty.get("agriculturePercentage").toString());
-        System.out.println(" loading "+ industryPercentage +"    "+ agriculturePercentage);
+
         return new GameParameter(Integer.valueOf(Integer.toString(agriculturePercentage)),
                 Integer.valueOf(Integer.toString(industryPercentage)),
                 Integer.valueOf(Integer.toString(treasury)),
@@ -82,6 +82,16 @@ public class JsonRepository implements Repository {
     @Override
     public String getName() {
         return jsonFile.get("name").toString();
+    }
+
+    @Override
+    public String getSaveName() {
+        return jsonFile.get("saveName").toString();
+    }
+
+    @Override
+    public boolean getShowActionOnChoice() {
+        return (boolean) jsonFile.get("showAction");
     }
 
     @Override
@@ -107,10 +117,10 @@ public class JsonRepository implements Repository {
 
     @Override
     public int getIndex() {
-        if (jsonFile.get("inedx") == null){
+        if (jsonFile.get("index") == null){
             return 0;
         }
-        return ((Long) jsonFile.get("inedx")).intValue();
+        return ((Long) jsonFile.get("index")).intValue();
     }
 
     @Override

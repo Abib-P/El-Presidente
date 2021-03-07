@@ -11,8 +11,10 @@ public interface Repository {
     List<Event> getAllEvent();
     GameParameter getAllGameParameter();
     String getName();
+    String getSaveName();
     String getStory();
     double getDifficulty();
+    boolean getShowActionOnChoice();
     int getMode();
     int getIndex();
     int getSeason();

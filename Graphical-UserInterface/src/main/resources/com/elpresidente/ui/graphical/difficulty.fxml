@@ -11,12 +11,12 @@
 
 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.elpresidente.ui.graphical.DifficultyController">
    <children>
-      <Label text="Select the diffuculty">
+      <Label text="Select the difficulty">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Slider fx:id="slider" blockIncrement="0.1" max="2.0" min="0.1" showTickLabels="true" />
+      <Slider fx:id="slider" blockIncrement="0.1" max="2.0" min="0.1" showTickLabels="true" value="1.0" />
       <RadioButton fx:id="radioButton" mnemonicParsing="false" text="Display choice impact">
          <font>
             <Font size="14.0" />

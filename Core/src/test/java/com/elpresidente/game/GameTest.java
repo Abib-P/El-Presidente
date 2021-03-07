@@ -41,6 +41,11 @@ class GameTest {
             }
 
             @Override
+            public String getSaveName() {
+                return null;
+            }
+
+            @Override
             public String getStory() {
                 return null;
             }
@@ -48,6 +53,11 @@ class GameTest {
             @Override
             public double getDifficulty() {
                 return 0;
+            }
+
+            @Override
+            public boolean getShowActionOnChoice() {
+                return false;
             }
 
             @Override
@@ -194,6 +204,11 @@ class GameTest {
             }
 
             @Override
+            public String getSaveName() {
+                return null;
+            }
+
+            @Override
             public String getStory() {
                 return null;
             }
@@ -201,6 +216,11 @@ class GameTest {
             @Override
             public double getDifficulty() {
                 return 0;
+            }
+
+            @Override
+            public boolean getShowActionOnChoice() {
+                return false;
             }
 
             @Override

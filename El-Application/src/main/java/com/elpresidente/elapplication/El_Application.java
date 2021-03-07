@@ -39,7 +39,6 @@ public class El_Application {
             }
 
             String scenarioFilePath = userInterface.selectScenario(AllScenarioNames);
-            System.out.println("selected: "+scenarioFilePath);
             Repository repository = new JsonRepository(scenarioFilePath);
 
             Game game = new Game(userInterface, repository);;
@@ -55,7 +54,6 @@ public class El_Application {
             playing = userInterface.askForReplay();
 
         }while(playing);
-        System.out.println("stopped playing");
 
         thread.join();
     }

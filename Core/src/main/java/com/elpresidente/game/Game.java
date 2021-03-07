@@ -24,9 +24,10 @@ public class Game {
     public static final int PartisanFoodConsumption = 4;
     public static final int FoodUnitPrice = 8;
 
+    private String saveName;
+
     private final Repository repository;
     private Rules rules;
-    private final Integer index = 0;
 
     private Factions factionManager;
     private GameParameter gameParameter;
@@ -70,12 +71,14 @@ public class Game {
 
     public void load(){
         int mode = this.repository.getMode();
+
         if (mode == 0){
             rules = new Sandbox( repository.getAllEvent());
         }else{
-            rules = new Scenario( repository.getAllEvent());
+            rules = new Scenario( repository.getAllEvent(), repository.getIndex() - 1);
         }
-
+        this.saveName = repository.getSaveName();
+        this.showActionOnChoice = repository.getShowActionOnChoice();
         this.difficulty = (float) this.repository.getDifficulty();
         this.minGlobalSatisfaction = (int) (30 * this.difficulty);
 
@@ -86,6 +89,10 @@ public class Game {
         this.userInterface.displayGameInfo(this);
 
         this.hasLoose = false;
+    }
+
+    public String getSaveName() {
+        return saveName;
     }
 
     public void playGame(){
@@ -130,15 +137,19 @@ public class Game {
             seasonIndexStart = 0;
             currentSeason = seasons[0];
 
-            try {
-                Save.saveGame(this, "natha");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
 
         userInterface.displayEndOfGame( !hasLoose);
 
+    }
+
+    public void save(String fileName){
+        try {
+            this.saveName = fileName;
+            Save.saveGame(this, fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void goToSandBoxMod(){
@@ -189,7 +200,7 @@ public class Game {
         userInterface.displayGameInfo(this);
     }
 
-    private int adaptValueToDifficulty(int value){
+    public static int adaptValueToDifficulty(int value, float difficulty){
         if(value > 0){
             return (int) (value / difficulty);
         }else{
@@ -199,11 +210,11 @@ public class Game {
 
     private void applyChoice(Choice choice){
 
-        factionManager.addPopulation( adaptValueToDifficulty( choice.getPartisanGained() ));
+        factionManager.addPopulation( adaptValueToDifficulty( choice.getPartisanGained() , difficulty));
 
         if(choice.getActionOnFaction() != null) {
             for (Map.Entry<String, Integer> entry : choice.getActionOnFaction().entrySet()) {
-                factionManager.addSatisfactionToFaction(entry.getKey(), adaptValueToDifficulty(entry.getValue()));
+                factionManager.addSatisfactionToFaction(entry.getKey(), adaptValueToDifficulty(entry.getValue(), difficulty));
             }
         }
 
@@ -212,7 +223,7 @@ public class Game {
                 switch (entry.getKey()) {
                     case Game.AgricultureFactorKey -> gameParameter.addAgriculture( entry.getValue());
                     case Game.IndustryFactorKey -> gameParameter.addIndustries( entry.getValue());
-                    case Game.TreasuryFactorKey -> gameParameter.addTreasury( adaptValueToDifficulty(entry.getValue()));
+                    case Game.TreasuryFactorKey -> gameParameter.addTreasury( adaptValueToDifficulty(entry.getValue(), difficulty));
                 }
             }
 
@@ -225,7 +236,6 @@ public class Game {
         if( !hasLoose ) {
             if (choice.getRelatedEvent() != null) {
                 for (Event event : choice.getRelatedEvent()) {
-                    System.out.println("related even: "+ event.getName());
                     choice = userInterface.getChoice(event, difficulty, showActionOnChoice);
                     applyChoice(choice);
 
@@ -285,9 +295,13 @@ public class Game {
     public Map<String, Object> getGameStatement(String pseudo){
         Map<String, Object> gameStatement = new HashMap<>();
 
-        gameStatement.put("name", this.repository.getName() + " - " + pseudo);
+        gameStatement.put("name", this.repository.getName());
+        gameStatement.put("saveName", this.saveName);
+        gameStatement.put("showAction", this.showActionOnChoice);
         gameStatement.put("story", this.repository.getStory());
         gameStatement.put("difficulty", this.difficulty);
+
+        System.out.println("saved index: "+ this.rules.getIndex());
         gameStatement.put("index", this.rules.getIndex());
         gameStatement.put("season", this.currentSeason.ordinal());
 
@@ -316,3 +330,4 @@ public class Game {
         return gameStatement;
     }
 }
+
