@@ -13,6 +13,7 @@ import org.json.simple.parser.ParseException;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class JsonRepository implements Repository {
@@ -21,7 +22,7 @@ public class JsonRepository implements Repository {
     public JsonRepository(String filePath) {
         JSONParser jsonParser = new JSONParser();
         try {
-            FileReader reader = new FileReader(filePath);
+            FileReader reader = new FileReader(filePath, StandardCharsets.UTF_8);
             jsonFile = (JSONObject) jsonParser.parse(reader);
         } catch (ParseException | FileNotFoundException e) {
             e.printStackTrace();
