@@ -14,12 +14,6 @@ public class Factions {
         this.factions = factions;
     }
 
-    public void corrupt(String factionName){
-        Faction faction = getFaction(factionName);
-        if(faction == null) return;
-        corrupt(faction);
-    }
-
     public void corrupt(Faction faction){
 
         if(faction == null) return;

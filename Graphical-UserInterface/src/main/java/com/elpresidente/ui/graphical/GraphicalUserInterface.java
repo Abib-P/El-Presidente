@@ -62,7 +62,7 @@ public class GraphicalUserInterface extends Application implements UserInterface
     @Override
     public void start(Stage stage) {
         this.stage = stage;
-        this.stage.getIcons().add( new Image( String.valueOf(GraphicalUserInterface.class.getResource("elpresidenteIcon"))) );
+        this.stage.getIcons().add( new Image( String.valueOf(GraphicalUserInterface.class.getResource("elpresidente.ico"))) );
 
         FXMLLoader fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("scenarioSelection.fxml"));
         try {

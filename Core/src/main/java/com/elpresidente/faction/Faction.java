@@ -28,6 +28,7 @@ public class Faction {
     public int getCorruptionPrice(){
         return partisanNumber * Faction.CorruptionPriceByPartisan;
     }
+
     public int getCorruptionImpactOnLoyalist(){
         return getCorruptionPrice()/10;
     }
@@ -38,6 +39,8 @@ public class Faction {
         }
 
         this.partisanNumber += partisanNumber;
+        if(this.partisanNumber < 0)
+            this.partisanNumber = 0;
         if( partisanNumber < 0)
             this.addSatisfaction( SatisfactionLostByPartisan * partisanNumber);
     }

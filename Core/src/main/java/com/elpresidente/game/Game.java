@@ -42,7 +42,6 @@ public class Game {
     }
 
     public void start(){
-        //TODO ask for rules the player want
 
         if(  userInterface.askForRules() ){
             rules = new Sandbox( repository.getAllEvent());
