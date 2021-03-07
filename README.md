@@ -11,7 +11,7 @@ ___
 
 -implémentation des tests
 
--Sauvegarde et chargement de parties
+-Sauvegarde et chargement de parties (avec nom de fichier)
 
 -Répartition intéligente des partisans
 
