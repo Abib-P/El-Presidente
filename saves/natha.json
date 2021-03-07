@@ -1,0 +1,961 @@
+{
+    "difficulty": 0.5,
+    "mode": 1,
+    "name": "Attack on Titans - natha",
+    "gameStartParameters": {
+        "NORMAL": {
+            "agriculturePercentage": 35,
+            "industryPercentage": 35,
+            "foodUnits": 1900,
+            "treasury": 1050,
+            "factions": {
+                "CAPITALISTS": {
+                    "numberOfPartisans": 44,
+                    "name": "Capitalists",
+                    "satisfactionPercentage": 65
+                },
+                "COMMUNISTS": {
+                    "numberOfPartisans": 61,
+                    "name": "Communists",
+                    "satisfactionPercentage": 100
+                },
+                "LIBERALS": {
+                    "numberOfPartisans": 68,
+                    "name": "Liberals",
+                    "satisfactionPercentage": 100
+                },
+                "NATIONALISTS": {
+                    "numberOfPartisans": 55,
+                    "name": "Nationalists",
+                    "satisfactionPercentage": 75
+                },
+                "ECOLOGISTS": {
+                    "numberOfPartisans": 51,
+                    "name": "Ecologists",
+                    "satisfactionPercentage": 65
+                },
+                "RELIGIOUS": {
+                    "numberOfPartisans": 57,
+                    "name": "Religious",
+                    "satisfactionPercentage": 75
+                },
+                "MILITARISTS": {
+                    "numberOfPartisans": 51,
+                    "name": "Militarists",
+                    "satisfactionPercentage": 100
+                },
+                "LOYALISTS": {
+                    "numberOfPartisans": 62,
+                    "name": "Loyalists",
+                    "satisfactionPercentage": 100
+                }
+            }
+        }
+    },
+    "index": 17,
+    "events": [
+        {
+            "name": "Des monstres géants approchent le royaume... Que faites-vous ?",
+            "choices": [
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "RELIGIOUS": -20,
+                                "MILITARISTS": 20
+                            }
+                        },
+                        {
+                            "actionOnFactor": {
+                                "AGRICULTURE": 30
+                            }
+                        }
+                    ],
+                    "choice": "J\u0027envoie toute la force militaire du pays pour les éradiquer"
+                },
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "CAPITALISTS": 10,
+                                "ECOLOGISTS": -30
+                            }
+                        },
+                        {
+                            "actionOnFactor": {
+                                "INDUSTRY": -30
+                            }
+                        }
+                    ],
+                    "choice": "Je mets en place une défense basée sur des canons"
+                },
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "CAPITALISTS": -100,
+                                "LIBERALS": -100,
+                                "COMMUNISTS": -100,
+                                "NATIONALISTS": -100,
+                                "ECOLOGISTS": -100,
+                                "RELIGIOUS": -100,
+                                "MILITARISTS": -100,
+                                "LOYALISTS": -100
+                            }
+                        },
+                        {
+                            "actionOnFactor": {}
+                        },
+                        {
+                            "partisans": -1000
+                        }
+                    ],
+                    "choice": "Je laisse ces créatures béantes se délecter de mes adorables villageois"
+                }
+            ]
+        },
+        {
+            "name": "Ils détournent leur chemin ! Ils s\u0027attaquent à l\u0027agriculture à l\u0027avant du Royaume...",
+            "choices": [
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "NATIONALISTS": 20,
+                                "ECOLOGISTS": 20
+                            }
+                        },
+                        {
+                            "actionOnFactor": {}
+                        }
+                    ],
+                    "choice": "J\u0027élabore une stratégie pour combattre"
+                },
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "ECOLOGISTS": -20,
+                                "LOYALISTS": 30
+                            }
+                        },
+                        {
+                            "actionOnFactor": {
+                                "AGRICULTURE": -30
+                            }
+                        }
+                    ],
+                    "choice": "Je laisse tomber en me disant que j\u0027ai d\u0027autres champs et réserves de provisions"
+                }
+            ]
+        },
+        {
+            "name": "Un valeureux soldat du nom de Rivaille se propose d\u0027aller tuer ces bêtes sauvages...",
+            "choices": [
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "CAPITALISTS": 20,
+                                "NATIONALISTS": 20,
+                                "MILITARISTS": -30
+                            }
+                        },
+                        {
+                            "actionOnFactor": {}
+                        }
+                    ],
+                    "choice": "Je le laisse aller défendre ma patrie, celle d\u0027El Presidente, dans le risque que Rivaille décède"
+                },
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "CAPITALISTS": -20,
+                                "NATIONALISTS": -20,
+                                "MILITARISTS": 20,
+                                "LOYALISTS": 10
+                            }
+                        },
+                        {
+                            "actionOnFactor": {}
+                        }
+                    ],
+                    "choice": "J\u0027empèche Rivaille d\u0027aller affronter ces bêtes farouches tout seul"
+                }
+            ]
+        },
+        {
+            "name": "Le commandant Pixis propose d\u0027utiliser 20$ de notre trésorerie pour améliorer et adapter l\u0027armement de nos militaires",
+            "choices": [
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "CAPITALISTS": -20,
+                                "NATIONALISTS": 10,
+                                "MILITARISTS": 30
+                            }
+                        },
+                        {
+                            "actionOnFactor": {
+                                "TREASURY": -20
+                            }
+                        }
+                    ],
+                    "choice": "J\u0027accepte !"
+                },
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "CAPITALISTS": 20,
+                                "NATIONALISTS": -10,
+                                "MILITARISTS": -30
+                            }
+                        },
+                        {
+                            "actionOnFactor": {}
+                        }
+                    ],
+                    "choice": "Je refuse !"
+                }
+            ]
+        },
+        {
+            "name": "Le capitaine Magath propose de rassembler nos ressources pour bâtir un mur de protection contre les titans",
+            "choices": [
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "CAPITALISTS": -20,
+                                "COMMUNISTS": 20,
+                                "ECOLOGISTS": -10
+                            }
+                        },
+                        {
+                            "actionOnFactor": {}
+                        }
+                    ],
+                    "choice": "J\u0027accepte !"
+                },
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "CAPITALISTS": 20,
+                                "COMMUNISTS": -20,
+                                "ECOLOGISTS": 10
+                            }
+                        },
+                        {
+                            "actionOnFactor": {}
+                        }
+                    ],
+                    "choice": "Je refuse !"
+                }
+            ]
+        },
+        {
+            "name": "Des monstres géants approchent le royaume... Que faites-vous ?",
+            "choices": [
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "RELIGIOUS": -20,
+                                "MILITARISTS": 20
+                            }
+                        },
+                        {
+                            "actionOnFactor": {
+                                "INDUSTRY": -20
+                            }
+                        }
+                    ],
+                    "choice": "J\u0027envoie toute la force militaire du pays pour les éradiquer"
+                },
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "CAPITALISTS": 10,
+                                "ECOLOGISTS": -20
+                            }
+                        },
+                        {
+                            "actionOnFactor": {
+                                "INDUSTRY": -20
+                            }
+                        }
+                    ],
+                    "choice": "Je mets en place une défense basée sur des canons"
+                },
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "CAPITALISTS": -100,
+                                "LIBERALS": -100,
+                                "COMMUNISTS": -100,
+                                "NATIONALISTS": -100,
+                                "ECOLOGISTS": -100,
+                                "RELIGIOUS": -100,
+                                "MILITARISTS": -100,
+                                "LOYALISTS": -100
+                            }
+                        },
+                        {
+                            "actionOnFactor": {}
+                        },
+                        {
+                            "partisans": 7
+                        }
+                    ],
+                    "choice": "Je laisse ces créatures béantes se délecter de mes adorables villageois"
+                }
+            ]
+        },
+        {
+            "name": "Les militaires proposent de nourrir les chevaux afin qu\u0027ils soient plus performants pour leur prochaine course",
+            "choices": [
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "CAPITALISTS": -10,
+                                "ECOLOGISTS": -20,
+                                "MILITARISTS": 40
+                            }
+                        },
+                        {
+                            "actionOnFactor": {
+                                "AGRICULTURE": -10
+                            }
+                        }
+                    ],
+                    "choice": "Nourrissons ces braves bêtes !"
+                },
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "CAPITALISTS": 10,
+                                "ECOLOGISTS": 20,
+                                "MILITARISTS": -40
+                            }
+                        },
+                        {
+                            "actionOnFactor": {
+                                "AGRICULTURE": 10
+                            }
+                        }
+                    ],
+                    "choice": "Quoi ? Laissez mon agriculture tranquille !"
+                }
+            ]
+        },
+        {
+            "name": "Une tornade approche dans quelques jours qui est capable de détruire les murs! Que faire ?",
+            "choices": [
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "NATIONALISTS": 10,
+                                "RELIGIOUS": 10
+                            }
+                        },
+                        {
+                            "actionOnFactor": {
+                                "INDUSTRY": 10,
+                                "TREASURY": -30
+                            }
+                        }
+                    ],
+                    "choice": "Je solidifie les murs et me prépare en créant un abri"
+                },
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "CAPITALISTS": -10,
+                                "COMMUNISTS": -10,
+                                "LIBERALS": -10,
+                                "NATIONALISTS": -10,
+                                "ECOLOGISTS": -10,
+                                "RELIGIOUS": -10,
+                                "MILITARISTS": -10,
+                                "LOYALISTS": -10
+                            }
+                        },
+                        {
+                            "actionOnFactor": {}
+                        }
+                    ],
+                    "choice": "Advienne que pourra..."
+                }
+            ]
+        },
+        {
+            "name": "Le bataillon d\u0027exploration vous propose de s\u0027aventurer hors des murs afin d\u0027en savoir d\u0027avantage sur les titans",
+            "choices": [
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "NATIONALISTS": 20,
+                                "MILITARISTS": 20
+                            }
+                        },
+                        {
+                            "actionOnFactor": {}
+                        }
+                    ],
+                    "relatedEvents": [
+                        {
+                            "name": "Le capitaine Erwin demande à diriger la charge",
+                            "choices": [
+                                {
+                                    "effects": [
+                                        {
+                                            "actionOnFaction": {
+                                                "CAPITALISTS": 10,
+                                                "COMMUNISTS": 10,
+                                                "LIBERALS": 10,
+                                                "NATIONALISTS": 10,
+                                                "ECOLOGISTS": 10,
+                                                "RELIGIOUS": 10,
+                                                "MILITARISTS": 10,
+                                                "LOYALISTS": 10
+                                            }
+                                        },
+                                        {
+                                            "actionOnFactor": {}
+                                        }
+                                    ],
+                                    "choice": "J\u0027accepte car cet homme est beaucoup trop badass (hype machine)"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Rivaille, Caporal en chef de l\u0027escouade, vous demande si les équipements tridimensionnels peuvent être renouvelés",
+                            "choices": [
+                                {
+                                    "effects": [
+                                        {
+                                            "actionOnFaction": {
+                                                "NATIONALISTS": 10,
+                                                "MILITARISTS": 10,
+                                                "LOYALISTS": 10
+                                            }
+                                        },
+                                        {
+                                            "actionOnFactor": {
+                                                "INDUSTRY": -15,
+                                                "TREASURY": -30
+                                            }
+                                        }
+                                    ],
+                                    "choice": "Renouvelons les !"
+                                },
+                                {
+                                    "effects": [
+                                        {
+                                            "actionOnFaction": {
+                                                "NATIONALISTS": -10,
+                                                "MILITARISTS": -10,
+                                                "LOYALISTS": -10
+                                            }
+                                        },
+                                        {
+                                            "actionOnFactor": {
+                                                "TREASURY": 10
+                                            }
+                                        }
+                                    ],
+                                    "choice": "Négatif."
+                                }
+                            ]
+                        }
+                    ],
+                    "choice": "J\u0027accepte avec hargne"
+                },
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "NATIONALISTS": -20,
+                                "RELIGIOUS": 20,
+                                "LOYALISTS": 20
+                            }
+                        },
+                        {
+                            "actionOnFactor": {}
+                        }
+                    ],
+                    "choice": "Je refuse naïvement"
+                }
+            ]
+        },
+        {
+            "name": "Les titans ont attaqué Shiganshina ! Que faire ? ",
+            "choices": [
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "NATIONALISTS": 20,
+                                "RELIGIOUS": -20,
+                                "LOYALISTS": -10
+                            }
+                        },
+                        {
+                            "actionOnFactor": {}
+                        },
+                        {
+                            "partisans": 6
+                        }
+                    ],
+                    "choice": "Ouvrir la porte aux rescapés et risquer l\u0027intrusion de titans dans le mur Maria"
+                },
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "NATIONALISTS": -20,
+                                "RELIGIOUS": 20,
+                                "LOYALISTS": 10
+                            }
+                        },
+                        {
+                            "actionOnFactor": {}
+                        },
+                        {
+                            "partisans": -6
+                        }
+                    ],
+                    "choice": "Laisser les rescapés déceder face aux titans"
+                },
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "LIBERALS": 20,
+                                "NATIONALISTS": 20,
+                                "MILITARISTS": -10
+                            }
+                        },
+                        {
+                            "actionOnFactor": {}
+                        },
+                        {
+                            "partisans": -10
+                        }
+                    ],
+                    "choice": "Envoyer les brigades spéciales au front pour essayer de sauver de potentiels survivants"
+                }
+            ]
+        },
+        {
+            "name": "Un mystérieux titan, doté d\u0027une cuirasse imposante a enfoncé le mur Maria",
+            "choices": [
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "NATIONALISTS": 20,
+                                "RELIGIOUS": -10,
+                                "LOYALISTS": -10
+                            }
+                        },
+                        {
+                            "actionOnFactor": {}
+                        },
+                        {
+                            "partisans": -5
+                        }
+                    ],
+                    "choice": "Appeler le bataillon d\u0027exploration pour tuer les titans"
+                },
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "RELIGIOUS": -10,
+                                "MILITARISTS": -20,
+                                "LOYALISTS": 10
+                            }
+                        },
+                        {
+                            "actionOnFactor": {}
+                        },
+                        {
+                            "partisans": -20
+                        }
+                    ],
+                    "choice": "Appeler les brigades spéciales pour tuer les titans"
+                },
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "LIBERALS": -10,
+                                "NATIONALISTS": -10,
+                                "RELIGIOUS": 40,
+                                "MILITARISTS": -10,
+                                "LOYALISTS": -10
+                            }
+                        },
+                        {
+                            "actionOnFactor": {}
+                        }
+                    ],
+                    "choice": "Laisser les religieux faire leurs prières"
+                }
+            ]
+        },
+        {
+            "name": "Eren Yeager se propose de se transformer en titan pour reboucher le trou du mur Maria avec une grosse pierre",
+            "choices": [
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "LIBERALS": 10,
+                                "NATIONALISTS": -10,
+                                "RELIGIOUS": -10,
+                                "LOYALISTS": 10
+                            }
+                        },
+                        {
+                            "actionOnFactor": {}
+                        }
+                    ],
+                    "choice": "Accepter"
+                },
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "LIBERALS": -10,
+                                "RELIGIOUS": -10,
+                                "MILITARISTS": 10,
+                                "LOYALISTS": 20
+                            }
+                        },
+                        {
+                            "actionOnFactor": {}
+                        }
+                    ],
+                    "choice": "Accepter et ordonner au Bataillon d\u0027exploration de l\u0027accompagner"
+                },
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "LIBERALS": -10,
+                                "NATIONALISTS": -10,
+                                "RELIGIOUS": 20,
+                                "MILITARISTS": -10,
+                                "LOYALISTS": -10
+                            }
+                        },
+                        {
+                            "actionOnFactor": {}
+                        }
+                    ],
+                    "choice": "Refuser"
+                }
+            ]
+        },
+        {
+            "name": "Le Maréchal Steiss propose de distribuer des vivres issus de notre agriculture au peuple",
+            "choices": [
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "CAPITALISTS": -20,
+                                "COMMUNISTS": 20
+                            }
+                        },
+                        {
+                            "actionOnFactor": {
+                                "AGRICULTURE": -40
+                            }
+                        }
+                    ],
+                    "choice": "Distribuer sans rochigner"
+                },
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "CAPITALISTS": 20,
+                                "COMMUNISTS": -20
+                            }
+                        },
+                        {
+                            "actionOnFactor": {}
+                        }
+                    ],
+                    "choice": "Refuser"
+                }
+            ]
+        },
+        {
+            "name": "Partisan écologiste, Soldat Frock, propose de réduire un peu notre travail industriel pour préserver l\u0027agriculture",
+            "choices": [
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "ECOLOGISTS": 30
+                            }
+                        },
+                        {
+                            "actionOnFactor": {
+                                "INDUSTRY": -20,
+                                "AGRICULTURE": 10
+                            }
+                        }
+                    ],
+                    "choice": "Accepter"
+                },
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "CAPITALISTS": 20,
+                                "ECOLOGISTS": -30
+                            }
+                        },
+                        {
+                            "actionOnFactor": {
+                                "INDUSTRY": 20,
+                                "AGRICULTURE": -10
+                            }
+                        }
+                    ],
+                    "choice": "Refuser"
+                }
+            ]
+        },
+        {
+            "name": "Willy Teyber, chef du clan Teyber, propose de faire un discours dans le but de déclarer la guerre totale aux titans. Y assisterez vous ?",
+            "choices": [
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "CAPITALISTS": 10,
+                                "COMMUNISTS": 10,
+                                "LIBERALS": 10,
+                                "NATIONALISTS": 10,
+                                "ECOLOGISTS": 10,
+                                "RELIGIOUS": 10,
+                                "MILITARISTS": 10,
+                                "LOYALISTS": 10
+                            }
+                        },
+                        {
+                            "actionOnFactor": {}
+                        }
+                    ],
+                    "relatedEvents": [
+                        {
+                            "name": "Un titan ennemi intelligent fait surface en plein discours et détruit tout sur son passage",
+                            "choices": [
+                                {
+                                    "effects": [
+                                        {
+                                            "actionOnFaction": {}
+                                        },
+                                        {
+                                            "actionOnFactor": {}
+                                        },
+                                        {
+                                            "partisans": -5
+                                        }
+                                    ],
+                                    "choice": "Courir à toute vitesse"
+                                }
+                            ]
+                        }
+                    ],
+                    "choice": "Oui"
+                },
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "CAPITALISTS": -10,
+                                "COMMUNISTS": -10,
+                                "LIBERALS": -10,
+                                "NATIONALISTS": -10,
+                                "ECOLOGISTS": -10,
+                                "RELIGIOUS": -10,
+                                "MILITARISTS": -10,
+                                "LOYALISTS": -10
+                            }
+                        },
+                        {
+                            "actionOnFactor": {}
+                        }
+                    ],
+                    "choice": "Non"
+                }
+            ]
+        },
+        {
+            "name": "Des révoltes ont lieu à l\u0027intérieur du mur Rose car il n\u0027y a pas assez de vivres issus de l\u0027agriculture pour tout le monde...",
+            "choices": [
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "CAPITALISTS": 20,
+                                "ECOLOGISTS": 10
+                            }
+                        },
+                        {
+                            "actionOnFactor": {
+                                "INDUSTRY": -10,
+                                "AGRICULTURE": 30
+                            }
+                        }
+                    ],
+                    "choice": "Mettre en place un plan de production agricole massif"
+                },
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "CAPITALISTS": -20,
+                                "ECOLOGISTS": -10
+                            }
+                        },
+                        {
+                            "actionOnFactor": {
+                                "INDUSTRY": 10
+                            }
+                        }
+                    ],
+                    "choice": "Je ne veux rien écouter !"
+                }
+            ]
+        },
+        {
+            "name": "Un titan apparaît au loin, d\u0027apparence plutôt poilue, et se met à jeter des pierres sur les murs...",
+            "choices": [
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "CAPITALISTS": 20,
+                                "RELIGIOUS": -10
+                            }
+                        },
+                        {
+                            "actionOnFactor": {
+                                "INDUSTRY": 20,
+                                "TREASURY": -100
+                            }
+                        }
+                    ],
+                    "choice": "Renforcer les murs avec des matières plus résistantes"
+                },
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "CAPITALISTS": -20,
+                                "LIBERALS": 10,
+                                "RELIGIOUS": 10,
+                                "MILITARISTS": 10
+                            }
+                        },
+                        {
+                            "actionOnFactor": {}
+                        }
+                    ],
+                    "choice": "Riposter et envoyer le Caporal Rivaille au front!"
+                },
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {}
+                        },
+                        {
+                            "actionOnFactor": {}
+                        },
+                        {
+                            "partisans": -5
+                        }
+                    ],
+                    "choice": "Ignorer ce titan"
+                }
+            ]
+        },
+        {
+            "name": "Vous découvrez, après la chute du Titan Bestial, qu\u0027il existe des titans intelligents contrôlés par des humains",
+            "choices": [
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "COMMUNISTS": 12,
+                                "RELIGIOUS": -10
+                            }
+                        },
+                        {
+                            "actionOnFactor": {
+                                "INDUSTRY": 10,
+                                "TREASURY": -90
+                            }
+                        }
+                    ],
+                    "choice": "J\u0027ordonne aux scientifiques d\u0027entamer de nouvelles recherches"
+                },
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "CAPITALISTS": -12,
+                                "LIBERALS": 10,
+                                "RELIGIOUS": -20
+                            }
+                        },
+                        {
+                            "actionOnFactor": {}
+                        }
+                    ],
+                    "choice": "J\u0027examine la carcasse du titan pour essayer de découvrir des informations"
+                },
+                {
+                    "effects": [
+                        {
+                            "actionOnFaction": {
+                                "CAPITALISTS": -100,
+                                "COMMUNISTS": -100,
+                                "LIBERALS": -100,
+                                "NATIONALISTS": -100,
+                                "ECOLOGISTS": -100,
+                                "RELIGIOUS": -100,
+                                "MILITARISTS": -100,
+                                "LOYALISTS": -100
+                            }
+                        },
+                        {
+                            "actionOnFactor": {}
+                        }
+                    ],
+                    "choice": "Je déraille, deviens fou et me met à crier comme si j\u0027étais en train de me transformer en titan"
+                }
+            ]
+        }
+    ],
+    "story": "Dans un monde ravagé par des titans mangeurs d’homme depuis plus d’un siècle, les rares survivants de l’Humanité n’ont d’autre choix pour survivre que de se barricader dans une cité-forteresse. Jeune, témoin de la mort de plusieurs de vos concitoyens dévorés par des titans, vous n’avez qu’un rêve : devinir le meilleur président de ce pays et découvrir l’origine des Titans afin de les annihiler jusqu’au dernier…"
+}
