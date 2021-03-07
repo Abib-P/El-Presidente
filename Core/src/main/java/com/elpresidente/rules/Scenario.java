@@ -29,7 +29,7 @@ public class Scenario implements Rules{
 
     @Override
     public boolean hasEvent() {
-        return this.index < this.events.size();
+        return this.index < this.events.size() - 1;
     }
 
     @Override
