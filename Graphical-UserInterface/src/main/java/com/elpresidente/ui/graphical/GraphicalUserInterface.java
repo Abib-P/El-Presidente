@@ -13,7 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -132,10 +131,12 @@ public class GraphicalUserInterface extends Application implements UserInterface
     public void displayGameInfo(Game game) {
 
         Platform.runLater(() -> {
+
             if( stage.getScene() != gameControllerPane){
                 stage.setScene(gameControllerPane);
                 stage.sizeToScene();
             }
+
             gameController.updateGameInfo(game);
             gameController.seasonLabel.setText( game.getCurrentSeason().toString() );
         });
@@ -250,6 +251,11 @@ public class GraphicalUserInterface extends Application implements UserInterface
     }
 
     @Override
+    public boolean askShowAction() {
+        return difficultyController.getDisplayChoiceAction();
+    }
+
+    @Override
     public boolean askForChangeMode() {
         Platform.runLater(() -> {
             gameController.actionLabel.setText( "End of the scenario" );
@@ -267,12 +273,12 @@ public class GraphicalUserInterface extends Application implements UserInterface
     }
 
     @Override
-    public Choice getChoice(Event event) {
+    public Choice getChoice(Event event, float difficulty, boolean showAction) {
 
         Platform.runLater(() -> {
             gameController.actionLabel.setText( "New Event" );
             gameController.setEvent( eventSelectorPane);
-            eventChoiceSelector.setEventChoice(event);
+            eventChoiceSelector.setEventChoice(event, difficulty, showAction);
             stage.sizeToScene();
         });
 

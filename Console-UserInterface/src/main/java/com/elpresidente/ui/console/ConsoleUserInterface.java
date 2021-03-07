@@ -128,6 +128,11 @@ public class ConsoleUserInterface implements UserInterface {
     }
 
     @Override
+    public boolean askShowAction() {
+        return false;
+    }
+
+    @Override
     public boolean askForChangeMode() {
         return false;
     }
@@ -143,7 +148,7 @@ public class ConsoleUserInterface implements UserInterface {
     }
 
     @Override
-    public Choice getChoice(Event event) {
+    public Choice getChoice(Event event, float difficulty, boolean showAction) {
         Scanner scanner = new Scanner(System.in);
         int index = -1;
         System.out.println("event: "+event.getName());

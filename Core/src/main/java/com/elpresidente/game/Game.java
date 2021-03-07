@@ -35,6 +35,7 @@ public class Game {
 
     private int minGlobalSatisfaction;
     private float difficulty;
+    private boolean showActionOnChoice;
     private Saisons currentSeason;
 
     private boolean hasLoose;
@@ -53,6 +54,7 @@ public class Game {
         }
 
         difficulty = userInterface.askForDifficulty();
+        showActionOnChoice = userInterface.askShowAction();
 
         minGlobalSatisfaction = (int) (30 * difficulty);
 
@@ -112,7 +114,7 @@ public class Game {
                 currentSeason = seasons[i];
 
                 Event event = rules.getEvent( currentSeason );
-                Choice choice = userInterface.getChoice(event);
+                Choice choice = userInterface.getChoice(event, difficulty, showActionOnChoice);
                 applyChoice(choice);
 
                 if( hasLoose ) {
@@ -223,7 +225,8 @@ public class Game {
         if( !hasLoose ) {
             if (choice.getRelatedEvent() != null) {
                 for (Event event : choice.getRelatedEvent()) {
-                    choice = userInterface.getChoice(event);
+                    System.out.println("related even: "+ event.getName());
+                    choice = userInterface.getChoice(event, difficulty, showActionOnChoice);
                     applyChoice(choice);
 
                     if(hasLoose) {
