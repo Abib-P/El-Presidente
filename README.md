@@ -22,5 +22,8 @@ ___
 ## Usage
 ___
 
+pour executer le .jar vous aurez besoin de jdk/jre 15
+un dossier saves et scenerio et nécesaire pour le lancement de l'application
+
 ## Architecture Hexagonal
 ___
