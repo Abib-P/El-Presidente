@@ -34,6 +34,16 @@ class GameTest {
             public GameParameter getAllGameParameter() {
                 return new GameParameter(0,0,0,0);
             }
+
+            @Override
+            public String getName() {
+                return null;
+            }
+
+            @Override
+            public String getStory() {
+                return null;
+            }
         };
 
         UserInterface userInterface = new UserInterface() {
@@ -141,6 +151,16 @@ class GameTest {
             @Override
             public GameParameter getAllGameParameter() {
                 return new GameParameter(0,0,0,0);
+            }
+
+            @Override
+            public String getName() {
+                return null;
+            }
+
+            @Override
+            public String getStory() {
+                return null;
             }
         };
 

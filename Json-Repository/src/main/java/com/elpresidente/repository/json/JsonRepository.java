@@ -79,6 +79,16 @@ public class JsonRepository implements Repository {
         );
     }
 
+    @Override
+    public String getName() {
+        return jsonFile.get("name").toString();
+    }
+
+    @Override
+    public String getStory() {
+        return jsonFile.get("story").toString();
+    }
+
     private Event parseEvent(JSONObject event){
         Event result = new Event(event.get("name").toString());
         List<Choice> choices = (List<Choice>) ((JSONArray) event.get("choices")).stream()

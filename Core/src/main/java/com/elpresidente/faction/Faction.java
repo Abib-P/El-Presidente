@@ -1,5 +1,8 @@
 package com.elpresidente.faction;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Faction {
 
     public static final int CorruptionPriceByPartisan = 15;
@@ -64,5 +67,15 @@ public class Faction {
 
     public Integer getSatisfaction() {
         return satisfaction;
+    }
+
+    public Map<String, Object> getFactionToSave(){
+        Map<String, Object> settings = new HashMap<>();
+
+        settings.put("name", this.name);
+        settings.put("satisfactionPercentage", this.satisfaction);
+        settings.put("numberOfPartisans", this.partisanNumber);
+
+        return settings;
     }
 }

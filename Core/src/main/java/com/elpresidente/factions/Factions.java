@@ -2,7 +2,9 @@ package com.elpresidente.factions;
 
 import com.elpresidente.faction.Faction;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Factions {
 
@@ -113,5 +115,15 @@ public class Factions {
 
     public List<Faction> getFactions() {
         return factions;
+    }
+
+    public Map<String, Map<String, Object>> getFactionsToSave() {
+        Map<String, Map<String, Object>> factionsInformation = new HashMap<>();
+
+        for (Faction faction: this.factions) {
+            factionsInformation.put(faction.getKey(), faction.getFactionToSave());
+        }
+
+        return factionsInformation;
     }
 }
