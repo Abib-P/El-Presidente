@@ -208,9 +208,9 @@ public class Game {
         if(choice.getActionOnFactor() != null) {
             for (Map.Entry<String, Integer> entry : choice.getActionOnFactor().entrySet()) {
                 switch (entry.getKey()) {
-                    case Game.AgricultureFactorKey -> gameParameter.addAgriculture(adaptValueToDifficulty(entry.getValue()));
-                    case Game.IndustryFactorKey -> gameParameter.addIndustries(adaptValueToDifficulty(entry.getValue()));
-                    case Game.TreasuryFactorKey -> gameParameter.addTreasury(adaptValueToDifficulty(entry.getValue()));
+                    case Game.AgricultureFactorKey -> gameParameter.addAgriculture( entry.getValue());
+                    case Game.IndustryFactorKey -> gameParameter.addIndustries( entry.getValue());
+                    case Game.TreasuryFactorKey -> gameParameter.addTreasury( adaptValueToDifficulty(entry.getValue()));
                 }
             }
 

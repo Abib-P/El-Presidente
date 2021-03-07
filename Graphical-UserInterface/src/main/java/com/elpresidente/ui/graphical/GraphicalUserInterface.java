@@ -27,8 +27,6 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
     public static final AtomicBoolean isLoaded = new AtomicBoolean(false);
 
-    private Thread thread;
-
     private Stage stage;
 
     private Scene gameControllerPane;
@@ -54,6 +52,9 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
     private Pane scenarioEndPane;
     private ScenarioEndController scenarioEndController;
+
+    private Scene difficultyPan;
+    private DifficultyController difficultyController;
 
     private volatile StartController startController;
 
@@ -104,6 +105,11 @@ public class GraphicalUserInterface extends Application implements UserInterface
             fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("scenarioEnd.fxml"));
             scenarioEndPane = fxmlLoader.load();
             scenarioEndController = fxmlLoader.getController();
+
+
+            fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("difficulty.fxml"));
+            difficultyPan = new Scene( fxmlLoader.load());
+            difficultyController = fxmlLoader.getController();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -218,14 +224,7 @@ public class GraphicalUserInterface extends Application implements UserInterface
             stage.sizeToScene();
         });
 
-        boolean answer = rulesSelectionController.getRule();
-
-        Platform.runLater(() -> {
-            stage.setScene( gameControllerPane);
-            stage.sizeToScene();
-        });
-
-        return answer;
+        return rulesSelectionController.getRule();
     }
 
     @Override
@@ -235,7 +234,19 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
     @Override
     public float askForDifficulty() {
-        return 1f;
+        Platform.runLater(() -> {
+            stage.setScene( difficultyPan);
+            stage.sizeToScene();
+        });
+
+        difficultyController.waitAnswer();
+
+        Platform.runLater(() -> {
+            stage.setScene( gameControllerPane);
+            stage.sizeToScene();
+        });
+
+        return difficultyController.getDifficulty();
     }
 
     @Override
@@ -246,7 +257,6 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
             stage.sizeToScene();
         });
-
 
         return scenarioEndController.getAnswer();
     }
