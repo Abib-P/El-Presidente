@@ -1,17 +1,15 @@
 package com.elpresidente.ui.graphical;
 
-import javafx.event.ActionEvent;
-
 public class RulesSelectionController {
 
     private volatile boolean selected, rules;
 
-    public void onSandbox(ActionEvent actionEvent) {
+    public void onSandbox() {
         selected = true;
         rules = true;
     }
 
-    public void onScenario(ActionEvent actionEvent) {
+    public void onScenario() {
         selected = true;
     }
 

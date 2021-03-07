@@ -23,14 +23,14 @@ public class JsonRepositoryUtils implements RepositoryUtils {
 
         JSONParser jsonParser = new JSONParser();
         File repertoire = new File(filePath);
-        String fileNames[] = repertoire.list();
+        String[] fileNames = repertoire.list();
 
         if (fileNames != null) {
             for (String fileName : fileNames) {
                 try {
                     FileReader reader = new FileReader(filePath+"\\"+fileName);
                     JSONObject jsonFile = (JSONObject) jsonParser.parse(reader);
-                    result.put(getScenarioName(jsonFile), filePath+"\\"+fileName );
+                    result.put( getScenarioName(jsonFile)+ " - ("+fileName+")", filePath+"\\"+fileName );
                 } catch (ParseException | IOException e) {
                     e.printStackTrace();
                 }

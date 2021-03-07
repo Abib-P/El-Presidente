@@ -3,14 +3,18 @@ package com.elpresidente.ui.graphical;
 import com.elpresidente.faction.Faction;
 import com.elpresidente.factions.Factions;
 import com.elpresidente.game.Game;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+
+import java.util.Optional;
 
 public class GameController {
 
@@ -32,6 +36,8 @@ public class GameController {
     public BarChart<Integer, String> globalSatisfactionChart;
     @FXML
     public Label storyLabel;
+
+    public Game game;
 
     @FXML
     public void initialize() {
@@ -74,12 +80,12 @@ public class GameController {
 
         data.add( satisfactionSeries);
         data.add( partisanSeries);
-
-
     }
 
+
+
     public void updateGameInfo(Game game){
-        storyLabel.setText(game.getStory());
+       // storyLabel.setText(game.getStory());
 
         pieChart.getData().get(0).setPieValue( game.getIndustries());
         pieChart.getData().get(1).setPieValue( game.getAgriculture());
@@ -134,4 +140,19 @@ public class GameController {
 
     }
 
+    public void onSave() {
+        TextInputDialog dialog = new TextInputDialog(game.getSaveName());
+        dialog.setTitle("Save Game");
+        dialog.setHeaderText("Save Game");
+        dialog.setContentText("file name");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(s -> game.save(s));
+
+    }
+
+    public void onClose() {
+        Platform.exit();
+        System.exit(0);
+    }
 }

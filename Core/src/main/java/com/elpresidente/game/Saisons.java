@@ -8,9 +8,6 @@ public enum Saisons {
 
     private final String text;
 
-    /**
-     * @param text
-     */
     Saisons(final String text) {
         this.text = text;
     }

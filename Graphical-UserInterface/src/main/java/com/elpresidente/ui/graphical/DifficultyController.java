@@ -15,6 +15,7 @@ public class DifficultyController {
     }
 
     public void waitAnswer(){
+        selected = false;
         while (!selected) Thread.onSpinWait();
     }
 

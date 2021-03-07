@@ -132,6 +132,8 @@ public class GraphicalUserInterface extends Application implements UserInterface
     @Override
     public void displayGameInfo(Game game) {
 
+        gameController.game = game;
+
         Platform.runLater(() -> {
 
             if( stage.getScene() != gameControllerPane){
