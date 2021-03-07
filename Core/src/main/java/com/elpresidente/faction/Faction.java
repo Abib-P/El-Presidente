@@ -29,7 +29,11 @@ public class Faction {
     }
 
     public int getCorruptionPrice(){
-        return partisanNumber * Faction.CorruptionPriceByPartisan;
+        if( satisfaction > 90){
+            return (int) (partisanNumber * Faction.CorruptionPriceByPartisan * (100 - satisfaction) /10.f );
+        }else{
+            return partisanNumber * Faction.CorruptionPriceByPartisan;
+        }
     }
 
     public int getCorruptionImpactOnLoyalist(){
