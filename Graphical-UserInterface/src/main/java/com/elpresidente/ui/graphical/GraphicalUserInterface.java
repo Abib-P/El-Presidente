@@ -52,6 +52,8 @@ public class GraphicalUserInterface extends Application implements UserInterface
     private Pane replayPane;
     private ReplayController replayController;
 
+    private Pane scenarioEndPane;
+    private ScenarioEndController scenarioEndController;
 
     private volatile StartController startController;
 
@@ -64,69 +66,48 @@ public class GraphicalUserInterface extends Application implements UserInterface
         this.stage = stage;
         this.stage.getIcons().add( new Image( String.valueOf(GraphicalUserInterface.class.getResource("elpresidente.ico"))) );
 
-        FXMLLoader fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("scenarioSelection.fxml"));
+        FXMLLoader fxmlLoader;
         try {
+
+            fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("scenarioSelection.fxml"));
             scenarioSelectionScene = new Scene( fxmlLoader.load() );
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        scenarioSelectionController = fxmlLoader.getController();
+            scenarioSelectionController = fxmlLoader.getController();
 
-        fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("gameController.fxml"));
-        try {
+            fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("gameController.fxml"));
             gameControllerPane = new Scene( fxmlLoader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        gameController = fxmlLoader.getController();
+            gameController = fxmlLoader.getController();
 
-        fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("rulesSelection.fxml"));
-        try {
+            fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("rulesSelection.fxml"));
             rulesSelectionScene = new Scene( fxmlLoader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        rulesSelectionController = fxmlLoader.getController();
+            rulesSelectionController = fxmlLoader.getController();
 
-        fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("eventChoiceSelector.fxml"));
-        try {
+            fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("eventChoiceSelector.fxml"));
             eventSelectorPane = fxmlLoader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        eventChoiceSelector = fxmlLoader.getController();
+            eventChoiceSelector = fxmlLoader.getController();
 
-        fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("factionCorruption.fxml"));
-        try {
+            fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("factionCorruption.fxml"));
             factionCorruptionPane = fxmlLoader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        factionCorruptionController = fxmlLoader.getController();
+            factionCorruptionController = fxmlLoader.getController();
 
-        fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("market.fxml"));
-        try {
+            fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("market.fxml"));
             marketPane = fxmlLoader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        marketController = fxmlLoader.getController();
+            marketController = fxmlLoader.getController();
 
-        fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("replay.fxml"));
-        try {
+            fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("replay.fxml"));
             replayPane = fxmlLoader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        replayController = fxmlLoader.getController();
+            replayController = fxmlLoader.getController();
 
-        fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("start.fxml"));
-        try {
-            this.stage.setScene( new Scene( fxmlLoader.load() ) );
+            fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("start.fxml"));
+            this.stage.setScene( new Scene( fxmlLoader.load() ) );                                      //set the as the start ui
+            startController = fxmlLoader.getController();
+
+            fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("scenarioEnd.fxml"));
+            scenarioEndPane = fxmlLoader.load();
+            scenarioEndController = fxmlLoader.getController();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-        startController = fxmlLoader.getController();
 
         stage.setOnCloseRequest(event -> {
             Platform.exit();
@@ -200,12 +181,22 @@ public class GraphicalUserInterface extends Application implements UserInterface
         return scenarioFile;
     }
 
+    public void displayEndOfGame(boolean win){
+        Platform.runLater(() -> {
+            if(win){
+                gameController.actionLabel.setText("End of the game");
+            }else{
+                gameController.actionLabel.setText("You Loose");
+            }
+
+        });
+    }
+
     @Override
     public boolean askForReplay() {
         boolean answer;
 
         Platform.runLater(() -> {
-            gameController.actionLabel.setText( "You Lose" );
             gameController.setEvent( replayPane);
             stage.sizeToScene();
         });
@@ -245,6 +236,19 @@ public class GraphicalUserInterface extends Application implements UserInterface
     @Override
     public float askForDifficulty() {
         return 1f;
+    }
+
+    @Override
+    public boolean askForChangeMode() {
+        Platform.runLater(() -> {
+            gameController.actionLabel.setText( "End of the scenario" );
+            gameController.setEvent( scenarioEndPane);
+
+            stage.sizeToScene();
+        });
+
+
+        return scenarioEndController.getAnswer();
     }
 
     @Override

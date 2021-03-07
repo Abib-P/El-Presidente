@@ -21,6 +21,14 @@ public interface UserInterface {
     boolean askForRules();
     boolean askForNewGame();
     float askForDifficulty();
+
+    /**
+     *
+     * @return true if the player want to keep playing in Sandbox
+     */
+    boolean askForChangeMode();
+    void displayEndOfGame(boolean win);
+
     void displaySeason(Saisons season);
     Choice getChoice(Event event);
     Faction selectFaction(Factions factions);

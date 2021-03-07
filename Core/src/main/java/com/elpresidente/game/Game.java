@@ -88,6 +88,7 @@ public class Game {
 
     public void playGame(){
         Saisons[] seasons = Saisons.values();
+        boolean isPlaying = true;
 
         int seasonIndexStart;
         if (currentSeason != Saisons.PRINTEMPS){
@@ -96,11 +97,16 @@ public class Game {
             seasonIndexStart = 0;
         }
 
-        while( !hasLoose){
+        while( isPlaying && !hasLoose){
 
             for (int i = seasonIndexStart; i < Saisons.values().length; i++) {
 
                 if( isScenarioOver() ) {
+
+                    if( !userInterface.askForChangeMode() ){
+                        isPlaying = false;
+                        break;
+                    }
                     goToSandBoxMod();
                 }
                 currentSeason = seasons[i];
@@ -115,8 +121,7 @@ public class Game {
 
             }
 
-
-            if( !hasLoose ) {
+            if( !hasLoose && isPlaying){
                 endOfYear();
             }
 
@@ -129,6 +134,9 @@ public class Game {
                 e.printStackTrace();
             }
         }
+
+        userInterface.displayEndOfGame( !hasLoose);
+
     }
 
     private void goToSandBoxMod(){
@@ -174,6 +182,8 @@ public class Game {
             factionManager.populate();
         }
 
+        hasLoose = hasLoose();
+
         userInterface.displayGameInfo(this);
     }
 
@@ -186,7 +196,6 @@ public class Game {
     }
 
     private void applyChoice(Choice choice){
-        System.out.println("choice: "+choice.getName());
 
         factionManager.addPopulation( adaptValueToDifficulty( choice.getPartisanGained() ));
 

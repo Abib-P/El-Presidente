@@ -128,6 +128,16 @@ public class ConsoleUserInterface implements UserInterface {
     }
 
     @Override
+    public boolean askForChangeMode() {
+        return false;
+    }
+
+    @Override
+    public void displayEndOfGame(boolean win) {
+
+    }
+
+    @Override
     public void displaySeason(Saisons season) {
         System.out.println("||| "+ season+" |||");
     }

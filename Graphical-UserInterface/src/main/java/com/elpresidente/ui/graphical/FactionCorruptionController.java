@@ -50,10 +50,8 @@ public class FactionCorruptionController {
             } else {
                 button.setText(faction.getName() + " (" + faction.getPartisanNumber() + "): " + faction.getCorruptionPrice() + "€");
             }
-
-            if (faction.getCorruptionPrice() > treasury || faction.getSatisfaction() >= 100) {
-                button.setDisable(true);
-            }
+            System.out.println("faction: "+faction.getName()+" "+ faction.getCorruptionPrice()+" treasury: "+ treasury+"  "+ faction.getSatisfaction()+"%");
+            button.setDisable( faction.getCorruptionPrice() > treasury || faction.getSatisfaction() >= 100 || faction.getSatisfaction() <= 0);
         }
 
     }
