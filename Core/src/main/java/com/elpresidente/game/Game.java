@@ -300,8 +300,6 @@ public class Game {
         gameStatement.put("showAction", this.showActionOnChoice);
         gameStatement.put("story", this.repository.getStory());
         gameStatement.put("difficulty", this.difficulty);
-
-        System.out.println("saved index: "+ this.rules.getIndex());
         gameStatement.put("index", this.rules.getIndex());
         gameStatement.put("season", this.currentSeason.ordinal());
 
