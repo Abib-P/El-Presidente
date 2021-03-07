@@ -145,6 +145,10 @@ public class GraphicalUserInterface extends Application implements UserInterface
     public void displayGameInfo(Game game) {
 
         Platform.runLater(() -> {
+            if( stage.getScene() != gameControllerPane){
+                stage.setScene(gameControllerPane);
+                stage.sizeToScene();
+            }
             gameController.updateGameInfo(game);
             gameController.seasonLabel.setText( game.getCurrentSeason().toString() );
         });

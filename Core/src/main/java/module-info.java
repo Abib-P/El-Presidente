@@ -1,4 +1,5 @@
 module core {
+    requires com.google.gson;
     exports com.elpresidente.event;
     exports com.elpresidente.ui;
     exports com.elpresidente.faction;

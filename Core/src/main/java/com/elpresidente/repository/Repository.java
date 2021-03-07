@@ -10,4 +10,10 @@ public interface Repository {
     List<Faction> getAllFactions();
     List<Event> getAllEvent();
     GameParameter getAllGameParameter();
+    String getName();
+    String getStory();
+    double getDifficulty();
+    int getMode();
+    int getIndex();
+    int getSeason();
 }

@@ -34,6 +34,36 @@ class GameTest {
             public GameParameter getAllGameParameter() {
                 return new GameParameter(0,0,0,0);
             }
+
+            @Override
+            public String getName() {
+                return null;
+            }
+
+            @Override
+            public String getStory() {
+                return null;
+            }
+
+            @Override
+            public double getDifficulty() {
+                return 0;
+            }
+
+            @Override
+            public int getMode() {
+                return 0;
+            }
+
+            @Override
+            public int getIndex() {
+                return 0;
+            }
+
+            @Override
+            public int getSeason() {
+                return 0;
+            }
         };
 
         UserInterface userInterface = new UserInterface() {
@@ -141,6 +171,36 @@ class GameTest {
             @Override
             public GameParameter getAllGameParameter() {
                 return new GameParameter(0,0,0,0);
+            }
+
+            @Override
+            public String getName() {
+                return null;
+            }
+
+            @Override
+            public String getStory() {
+                return null;
+            }
+
+            @Override
+            public double getDifficulty() {
+                return 0;
+            }
+
+            @Override
+            public int getMode() {
+                return 0;
+            }
+
+            @Override
+            public int getIndex() {
+                return 0;
+            }
+
+            @Override
+            public int getSeason() {
+                return 0;
             }
         };
 

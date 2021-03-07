@@ -7,9 +7,11 @@ import com.elpresidente.factions.Factions;
 import com.elpresidente.repository.Repository;
 import com.elpresidente.rules.Rules;
 import com.elpresidente.rules.Sandbox;
+import com.elpresidente.save.Save;
 import com.elpresidente.rules.Scenario;
 import com.elpresidente.ui.UserInterface;
 
+import java.io.IOException;
 import java.util.*;
 
 public class Game {
@@ -24,6 +26,7 @@ public class Game {
 
     private final Repository repository;
     private Rules rules;
+    private final Integer index = 0;
 
     private Factions factionManager;
     private GameParameter gameParameter;
@@ -63,12 +66,39 @@ public class Game {
         hasLoose = false;
     }
 
+    public void load(){
+        int mode = this.repository.getMode();
+        if (mode == 0){
+            rules = new Sandbox( repository.getAllEvent());
+        }else{
+            rules = new Scenario( repository.getAllEvent());
+        }
+
+        this.difficulty = (float) this.repository.getDifficulty();
+        this.minGlobalSatisfaction = (int) (30 * this.difficulty);
+
+        factionManager = new Factions(this.repository.getAllFactions());
+        this.gameParameter = this.repository.getAllGameParameter();
+        this.currentSeason = Saisons.values()[this.repository.getSeason()];
+
+        this.userInterface.displayGameInfo(this);
+
+        this.hasLoose = false;
+    }
+
     public void playGame(){
         Saisons[] seasons = Saisons.values();
 
+        int seasonIndexStart;
+        if (currentSeason != Saisons.PRINTEMPS){
+            seasonIndexStart = this.repository.getSeason();
+        }else{
+            seasonIndexStart = 0;
+        }
+
         while( !hasLoose){
 
-            for (int i = 0; i < Saisons.values().length; i++) {
+            for (int i = seasonIndexStart; i < Saisons.values().length; i++) {
 
                 if( isScenarioOver() ) {
                     goToSandBoxMod();
@@ -85,10 +115,19 @@ public class Game {
 
             }
 
+
             if( !hasLoose ) {
                 endOfYear();
             }
 
+            seasonIndexStart = 0;
+            currentSeason = seasons[0];
+
+            try {
+                Save.saveGame(this, "natha");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -225,5 +264,39 @@ public class Game {
 
     public boolean hasLoose(){
         return factionManager.getGlobalSatisfaction() < minGlobalSatisfaction || hasLoose;
+    }
+
+    public Map<String, Object> getGameStatement(String pseudo){
+        Map<String, Object> gameStatement = new HashMap<>();
+
+        gameStatement.put("name", this.repository.getName() + " - " + pseudo);
+        gameStatement.put("story", this.repository.getStory());
+        gameStatement.put("difficulty", this.difficulty);
+        gameStatement.put("index", this.rules.getIndex());
+        gameStatement.put("season", this.currentSeason.ordinal());
+
+        if (rules instanceof Sandbox){
+            gameStatement.put("mode", 1); //Sandbox
+        }else{
+            gameStatement.put("mode", 0); //Scenario
+        }
+
+        Map<String, Object> parametersNormal = new HashMap<>();
+        Map<String, Object> parameters = new HashMap<>();
+
+        parameters.put("agriculturePercentage", this.gameParameter.getAgriculturePercentage());
+        parameters.put("industryPercentage", this.gameParameter.getIndustryPercentage());
+        parameters.put("treasury", this.gameParameter.getTreasury());
+        parameters.put("foodUnits", this.gameParameter.getFoodUnits());
+
+        parameters.put("factions", this.factionManager.getFactionsToSave());
+
+        parametersNormal.put("NORMAL", parameters);
+
+        gameStatement.put("gameStartParameters", parametersNormal);
+
+        gameStatement.put("events", rules.getEventsToSave());
+
+        return gameStatement;
     }
 }
