@@ -26,25 +26,29 @@ public class El_Application {
 
         UserInterface userInterface = GraphicalUserInterface.ui;
 
-        newGame = userInterface.askForNewGame();
-
-        RepositoryUtils repositoryUtils = new JsonRepositoryUtils();
-
-        Map<String, String> AllScenarioNames;
-        if( newGame) {
-            AllScenarioNames = repositoryUtils.loadAllScenarioName("scenario");
-        }else {
-            AllScenarioNames = repositoryUtils.loadAllScenarioName("saves");
-        }
-
         do {
+            newGame = userInterface.askForNewGame();
+
+            RepositoryUtils repositoryUtils = new JsonRepositoryUtils();
+
+            Map<String, String> AllScenarioNames;
+            if( newGame) {
+                AllScenarioNames = repositoryUtils.loadAllScenarioName("scenario");
+            }else {
+                AllScenarioNames = repositoryUtils.loadAllScenarioName("saves");
+            }
+
             String scenarioFilePath = userInterface.selectScenario(AllScenarioNames);
             System.out.println("selected: "+scenarioFilePath);
             Repository repository = new JsonRepository(scenarioFilePath);
 
-            Game game = new Game(userInterface, repository);
+            Game game = new Game(userInterface, repository);;
 
-            game.start();
+            if ( newGame ){
+                game.start();
+            }else {
+                game.load();
+            }
 
             game.playGame();
 

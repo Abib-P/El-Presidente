@@ -66,12 +66,39 @@ public class Game {
         hasLoose = false;
     }
 
+    public void load(){
+        int mode = this.repository.getMode();
+        if (mode == 0){
+            rules = new Sandbox( repository.getAllEvent());
+        }else{
+            rules = new Scenario( repository.getAllEvent());
+        }
+
+        this.difficulty = (float) this.repository.getDifficulty();
+        this.minGlobalSatisfaction = (int) (30 * this.difficulty);
+
+        factionManager = new Factions(this.repository.getAllFactions());
+        this.gameParameter = this.repository.getAllGameParameter();
+        this.currentSeason = Saisons.values()[this.repository.getSeason()];
+
+        this.userInterface.displayGameInfo(this);
+
+        this.hasLoose = false;
+    }
+
     public void playGame(){
         Saisons[] seasons = Saisons.values();
 
+        int seasonIndexStart;
+        if (currentSeason != Saisons.PRINTEMPS){
+            seasonIndexStart = this.repository.getSeason();
+        }else{
+            seasonIndexStart = 0;
+        }
+
         while( !hasLoose){
 
-            for (int i = 0; i < Saisons.values().length; i++) {
+            for (int i = seasonIndexStart; i < Saisons.values().length; i++) {
 
                 if( isScenarioOver() ) {
                     goToSandBoxMod();
@@ -88,9 +115,13 @@ public class Game {
 
             }
 
+
             if( !hasLoose ) {
                 endOfYear();
             }
+
+            seasonIndexStart = 0;
+            currentSeason = seasons[0];
 
             try {
                 Save.saveGame(this, "natha");
@@ -242,6 +273,7 @@ public class Game {
         gameStatement.put("story", this.repository.getStory());
         gameStatement.put("difficulty", this.difficulty);
         gameStatement.put("index", this.rules.getIndex());
+        gameStatement.put("season", this.currentSeason.ordinal());
 
         if (rules instanceof Sandbox){
             gameStatement.put("mode", 1); //Sandbox
@@ -249,8 +281,6 @@ public class Game {
             gameStatement.put("mode", 0); //Scenario
         }
 
-
-        Map<String, Object> gameParameters = new HashMap<>();
         Map<String, Object> parametersNormal = new HashMap<>();
         Map<String, Object> parameters = new HashMap<>();
 

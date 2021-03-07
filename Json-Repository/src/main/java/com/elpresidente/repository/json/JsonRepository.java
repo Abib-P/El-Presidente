@@ -89,6 +89,38 @@ public class JsonRepository implements Repository {
         return jsonFile.get("story").toString();
     }
 
+    @Override
+    public double getDifficulty() {
+
+        return (double) jsonFile.get("difficulty");
+
+    }
+
+    @Override
+    public int getMode() {
+        if (jsonFile.get("mode") == null){
+            return 0;
+        }
+        return 1;
+
+    }
+
+    @Override
+    public int getIndex() {
+        if (jsonFile.get("inedx") == null){
+            return 0;
+        }
+        return ((Long) jsonFile.get("inedx")).intValue();
+    }
+
+    @Override
+    public int getSeason() {
+        if (jsonFile.get("season") == null){
+            return 0;
+        }
+        return ( (Long) jsonFile.get("season")).intValue();
+    }
+
     private Event parseEvent(JSONObject event){
         Event result = new Event(event.get("name").toString());
         List<Choice> choices = (List<Choice>) ((JSONArray) event.get("choices")).stream()

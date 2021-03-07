@@ -12,4 +12,8 @@ public interface Repository {
     GameParameter getAllGameParameter();
     String getName();
     String getStory();
+    double getDifficulty();
+    int getMode();
+    int getIndex();
+    int getSeason();
 }
