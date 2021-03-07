@@ -6,7 +6,6 @@ import com.elpresidente.game.Game;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
@@ -31,6 +30,8 @@ public class GameController {
     public Label seasonLabel;
     @FXML
     public BarChart<Integer, String> globalSatisfactionChart;
+    @FXML
+    public Label storyLabel;
 
     @FXML
     public void initialize() {
@@ -78,6 +79,8 @@ public class GameController {
     }
 
     public void updateGameInfo(Game game){
+        storyLabel.setText(game.getStory());
+
         pieChart.getData().get(0).setPieValue( game.getIndustries());
         pieChart.getData().get(1).setPieValue( game.getAgriculture());
 

@@ -238,6 +238,10 @@ public class Game {
 
     }
 
+    public String getStory(){
+        return "default Story";
+    }
+
     public Saisons getCurrentSeason() {
         return currentSeason;
     }
