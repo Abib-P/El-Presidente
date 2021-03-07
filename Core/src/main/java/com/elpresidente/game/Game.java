@@ -292,7 +292,7 @@ public class Game {
         return factionManager.getGlobalSatisfaction() < minGlobalSatisfaction || hasLoose;
     }
 
-    public Map<String, Object> getGameStatement(String pseudo){
+    public Map<String, Object> getGameStatement(){
         Map<String, Object> gameStatement = new HashMap<>();
 
         gameStatement.put("name", this.repository.getName());

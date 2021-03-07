@@ -3,10 +3,8 @@ package com.elpresidente.ui.graphical;
 import com.elpresidente.faction.Faction;
 import com.elpresidente.factions.Factions;
 import com.elpresidente.game.Game;
-import com.elpresidente.save.Save;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
@@ -142,7 +140,7 @@ public class GameController {
 
     }
 
-    public void onSave(ActionEvent actionEvent) {
+    public void onSave() {
         TextInputDialog dialog = new TextInputDialog(game.getSaveName());
         dialog.setTitle("Save Game");
         dialog.setHeaderText("Save Game");

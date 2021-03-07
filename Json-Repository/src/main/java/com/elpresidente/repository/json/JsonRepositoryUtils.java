@@ -23,7 +23,7 @@ public class JsonRepositoryUtils implements RepositoryUtils {
 
         JSONParser jsonParser = new JSONParser();
         File repertoire = new File(filePath);
-        String fileNames[] = repertoire.list();
+        String[] fileNames = repertoire.list();
 
         if (fileNames != null) {
             for (String fileName : fileNames) {

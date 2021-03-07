@@ -21,6 +21,7 @@ public class El_Application {
         thread.start();
 
         while ( !GraphicalUserInterface.isLoaded.get() ){
+            //noinspection BusyWait
             Thread.sleep(10);
         }
 
@@ -41,7 +42,7 @@ public class El_Application {
             String scenarioFilePath = userInterface.selectScenario(AllScenarioNames);
             Repository repository = new JsonRepository(scenarioFilePath);
 
-            Game game = new Game(userInterface, repository);;
+            Game game = new Game(userInterface, repository);
 
             if ( newGame ){
                 game.start();
