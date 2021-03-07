@@ -239,7 +239,7 @@ public class Game {
     }
 
     public String getStory(){
-        return "default Story";
+        return repository.getStory();
     }
 
     public Saisons getCurrentSeason() {

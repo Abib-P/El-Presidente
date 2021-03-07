@@ -57,6 +57,8 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
     private volatile StartController startController;
 
+    private Scene startScene;
+
     public GraphicalUserInterface() {
         ui = this;
     }
@@ -98,7 +100,7 @@ public class GraphicalUserInterface extends Application implements UserInterface
             replayController = fxmlLoader.getController();
 
             fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("start.fxml"));
-            this.stage.setScene( new Scene( fxmlLoader.load() ) );                                      //set the as the start ui
+            startScene = new Scene( fxmlLoader.load() );                                //set the as the start ui
             startController = fxmlLoader.getController();
 
             fxmlLoader = new FXMLLoader(GraphicalUserInterface.class.getResource("scenarioEnd.fxml"));
@@ -230,6 +232,10 @@ public class GraphicalUserInterface extends Application implements UserInterface
 
     @Override
     public boolean askForNewGame() {
+        Platform.runLater(() -> {
+            stage.setScene( startScene);
+            stage.sizeToScene();
+        });
         return startController.getAnswer();
     }
 
